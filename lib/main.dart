@@ -2,15 +2,16 @@ import 'package:flame/flame.dart';
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
-// import 'package:ihm_2020_1/src/view/pages/game_test.dart';
+import 'package:ihm_2020_3/src/view/pages/home_page.dart';
 
 final rotas = <String, WidgetBuilder>{
   '/': (_) => FlameSplashScreen(
       theme: FlameSplashTheme.dark,
       
       onFinish: (BuildContext context) =>
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> CreditosPage()))),
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => MyHomePage()))),
   // '/home': (_) => MyHomePage(),
+  '/credits': (_) => CreditosPage(),
 };
 
 void main() async {
@@ -21,7 +22,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
-        title: 'Aliens Adventure: A UAST IHM 2020.1 Game',
+        title: 'A UAST IHM 2020.3 Game',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

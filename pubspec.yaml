@@ -20,7 +20,9 @@ dependencies:
   flutter:
     sdk: flutter
   
+  # audioplayers: ^0.16.1
   flame: ^0.21.0
+  # flame: ^0.25.0
   flame_splash_screen: ^0.0.1
 
   # The following adds the Cupertino Icons font to your application.
@@ -43,6 +45,13 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+
+    - assets/images/menu_item_1.png
+    - assets/images/menu_item_2.png
+    - assets/images/menu_item_3.png
+    - assets/images/menu_item_4.png
+    - assets/images/menu_item_5.png
+
     - assets/images/logo_bsi.png
     - assets/images/logo_uast.png
 
