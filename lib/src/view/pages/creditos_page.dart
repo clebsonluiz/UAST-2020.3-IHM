@@ -49,7 +49,7 @@ class CreditosPageState extends State<CreditosPage> {
     final desc =
         'Projeto direcionado a disciplina de Interface Homem-Máquina (IHM) ' +
             'para o curso de Bacharelado em Sistemas de Informação na Unidade Acadêmica de Serra Talhada (UAST) ' +
-            'no período de 2020.1';
+            'no período de 2020.3';
 
     return Scaffold(
       appBar: AppBar(
@@ -63,7 +63,7 @@ class CreditosPageState extends State<CreditosPage> {
       body: ListView(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: Column(
               children: <Widget>[
                 SizedBox(
@@ -95,6 +95,7 @@ class CreditosPageState extends State<CreditosPage> {
             ),
           ),
           Card(
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             elevation: 0,
             color: Colors.black26,
             child: ExpansionTile(
@@ -146,7 +147,7 @@ class CreditosPageState extends State<CreditosPage> {
         maxLines: maxLines,
         textAlign: textAlin,
         style: new TextStyle(
-            color: color, fontSize: fontSize, fontWeight: fontWeight),
+            color: color, fontSize: fontSize, fontWeight: fontWeight, fontFamily: "Arial"),
       ),
       SizedBox(
         height: hSizedBox,

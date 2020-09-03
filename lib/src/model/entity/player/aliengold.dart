@@ -55,4 +55,7 @@ class PlayerAlienGold extends EntityMap {
       return AlienHunterGold.IDLE;
   }
 
+  @override
+  List<int> colisionFactor() => [6, 2];
+
 }

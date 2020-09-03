@@ -25,6 +25,8 @@ abstract class CustomSpriteEntity extends CustomSpriteAnimation {
       {this.isLookingAtLeft = false, this.tileMap})
       : super.fromAnimations(animations);
 
+
+  //TODO - Mudar Aqui
   void calcularPosicaoNoMapa(double x, double y) {
     if (tileMap == null || !tileMap.loadedScenario()) return;
 
@@ -33,10 +35,16 @@ abstract class CustomSpriteEntity extends CustomSpriteAnimation {
     int topTile = ((y - cBoxHeight / 2) ~/ tileMap.tileHeight);
     int bottomTile = ((y + cBoxHeight / 2 - 1) ~/ tileMap.tileHeight);
 
-    _colisionTopLeft = tileMap.getTileColision(topTile, leftTile);
-    _colisionTopRight = tileMap.getTileColision(topTile, rightTile);
-    _colisionBottomLeft = tileMap.getTileColision(bottomTile, leftTile);
-    _colisionBottomRight = tileMap.getTileColision(bottomTile, rightTile);
+    // _colisionTopLeft = tileMap.getTileColision(topTile, leftTile);
+    // _colisionTopRight = tileMap.getTileColision(topTile, rightTile);
+    // _colisionBottomLeft = tileMap.getTileColision(bottomTile, leftTile);
+    // _colisionBottomRight = tileMap.getTileColision(bottomTile, rightTile);
+
+    _colisionTopLeft = colisionFactor().contains(tileMap.tileMatrix()[topTile] [leftTile]);
+    _colisionTopRight = colisionFactor().contains(tileMap.tileMatrix()[topTile] [rightTile]);
+    _colisionBottomLeft = colisionFactor().contains(tileMap.tileMatrix()[bottomTile] [leftTile]);
+    _colisionBottomRight = colisionFactor().contains(tileMap.tileMatrix()[bottomTile] [rightTile]);
+
   }
 
   void checkTileMapColision() {
@@ -135,9 +143,9 @@ abstract class CustomSpriteEntity extends CustomSpriteAnimation {
 
   void render(Canvas canvas,
       {double x, double y, bool invertX, bool invertY, double scale}) async {
-      
-    if(!this.isVisible) return;
 
+    
+    if(!this.isVisible) return;
     x ??= this.posX + this.tileMap.x - currWidth / 2;
     y ??= this.posY + this.tileMap.y - currHeight / 2;
 
@@ -149,11 +157,25 @@ abstract class CustomSpriteEntity extends CustomSpriteAnimation {
         x: x, y: y, invertX: invertX, invertY: invertY, scale: scale);
   }
 
+  /// Retorna `true` se o elemento estiver dentro do quadrante onde se concentra a tela
   bool get isVisible {
-    return this.posX + this.tileMap.x + this.currWidth < 0 ||
-			this.posX + this.tileMap.x - this.currWidth > this.tileMap.renderSize.width||
-			this.posY + this.tileMap.y + this.currHeight < 0 ||
-			this.posY + this.tileMap.y - this.currHeight > this.tileMap.renderSize.height;
+
+
+    // print("Player: ($posX, $posY) :::: Colision: (${this.currWidth}, ${this.currHeight})");
+    // print("TileMap: (${tileMap.x}, ${tileMap.y}) :::: TileMap: ${this.tileMap.renderSize}");
+
+
+    // print("Esquerda: ${this.posX + this.tileMap.x + this.currWidth > 0}");
+    // print("Direita: ${this.posX + this.tileMap.x - this.currWidth < this.tileMap.renderSize.width}");
+		// print("Cima: ${this.posY + this.tileMap.y + this.currHeight > 0 }");
+		// print("Baixo: ${this.posY + this.tileMap.y - this.currHeight < this.tileMap.renderSize.height}");
+
+    return this.posX + this.tileMap.x + this.currWidth > 0 &&
+			this.posX + this.tileMap.x - this.currWidth < this.tileMap.renderSize.width&&
+			this.posY + this.tileMap.y + this.currHeight > 0 &&
+			this.posY + this.tileMap.y - this.currHeight < this.tileMap.renderSize.height;
   }
+
+  List<int> colisionFactor();
 
 }

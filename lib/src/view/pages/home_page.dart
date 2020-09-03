@@ -38,28 +38,28 @@ class _MyHomePageState extends State<MyHomePage> {
                             
                             MenuButtomWidget(
                                 // textContent: 'NOVO JOGO',
-                                widget: _buildImageSized(image: "menu_item_1.png"),
+                                widget: _buildImageSized(image: "menu_item_1.png", color: Colors.blueGrey),
                                 onAction: () async {},
-                                splashColor: Colors.blue),
+                                splashColor: Colors.black54),
                             MenuButtomWidget(
                                 // textContent: 'CONTINUAR',
-                                widget: _buildImageSized(image: "menu_item_2.png"),
+                                widget: _buildImageSized(image: "menu_item_2.png", color: Colors.lightBlueAccent),
                                 onAction: () async {},
-                                splashColor: Colors.blueGrey),
+                                splashColor: Colors.blueGrey[800]),
                             MenuButtomWidget(
                                 // textContent: 'CRÉDITOS',
-                                widget: _buildImageSized(image: "menu_item_3.png", maxHeight: 35),
+                                widget: _buildImageSized(image: "menu_item_3.png", maxHeight: 35, color: Colors.lightGreenAccent),
                                 onAction: () async {
                                   await Navigator.pushNamed(context, "/credits");
                                 },
-                                splashColor: Colors.indigo),
+                                splashColor: Colors.green[800]),
                             MenuButtomWidget(
                                 // textContent: 'SAIR',
-                                widget: _buildImageSized(image: "menu_item_4.png"),
+                                widget: _buildImageSized(image: "menu_item_4.png", color: Colors.redAccent),
                                 onAction: () async => await SystemChannels
                                     .platform
                                     .invokeMethod<void>('SystemNavigator.pop'),
-                                splashColor: Colors.red),
+                                splashColor: Colors.red[800]),
                           ],
                         ),
                       ],
@@ -68,12 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ));
   }
 
-  Widget _buildImageSized({String image, double maxHeight = 25}) {
+  Widget _buildImageSized({String image, double maxHeight = 25, Color color}) {
     return LimitedBox(
+      key: Key(_globalKey.toString() + image),
         maxHeight: maxHeight,
         child: Image.asset(
           'assets/images/' + image.toString(),
-          color: null,
+          color: color,
+          colorBlendMode: BlendMode.modulate,
         ));
   }
   

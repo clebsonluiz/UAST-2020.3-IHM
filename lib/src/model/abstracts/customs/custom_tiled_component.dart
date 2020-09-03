@@ -90,6 +90,10 @@ class CustomTiledComponent extends TiledComponent {
   //Mapa de colisão da matriz, 0 para não colisível e 1 para colisível
   List<List<dynamic>> get colisionMap => _colisionTileMatrix;
 
+  List<List<int>> tileMatrix({int from}){
+    return (from != null && from >= 0)? this.map.layers[from].tileMatrix : this.map.layers.last.tileMatrix;
+  }
+
   bool loadedScenario() => loaded() && !this._screen.isEmpty;
 
   @override
@@ -134,20 +138,25 @@ class CustomTiledComponent extends TiledComponent {
     }
   }
 
+  //TODO - Mudar Aqui
   bool getTileColision(int row, int col) =>
       int.parse(colisionMap[row][col].toString()) == 1;
 
   void updateScreenSize(Size size) {
+    // print(size);
+    // print(imageWidth);
     if (this.imageWidth == null || this.imageHeight == null) return;
     this._screen = size ?? Size.zero;
     this._min = Size(this._screen.width - this.imageWidth,
         this._screen.height - this.imageHeight);
+    // print(this._screen.isEmpty);
   }
 
   Size get renderSize => this._screen;
 
   @override
   void update(double t) {
+    print(this._screen.isEmpty);
     if (!this.loadedScenario() || this._screen.isEmpty) return;
   }
 

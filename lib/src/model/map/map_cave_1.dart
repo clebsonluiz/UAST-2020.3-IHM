@@ -1,4 +1,4 @@
-import 'package:ihm_2020_1/src/model/abstracts/customs/custom_tiled_component.dart';
+import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
 
 class MapCave1 extends CustomTiledComponent {
   

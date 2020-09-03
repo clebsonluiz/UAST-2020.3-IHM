@@ -24,4 +24,7 @@ class PlayerAlienHunter extends EntityMap {
       return AlienHunterWalker.IDLE;
   }
 
+  @override
+  List<int> colisionFactor() => [6, 3];
+
 }
