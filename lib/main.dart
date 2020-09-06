@@ -1,21 +1,31 @@
 import 'package:flame/flame.dart';
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:ihm_2020_3/src/model/utils/assets_acess.dart';
 import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
-import 'package:ihm_2020_3/src/view/pages/home_page.dart';
+import 'package:ihm_2020_3/src/view/pages/game_test.dart';
+// import 'package:ihm_2020_3/src/view/pages/home_page.dart';
 
 final rotas = <String, WidgetBuilder>{
   '/': (_) => FlameSplashScreen(
       theme: FlameSplashTheme.dark,
       
-      onFinish: (BuildContext context) =>
+      onFinish: (BuildContext context) async =>
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => MyHomePage()))),
   // '/home': (_) => MyHomePage(),
   '/credits': (_) => CreditosPage(),
 };
 
 void main() async {
+
   runApp(MyApp());
+
+  Flame.images.loadAll(
+    EntityAsset.asList()..addAll(Another.asList())
+  );
+
+  await SystemChrome.setEnabledSystemUIOverlays([]);
   await Flame.util.setPortraitUpOnly();
 }
 

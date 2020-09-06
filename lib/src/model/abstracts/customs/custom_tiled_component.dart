@@ -1,19 +1,28 @@
-import 'dart:convert';
 import 'dart:ui';
 
-import 'package:tiled/tiled.dart' show Layer, Tile;
-import 'package:flame/components/tiled_component.dart';
+import 'package:flame/components/component.dart';
+import 'package:flame/flame.dart';
+import 'package:flutter/material.dart' show Colors;
+import 'package:tiled/tiled.dart' show Layer, Tile, TileMap, TileMapParser;
+// import 'package:flame/components/tiled_component.dart';
 import 'package:flame/position.dart';
-import 'package:flutter/services.dart';
 
 //Baseado no package:flame/components/tiled_component.dart, e no tutorial Java Platform Game DragonTaleTutorial do foreignguymike
 // com mais funcionalidades para se adequar ao uso.
-class CustomTiledComponent extends TiledComponent {
-  List<List<dynamic>> _colisionTileMatrix = [];
-  List<int> colisionValues;
+class CustomTiledComponent extends Component {
+  
+  static final Paint paint = Paint()..color = Colors.white;
+  
+  String _filename;
+  TileMap _map;
+  Image _image;
+  Map<String, Image> _images = <String, Image>{};
+  Future _future;
+  bool _loaded = false;
+
   int tilesRowCount;
   int tilesColCount;
-  // Image fullImage;
+
   int imageWidth;
   int imageHeight;
   int tileWidth;
@@ -37,127 +46,113 @@ class CustomTiledComponent extends TiledComponent {
   Size _max = Size.zero;
   Size _screen = Size.zero;
 
-  String fileAssetColisionPath;
 
-  CustomTiledComponent(String tmxFileName,
-      {this.colisionValues = const [1], this.fileAssetColisionPath})
-      : super(tmxFileName) {
-    future.then((f) {
-      tilesRowCount ??= map.layers.first.height;
-      tilesColCount ??= map.layers.first.width;
-      tileWidth ??= map.layers.first.tiles[0].width ?? 32;
-      tileHeight ??= map.layers.first.tiles[0].height ?? 32;
+  CustomTiledComponent(
+    this._filename,
+  ) {
+    _future = _load();
+
+    _future.then((f) {
+      tilesRowCount ??= this._map.layers.first.height;
+      tilesColCount ??= this._map.layers.first.width;
+      tileWidth ??= this._map.layers.first.tiles[0].width ?? 32;
+      tileHeight ??= this._map.layers.first.tiles[0].height ?? 32;
       imageWidth ??= tilesColCount * tileWidth;
       imageHeight ??= tilesRowCount * tileHeight;
-      _loadFutures();
+
     });
     _position = Position.empty();
   }
 
-  Future<void> _loadFutures() async {
-    if (this.fileAssetColisionPath != null)
-      _loadTileMapColision(this.fileAssetColisionPath);
-    else
-      _loadColisionValues();
+  Future _load() async {
+    this._map = await _loadMap();
+    this._image = await Flame.images.load(this._map.tilesets[0].image.source);
+    this._images = await _loadImages(this._map);
+    _loaded = true;
   }
 
-  Future<void> _loadTileMapColision(String filePath) async {
-    await rootBundle.loadString('assets/' + filePath).then((value) {
-      _colisionTileMatrix = LineSplitter()
-          .convert(value)
-          .map((s) => s.trim().split(","))
-          .toList();
-      colisionMap.forEach((e) => e.removeWhere((s) => s.length == 0));
+  Future<TileMap> _loadMap() {
+    return Flame.bundle
+        .loadString('assets/tiles/' + this._filename)
+        .then((contents) {
+      final parser = TileMapParser();
+      return parser.parse(contents);
     });
   }
 
-  void _loadColisionValues() {
-    var colisionMatrix = map.layers.last.tileMatrix;
-
-    colisionMatrix.forEach((y) {
-      colisionMap.add([]);
-      int index = colisionMatrix.indexOf(y);
-
-      y.forEach((x) {
-
-        int value = colisionValues.contains(x)? 1 : 0 ;
-
-        colisionMap[index].add(value);
+  Future<Map<String, Image>> _loadImages(TileMap map) async {
+    final Map<String, Image> result = {};
+    await Future.forEach(map.tilesets, (tileset) async {
+      await Future.forEach(tileset.images, (tmxImage) async {
+        result[tmxImage.source] = await Flame.images.load(tmxImage.source);
       });
     });
+    return result;
   }
 
-  //Mapa de colisão da matriz, 0 para não colisível e 1 para colisível
-  List<List<dynamic>> get colisionMap => _colisionTileMatrix;
-
-  List<List<int>> tileMatrix({int from}){
-    return (from != null && from >= 0)? this.map.layers[from].tileMatrix : this.map.layers.last.tileMatrix;
+  List<List<int>> tileMatrix({int from}) {
+    return (from != null && from >= 0)
+        ? this._map.layers[from].tileMatrix
+        : this._map.layers.last.tileMatrix;
   }
 
-  bool loadedScenario() => loaded() && !this._screen.isEmpty;
+  bool loaded() => _loaded && !this._screen.isEmpty;
 
   @override
   void render(Canvas c) {
-    if (!loadedScenario()) return;
+    if (!loaded()) return;
 
-      map.layers.forEach((layer) {
-        if (layer.visible) this.renderLayer(c, layer);
-      });
+    this._map.layers.forEach((layer) {
+      if (layer.visible) this._renderLayer(c, layer);
+    });
   }
-  
-  void renderLayer(Canvas c, Layer layer) {
-    
-    final _numRowsToDraw = (this._screen.height ~/ tileHeight) + 2;
-		final _numColsToDraw = (this._screen.width ~/ tileWidth) + 2;
 
-    for (int row = _rowOffset; row < _rowOffset + _numRowsToDraw; row++) 
-    {
+  void _renderLayer(Canvas c, Layer layer) {
+    final _numRowsToDraw = (this._screen.height ~/ tileHeight) + 2;
+    final _numColsToDraw = (this._screen.width ~/ tileWidth) + 2;
+
+    for (int row = _rowOffset; row < _rowOffset + _numRowsToDraw; row++) {
       if (row >= tilesRowCount) break;
 
-      for (int col = _colOffset; col < _colOffset + _numColsToDraw; col++) 
-      {
+      for (int col = _colOffset; col < _colOffset + _numColsToDraw; col++) {
         if (col >= tilesColCount) break;
 
         int index = col + (row * tilesColCount);
 
         Tile tile = layer.tiles.elementAt(index);
 
-        if (tile.gid != 0) 
-        {
-          final image = images[tile.image.source];
+        if (tile.gid != 0) {
+          final image = this._images[tile.image.source];
 
           final rect = tile.computeDrawRect();
           final src = Rect.fromLTWH(rect.left.toDouble(), rect.top.toDouble(),
               rect.width.toDouble(), rect.height.toDouble());
-          final dst = Rect.fromLTWH(tile.x.toDouble() + this.x, tile.y.toDouble() + this.y,
-              rect.width.toDouble(), rect.height.toDouble());
+          final dst = Rect.fromLTWH(
+              tile.x.toDouble() + this.x,
+              tile.y.toDouble() + this.y,
+              rect.width.toDouble(),
+              rect.height.toDouble());
 
-          c.drawImageRect(image, src, dst, TiledComponent.paint);
+          c.drawImageRect(image, src, dst, CustomTiledComponent.paint);
         }
       }
     }
   }
 
-  //TODO - Mudar Aqui
-  bool getTileColision(int row, int col) =>
-      int.parse(colisionMap[row][col].toString()) == 1;
-
+  //TODO - 
   void updateScreenSize(Size size) {
-    // print(size);
-    // print(imageWidth);
     if (this.imageWidth == null || this.imageHeight == null) return;
     this._screen = size ?? Size.zero;
     this._min = Size(this._screen.width - this.imageWidth,
         this._screen.height - this.imageHeight);
-    // print(this._screen.isEmpty);
+
   }
 
   Size get renderSize => this._screen;
 
   @override
   void update(double t) {
-    print(this._screen.isEmpty);
-    if (!this.loadedScenario() || this._screen.isEmpty) return;
+    if (!this.loaded() || this._screen.isEmpty) return;
   }
 
   void setTween(double d) {
@@ -165,7 +160,7 @@ class CustomTiledComponent extends TiledComponent {
   }
 
   void updatePosition(double x, double y) {
-    if (!loadedScenario()) return;
+    if (!loaded()) return;
 
     this.x = this.x + (x - this.x) * _tween;
     this.y = this.y + (y - this.y) * _tween;
@@ -182,4 +177,16 @@ class CustomTiledComponent extends TiledComponent {
     if (x > _max.width) x = _max.width;
     if (y > _max.height) y = _max.height;
   }
+
+  // Future<ObjectGroup> getObjectGroupFromLayer(String name) {
+  //   return future.then((onValue) {
+  //     return map.objectGroups
+  //         .firstWhere((objectGroup) => objectGroup.name == name);
+  //   });
+  // }
+
+  String get filename => _filename;
+  TileMap get map => _map;
+  Image get image => _image;
+  Map<String, Image> get images => _images;
 }

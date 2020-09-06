@@ -22,7 +22,8 @@ dependencies:
   
   # audioplayers: ^0.16.1
   flame: ^0.21.0
-  # flame: ^0.25.0
+  # tiled: ^0.6.0
+  # flame: ^0.26.0
   flame_splash_screen: ^0.0.1
 
   # The following adds the Cupertino Icons font to your application.

@@ -132,7 +132,7 @@ abstract class CustomSpriteAnimation {
         cBoxHeight.toDouble());
   }
 
-    bool isIntersectingAnotherBox(Rect outrem) {
+  bool isIntersectingAnotherBox(Rect outrem) {
     Rect rect = toRect().intersect(outrem);
     return (rect.width > 0 || rect.height > 0);
   }

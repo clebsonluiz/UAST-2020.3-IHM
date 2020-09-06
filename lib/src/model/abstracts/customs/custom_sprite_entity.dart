@@ -28,7 +28,7 @@ abstract class CustomSpriteEntity extends CustomSpriteAnimation {
 
   //TODO - Mudar Aqui
   void calcularPosicaoNoMapa(double x, double y) {
-    if (tileMap == null || !tileMap.loadedScenario()) return;
+    if (tileMap == null || !tileMap.loaded()) return;
 
     int leftTile = ((x - cBoxWidth / 2) ~/ tileMap.tileWidth);
     int rightTile = ((x + cBoxWidth / 2 - 1) ~/ tileMap.tileWidth);
@@ -48,7 +48,7 @@ abstract class CustomSpriteEntity extends CustomSpriteAnimation {
   }
 
   void checkTileMapColision() {
-    if (tileMap == null || !tileMap.loadedScenario()) return;
+    if (tileMap == null || !tileMap.loaded()) return;
 
     int currCol = (this.posX ~/ tileMap.tileWidth);
     int currRow = (this.posY ~/ tileMap.tileHeight);
