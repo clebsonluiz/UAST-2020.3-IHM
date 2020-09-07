@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flame/animation.dart';
 import 'package:flame/components/component.dart';
 import 'package:flame/sprite.dart';
-import 'custom_sprite_position.dart';
 
 /// Baseado no package:flame/animation.dart, customizado para atender as minhas necessidades
 class CustomAnimation extends Animation {

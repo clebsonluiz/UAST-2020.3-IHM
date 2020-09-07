@@ -1,4 +1,4 @@
-import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_position.dart';
+import 'custom_sprite_position.dart';
 
 mixin CustomSpriteMoviment on CustomSpritePosition {
   //Direção do Movimento, em plataforma up pode ser o pulo(Jump) e down pode ser a queda(Fall)

@@ -7,6 +7,7 @@ import 'customs/custom_sprite_animation.dart';
 import 'customs/custom_tiled_component.dart';
 
 abstract class EntityMap extends CustomSpriteEntity {
+  
   CustomTiledComponent tileMap;
 
   int _life = 0;
@@ -129,9 +130,6 @@ abstract class EntityMap extends CustomSpriteEntity {
 
   @override
   void update(double dt) async {
-
-    // if (this.spriteAnimation.lo)
-
 
     nextPosition();
     checkTileMapColision();

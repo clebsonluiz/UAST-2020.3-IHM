@@ -5,13 +5,10 @@ import 'custom_sprite_colision.dart';
 import 'custom_sprite_moviment.dart';
 
 import 'custom_sprite_animation.dart';
-import 'custom_tiled_component.dart';
 
 //Definição dos atributos padrões que irão compor uma entidade com Sprites
 abstract class CustomSpriteEntity
     with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteColision {
-  //TileMap a qual a Entidade se encontra
-  CustomTiledComponent tileMap;
 
   bool isLookingAtLeft = false;
 

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 class DpadWidget extends StatefulWidget {
 
+  final Widget topButtom;
   final List<Widget> botoesDirecionais;
   final List<Widget> botoesAcao;
 
-  const DpadWidget({Key key, this.botoesDirecionais = const [], this.botoesAcao = const [],}) : super(key: key);
+  const DpadWidget({Key key, this.botoesDirecionais = const [], this.botoesAcao = const [], this.topButtom ,}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _DpadWidgetState();
@@ -13,12 +14,21 @@ class DpadWidget extends StatefulWidget {
 
 class _DpadWidgetState extends State<DpadWidget> {
   @override
-  Widget build(BuildContext context) => Row(
+  Widget build(BuildContext context) => Stack(
+    children: <Widget>[
+      Center(
+        child: widget.topButtom ?? Center(),
+      ),
+     Padding(padding: EdgeInsets.only(top: 30), 
+     child:  Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween, 
       children: <Widget>[
         _dpadEsquerdo(children: widget.botoesDirecionais),
+
         _dpadDireito(children: widget.botoesAcao),
-      ]);
+      ]))
+    ],
+  );
 
   Widget _dpadModel(
           {var isEditable = true,

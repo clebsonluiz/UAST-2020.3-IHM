@@ -101,10 +101,11 @@ class CustomTiledComponent extends Component {
   @override
   void render(Canvas c) {
     if (!loaded()) return;
-
+    c.save();
     this._map.layers.forEach((layer) {
       if (layer.visible) this._renderLayer(c, layer);
     });
+    c.restore();
   }
 
   void _renderLayer(Canvas c, Layer layer) {
