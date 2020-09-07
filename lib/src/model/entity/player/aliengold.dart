@@ -1,3 +1,5 @@
+import 'package:flame/gestures.dart';
+import 'package:flutter/src/gestures/tap.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
 import 'package:ihm_2020_3/src/model/abstracts/entity_map.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_gold.dart';
@@ -20,7 +22,7 @@ class PlayerAlienGold extends EntityMap {
   PlayerAlienGold(CustomTiledComponent tileMap)
       : super(AlienHunterGold.animations, isLookingAtLeft: true, tileMap: tileMap)
       {
-        this.setCBox(height: 35, width: 32);
+        this.setColisionBox(height: 35, width: 32);
         // this.resetLifes();
       }
 
@@ -34,9 +36,9 @@ class PlayerAlienGold extends EntityMap {
   }
 
   @override
-  void update(double dt, {int currentRow = 0}) async {
+  void update(double dt) async {
 
-    super.update(dt, currentRow: -1);
+    super.update(dt);
 
     startInvertion = nextAnimation==AlienHunterGold.GRAVITY;
   }

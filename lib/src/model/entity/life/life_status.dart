@@ -29,8 +29,8 @@ class LifeEntity{
     
     double x = e.posX + e.tileMap.x;
     double y = e.posY + e.tileMap.y;
-    double height = e.cBoxHeight.toDouble();
-    double width = e.cBoxWidth.toDouble();
+    double height = e.colisionBoxHeight.toDouble();
+    double width = e.colisionBoxWidth.toDouble();
     bool g = e.isGravityInverted;
     int lifes = e.life;
     

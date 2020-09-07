@@ -7,7 +7,7 @@ class PlayerAlienHunter extends EntityMap {
   PlayerAlienHunter(CustomTiledComponent tileMap)
       : super(AlienHunterWalker.animations, isLookingAtLeft: true, tileMap: tileMap)
       {
-        this.setCBox(height: 35, width: 32);
+        this.setColisionBox(height: 35, width: 32);
       }
 
   @override

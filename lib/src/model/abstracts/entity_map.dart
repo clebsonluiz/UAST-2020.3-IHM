@@ -7,10 +7,10 @@ import 'customs/custom_sprite_animation.dart';
 import 'customs/custom_tiled_component.dart';
 
 abstract class EntityMap extends CustomSpriteEntity {
-
+  CustomTiledComponent tileMap;
 
   int _life = 0;
-  
+
   int get maxLifes => 3;
 
   void resetLifes() => this._life = maxLifes;
@@ -20,105 +20,141 @@ abstract class EntityMap extends CustomSpriteEntity {
       this._life = life;
     else
       this.resetLifes();
-  } 
+  }
 
   int get life => this._life;
-  
+
   bool get drawLife => true;
   bool get isDead => this.life <= 0;
 
-  //velocidades
-
-  double get moveSpeed => 0.5; // Vel in X axis
-  double get maxMoveSpeed => 2.0; // Max Vel in X axis
-  double get stopSpeed => 0.3; // Stop speed in X axis 
-  double get jumpStarts => this.gravityValue * -5.5;
-  double get stopJumpSpeed => this.gravityValue * 0.3;
-  double get fallSpeed => this.gravityValue * 0.2;
-  double get maxFallSpeed => this.gravityValue * 4.0;
-
   EntityMap(List<CustomAnimation> animations,
-      {bool isLookingAtLeft = false, CustomTiledComponent tileMap})
-      : super.fromAnimations(animations,
-            isLookingAtLeft: isLookingAtLeft, tileMap: tileMap)
-            {
-              this.resetLifes();
-            }
+      {bool isLookingAtLeft = false, this.tileMap})
+      : super(animations, isLookingAtLeft: isLookingAtLeft) {
+    this.resetLifes();
+  }
 
   int get nextAnimation => 0;
 
-  void checkNextMove() {
-    if (this.isDyGreaterOrInvertedThan()) {
-      if (!isFalling) doFall();
-    } else if (this.isDyLessOrInvertedThan()) {
-      if (!isJumping) doJump();
+  void calcularPosicaoNoMapa(double x, double y) {
+    if (tileMap == null || !tileMap.loaded()) return;
+
+    int leftTile = ((x - colisionBoxWidth / 2) ~/ tileMap.tileWidth);
+    int rightTile = ((x + colisionBoxWidth / 2 - 1) ~/ tileMap.tileWidth);
+    int topTile = ((y - colisionBoxHeight / 2) ~/ tileMap.tileHeight);
+    int bottomTile = ((y + colisionBoxHeight / 2 - 1) ~/ tileMap.tileHeight);
+
+    this.colisionOnTopLeft = colisionFactor().contains(tileMap.tileMatrix()[topTile][leftTile]);
+    this.colisionOnTopRight = colisionFactor().contains(tileMap.tileMatrix()[topTile][rightTile]);
+    this.colisionOnBottomLeft = colisionFactor().contains(tileMap.tileMatrix()[bottomTile][leftTile]);
+    this.colisionOnBottomRight = colisionFactor().contains(tileMap.tileMatrix()[bottomTile][rightTile]);
+  }
+
+  void checkTileMapColision() {
+    if (tileMap == null || !tileMap.loaded()) return;
+
+    int currCol = (this.posX ~/ tileMap.tileWidth);
+    int currRow = (this.posY ~/ tileMap.tileHeight);
+
+    double xdest = posX + dX;
+    double ydest = posY + dY;
+
+    double xtemp = posX;
+    double ytemp = posY;
+
+    calcularPosicaoNoMapa(posX, ydest);
+
+    if (dY < 0) {
+      if (this.colisionOnTopLeft || this.colisionOnTopRight) {
+        dY = 0;
+        ytemp = currRow * tileMap.tileHeight + colisionBoxHeight / 2;
+        if (this.isGravityInverted) this.stopFall();
+      } else
+        ytemp += dY;
     }
+    if (dY > 0) {
+      if (this.colisionOnBottomLeft || this.colisionOnBottomRight) {
+        dY = 0;
+        if (!this.isGravityInverted) stopFall();
+        ytemp = (currRow + 1) * tileMap.tileHeight - colisionBoxHeight / 2;
+      } else
+        ytemp += dY;
+    }
+
+    calcularPosicaoNoMapa(xdest, posY);
+
+    if (dX < 0) {
+      if (this.colisionOnTopLeft || this.colisionOnBottomLeft) {
+        dX = 0;
+        xtemp = currCol * tileMap.tileWidth + colisionBoxWidth / 2;
+      } else
+        xtemp += dX;
+    }
+
+    if (dX > 0) {
+      if (this.colisionOnTopRight || this.colisionOnBottomRight) {
+        dX = 0;
+        xtemp = (currCol + 1) * tileMap.tileWidth - colisionBoxWidth / 2;
+      } else
+        xtemp += dX;
+    }
+
+    if (!isFalling) {
+      calcularPosicaoNoMapa(posX, ydest + this.gravityValue);
+
+      if ((this.isGravityInverted)
+          ? (!this.colisionOnTopLeft && !this.colisionOnTopRight)
+          : (!this.colisionOnBottomLeft && !this.colisionOnBottomRight))
+        doFall();
+    }
+    setPosition(x: xtemp, y: ytemp);
   }
 
   @override
-  void render(Canvas canvas,
-      {double x, double y, bool invertX, bool invertY, double scale}) async {
+  void render(Canvas canvas) async {
+    if (!this.isVisible) return;
+
+    final x = this.posX + this.tileMap.x - this.spriteAnimation.currWidth / 2;
+    final y = this.posY + this.tileMap.y - this.spriteAnimation.currHeight / 2;
+
+    final invertX = isLookingAtLeft ? (!this.isWalkingLeft) : (!this.isWalkingRight);
+    final invertY = this.isGravityInverted;
+    final scale = 1.0;
     canvas.save(); // Analisar a necessidade de deixar aqui
-    super.render(canvas,
-        x: x, y: y, invertX: invertX, invertY: this.isGravityInverted, scale: scale);
+    this.spriteAnimation.renderAtPosition(canvas,
+        x: x, y: y, invertX: invertX, invertY: invertY, scale: scale);
     canvas.restore(); // Analisar a necessidade de deixar aqui
-    if (this.drawLife)
-      LifeEntity.instance.render(canvas, this);
+
+    if (this.drawLife) LifeEntity.instance.render(canvas, this);
   }
 
   @override
-  void update(double dt, {int currentRow = 0}) async {
+  void update(double dt) async {
+
+    // if (this.spriteAnimation.lo)
+
+
     nextPosition();
     checkTileMapColision();
     checkNextMove();
 
-    final int currentAnimation = nextAnimation;
+    final int currentAnimation = this.nextAnimation;
 
-    super.update(dt, currentRow: currentAnimation);
+    this.spriteAnimation.update(dt, currentRow: currentAnimation);
   }
 
-  void nextPosition() {
-    //Movimento
-    if (isWalkingLeft && !isIdle) {
-      dX -= moveSpeed;
-      if (dX < -maxMoveSpeed) dX = -maxMoveSpeed;
-    } else if (isWalkingRight && !isIdle) {
-      dX += moveSpeed;
-      if (dX > maxMoveSpeed) dX = maxMoveSpeed;
-    } else {
-      if (dX > 0) {
-        dX -= stopSpeed;
-        if (dX < 0) dX = 0;
-      } else if (dX < 0) {
-        dX += stopSpeed;
-        if (dX > 0) dX = 0;
-      }
-    }
+  /// Retorna `true` se o elemento estiver dentro do quadrante onde se concentra a tela
+  bool get isVisible {
+    // print("Player: ($posX, $posY) :::: Colision: (${this.currWidth}, ${this.currHeight})");
+    // print("TileMap: (${tileMap.x}, ${tileMap.y}) :::: TileMap: ${this.tileMap.renderSize}");
 
-    // jumping
-    if (isJumping && !isFalling) {
-      dY = jumpStarts;
-      doFall();
-    }
+    // print("Esquerda: ${this.posX + this.tileMap.x + this.currWidth > 0}");
+    // print("Direita: ${this.posX + this.tileMap.x - this.currWidth < this.tileMap.renderSize.width}");
+    // print("Cima: ${this.posY + this.tileMap.y + this.currHeight > 0 }");
+    // print("Baixo: ${this.posY + this.tileMap.y - this.currHeight < this.tileMap.renderSize.height}");
 
-    // falling
-    if (isFalling) {
-      dY += fallSpeed;
-
-      if (this.isDyGreaterOrInvertedThan()) stopJump();
-      if (this.isDyLessOrInvertedThan() && !isJumping) dY += stopJumpSpeed;
-
-      if (this.isGravityInverted? (dY < maxFallSpeed) : (dY > maxFallSpeed)) dY = maxFallSpeed;
-    }
+    return this.posX + this.tileMap.x + this.spriteAnimation.currWidth > 0 &&
+        this.posX + this.tileMap.x - this.spriteAnimation.currWidth < this.tileMap.renderSize.width &&
+        this.posY + this.tileMap.y + this.spriteAnimation.currHeight > 0 &&
+        this.posY + this.tileMap.y - this.spriteAnimation.currHeight < this.tileMap.renderSize.height;
   }
-
-  bool isDyLessOrInvertedThan(
-          {double lessThan = 0.0, double greaterThan = 0.0}) =>
-      (!isGravityInverted) ? (dY < lessThan) : (dY > greaterThan);
-
-  bool isDyGreaterOrInvertedThan(
-          {double lessThan = 0.0, double greaterThan = 0.0}) =>
-      (!isGravityInverted) ? (dY > greaterThan) : (dY > lessThan);
-  
-  
 }
