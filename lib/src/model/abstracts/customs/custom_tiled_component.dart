@@ -20,13 +20,24 @@ class CustomTiledComponent extends Component {
   Future _future;
   bool _loaded = false;
 
-  int tilesRowCount;
-  int tilesColCount;
+  int _tilesRowCount;
+  int _tilesColCount;
 
-  int imageWidth;
-  int imageHeight;
-  int tileWidth;
-  int tileHeight;
+  int get tilesRowCount => _tilesRowCount;
+  int get tilesColCount => _tilesColCount;
+
+  int _imageWidth;
+  int _imageHeight;
+
+  int get imageWidth => _imageWidth;
+  int get imageHeight => _imageHeight;
+
+
+  int _tileWidth;
+  int _tileHeight;
+
+  int get tileWidth => _tileWidth;
+  int get tileHeight => _tileHeight;
 
   int _rowOffset = 0;
   int _colOffset = 0;
@@ -44,7 +55,7 @@ class CustomTiledComponent extends Component {
   // limites
   Size _min = Size.zero;
   Size _max = Size.zero;
-  Size _screen = Size.zero;
+  Size _renderSize = Size.zero;
 
 
   CustomTiledComponent(
@@ -53,12 +64,12 @@ class CustomTiledComponent extends Component {
     _future = _load();
 
     _future.then((f) {
-      tilesRowCount ??= this._map.layers.first.height;
-      tilesColCount ??= this._map.layers.first.width;
-      tileWidth ??= this._map.layers.first.tiles[0].width ?? 32;
-      tileHeight ??= this._map.layers.first.tiles[0].height ?? 32;
-      imageWidth ??= tilesColCount * tileWidth;
-      imageHeight ??= tilesRowCount * tileHeight;
+      _tilesRowCount ??= this._map.layers.first.height;
+      _tilesColCount ??= this._map.layers.first.width;
+      _tileWidth ??= this._map.layers.first.tiles[0].width ?? 32;
+      _tileHeight ??= this._map.layers.first.tiles[0].height ?? 32;
+      _imageWidth ??= tilesColCount * _tileWidth;
+      _imageHeight ??= tilesRowCount * _tileHeight;
 
     });
     _position = Position.empty();
@@ -96,7 +107,7 @@ class CustomTiledComponent extends Component {
         : this._map.layers.last.tileMatrix;
   }
 
-  bool loaded() => _loaded && !this._screen.isEmpty;
+  bool loaded() => _loaded && !this._renderSize.isEmpty;
 
   @override
   void render(Canvas c) {
@@ -109,8 +120,8 @@ class CustomTiledComponent extends Component {
   }
 
   void _renderLayer(Canvas c, Layer layer) {
-    final _numRowsToDraw = (this._screen.height ~/ tileHeight) + 2;
-    final _numColsToDraw = (this._screen.width ~/ tileWidth) + 2;
+    final _numRowsToDraw = (this._renderSize.height ~/ tileHeight) + 2;
+    final _numColsToDraw = (this._renderSize.width ~/ tileWidth) + 2;
 
     for (int row = _rowOffset; row < _rowOffset + _numRowsToDraw; row++) {
       if (row >= tilesRowCount) break;
@@ -143,17 +154,17 @@ class CustomTiledComponent extends Component {
   //TODO - 
   void updateScreenSize(Size size) {
     if (this.imageWidth == null || this.imageHeight == null) return;
-    this._screen = size ?? Size.zero;
-    this._min = Size(this._screen.width - this.imageWidth,
-        this._screen.height - this.imageHeight);
+    this._renderSize = size ?? Size.zero;
+    this._min = Size(this._renderSize.width - this.imageWidth,
+        this._renderSize.height - this.imageHeight);
 
   }
 
-  Size get renderSize => this._screen;
+  Size get renderSize => this._renderSize;
 
   @override
   void update(double t) {
-    if (!this.loaded() || this._screen.isEmpty) return;
+    if (!this.loaded() || this._renderSize.isEmpty) return;
   }
 
   void setTween(double d) {

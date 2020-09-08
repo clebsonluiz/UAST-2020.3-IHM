@@ -16,11 +16,11 @@ class DpadButtonWidget extends StatefulWidget {
     @required this.iconData,
     this.iconDataOnSelected,
     this.onSelectedColor = Colors.white70,
-    this.onReleasedColor = Colors.blue,
-    this.iconSelectedColor = Colors.blue,
+    this.onReleasedColor = Colors.grey,
+    this.iconSelectedColor = Colors.black,
     this.iconReleasedColor = Colors.white,
-    this.sizeIconOnSelected = 25.0,
-    this.sizeIconOnReleased = 30.0,
+    this.sizeIconOnSelected = 30.0,
+    this.sizeIconOnReleased = 35.0,
   });
 
   @override
@@ -75,16 +75,13 @@ class _DpadButtonWidgetState extends State<DpadButtonWidget> {
   void onTapDown(TapDownDetails tdd) {
     setState(() => _holding = true);
     widget.onAction();
-    print("Tap Down!!");
   }
 
   void onTapUp(TapUpDetails tud) {
     setState(() => _holding = false);
-    print("Tap Up!!");
   }
 
   void onTapCancel() {
     setState(() => _holding = false);
-    print("Tap Cancel!!");
   }
 }
