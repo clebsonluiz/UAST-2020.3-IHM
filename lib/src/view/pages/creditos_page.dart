@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_flying_commander.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_hunter_gold.dart';
+import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_walker.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_mini_ufo.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_smasher.dart';
@@ -26,7 +26,7 @@ class CreditosPageState extends State<CreditosPage> {
   }
 
   void _loadAnimations() {
-    AlienHunterGold.detalhes
+    AlienHunterGoldenColor().detalhes
         .then((value) => setState(() => this.widget.list.add(value)));
     AlienHunterWalker.detalhes
         .then((value) => setState(() => this.widget.list.add(value)));

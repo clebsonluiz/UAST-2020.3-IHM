@@ -1,9 +1,20 @@
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_animation.dart';
 import 'package:ihm_2020_3/src/model/animations/creater_animation.dart';
+import 'package:ihm_2020_3/src/model/utils/assets_acess.dart';
 
-class AlienHunterGold {
+class AlienHunterGoldenColor {
 
-  static Future<Map> _generate() async => {
+
+  static AlienHunterGoldenColor _instance;
+
+
+  factory AlienHunterGoldenColor(){
+    return _instance??= AlienHunterGoldenColor.fromCreaterAnimation(CreaterAnimation(EntityAsset.ALIEN_HUNTER_GOLD_MG));
+  }  
+
+  AlienHunterGoldenColor.fromCreaterAnimation(this._createrAnimation);
+
+  Future<Map> _generate() async => {
         'Name': 'Alien Hunter Gold',
         'By': 'Yubari Sugiura',
         'Animations': [
@@ -12,7 +23,7 @@ class AlienHunterGold {
         ],
       };
 
-  static final Future<Map> detalhes = _generate();
+  Future<Map> get detalhes => _generate();
 
   static const int IDLE = 0;
   static const int WALKING = 1;
@@ -21,7 +32,8 @@ class AlienHunterGold {
   static const int FALLING = 4;
   static const int GRAVITY = 5;
 
-  static final animations = [
+
+  get animations => [
     idle(),
     walking(),
     attaking(),
@@ -30,13 +42,9 @@ class AlienHunterGold {
     gravity(),
   ];
 
-  static const String ALIEN_HUNTER_GOLD_MG =
-      'Mobile - Metal Slug Attack - Golden Hunter Walker (Alpha Cannel).png';
+  final CreaterAnimation _createrAnimation;
 
-  static const CreaterAnimation _createrAnimation =
-      CreaterAnimation(ALIEN_HUNTER_GOLD_MG);
-
-  static var _idle = _createrAnimation.createSpriteSheet(
+  get _idle => _createrAnimation.createSpriteSheet(
       tWidth: 38,
       tHeight: 39,
       cols: 6,
@@ -47,7 +55,7 @@ class AlienHunterGold {
       jumpPY: 1,
       ignoreLasts: 1);
 
-  static var _walking = _createrAnimation.createSpriteSheet(
+  get _walking => _createrAnimation.createSpriteSheet(
       tWidth: 63,
       tHeight: 39,
       cols: 6,
@@ -58,7 +66,7 @@ class AlienHunterGold {
       jumpPY: 1,
       ignoreLasts: 1);
 
-  static var _attaking = _createrAnimation.createSpriteSheet(
+  get _attaking => _createrAnimation.createSpriteSheet(
       tWidth: 38,
       tHeight: 35,
       cols: 10,
@@ -68,7 +76,7 @@ class AlienHunterGold {
       jumpPX: 2,
       jumpPY: 3);
 
-  static var _jumping = _createrAnimation.createSpriteSheet(
+  get _jumping =>_createrAnimation.createSpriteSheet(
       tWidth: 33,
       tHeight: 64,
       cols: 7,
@@ -78,7 +86,7 @@ class AlienHunterGold {
       jumpPX: 7,
       jumpPY: 6);
 
-  static var _gravity = _createrAnimation.createSpriteSheet(
+  get _gravity => _createrAnimation.createSpriteSheet(
       tWidth: 33,
       tHeight: 64,
       cols: 7,
@@ -88,23 +96,23 @@ class AlienHunterGold {
       jumpPX: 7,
       jumpPY: 6);
 
-  static CustomAnimation idle() =>
+  CustomAnimation idle() =>
       _idle.createAnimation(0, from: 0, to: 11, stepTime: 0.05, loop: true);
 
-  static CustomAnimation walking() =>
+  CustomAnimation walking() =>
       _walking.createAnimation(0, from: 0, to: 11, stepTime: 0.05, loop: true);
 
-  static CustomAnimation attaking() => _attaking.createAnimation(0,
+  CustomAnimation attaking() => _attaking.createAnimation(0,
       from: 0, to: 20, stepTime: 0.05, loop: false);
 
-  static CustomAnimation jumping() =>
+  CustomAnimation jumping() =>
       _jumping.createAnimation(0, from: 0, to: 7, stepTime: 0.05, loop: false);
 
-  static CustomAnimation falling() => _jumping
+  CustomAnimation falling() => _jumping
       .createAnimation(0, from: 0, to: 7, stepTime: 0.05, loop: false)
       .reversed();
 
-  static CustomAnimation gravity() => _gravity
+  CustomAnimation gravity() => _gravity
       .createAnimation(0, from: 0, to: 21, stepTime: 0.05, loop: false)
       .reversed();
 }

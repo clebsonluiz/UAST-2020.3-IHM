@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flame/components/component.dart';
 import 'package:flame/sprite.dart';
-import 'package:ihm_2020_3/src/model/abstracts/entity_map.dart';
+import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_entity.dart';
 
 class LifeEntity{
 
@@ -23,7 +23,7 @@ class LifeEntity{
     });
   }
 
-  void render(Canvas canvas, EntityMap e) async
+  void render(Canvas canvas, CustomSpriteEntity e) async
   {
     if(_life == null || !_life.loaded()) return;
     

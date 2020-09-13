@@ -102,5 +102,6 @@ mixin CustomSpriteMoviment on CustomSpritePosition {
   void changeGravity() => this._gravityInverted = !this._gravityInverted;
 
   bool get isGravityInverted => this._gravityInverted;
+  set gravitInverted(bool g) => this._gravityInverted = g;
 
 }
