@@ -9,6 +9,8 @@ abstract class EntityAsset {
       'Mobile - Metal Slug Attack - Golden Hunter Walker (Alpha Cannel).png';
   static const String ALIEN_HUNTER_GOLD_BLUE_MG =
       'Mobile - Metal Slug Attack - Golden Hunter Walker (Blue - Alpha Cannel).png';
+  static const String ALIEN_HUNTER_GOLD_DARK_MG =
+      'Mobile - Metal Slug Attack - Golden Hunter Walker (Dark - Alpha Cannel).png';
   static const String ALIEN_HUNTER_GOLD_GREEN_MG =
       'Mobile - Metal Slug Attack - Golden Hunter Walker (Green - Alpha Cannel).png';
   static const String ALIEN_HUNTER_GOLD_RED_MG =
@@ -41,6 +43,7 @@ abstract class EntityAsset {
         ALIEN_FLYING_COMMANDER_MG,
         ALIEN_HUNTER_GOLD_MG,
         ALIEN_HUNTER_GOLD_BLUE_MG,
+        ALIEN_HUNTER_GOLD_DARK_MG,
         ALIEN_HUNTER_GOLD_GREEN_MG,
         ALIEN_HUNTER_GOLD_RED_MG,
         ALIEN_HUNTER_GOLD_YELLOW_MG,
@@ -57,6 +60,7 @@ abstract class TileMapAssets {}
 
 abstract class Another {
   static const String HEARTH_STATUS = "Vida.png";
+  static const String KEYS = "Keys.png";
   static const String BG_MENU_CAVE = 'bg_menu.png';
 
   static const String BG_OBJETIVE_1 = 'objetivo_fundo_1.png';
@@ -64,6 +68,7 @@ abstract class Another {
 
   static List<String> asList() => <String>[
         HEARTH_STATUS,
+        KEYS,
         BG_MENU_CAVE,
         BG_OBJETIVE_1,
         BG_OBJETIVE_2,

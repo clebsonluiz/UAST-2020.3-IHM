@@ -7,29 +7,37 @@ import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_moviment.da
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_position.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_color_blue.dart';
+import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_color_dark.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_color_green.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_color_red.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_color_yellow.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
-import 'package:ihm_2020_3/src/model/entity/life/life_status.dart';
+import 'package:ihm_2020_3/src/model/entity/component/key_object.dart';
+import 'package:ihm_2020_3/src/model/entity/component/life_object.dart';
 
 class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteColision, CustomSpriteEntity{
 
-  static const PLAYER_BLUE = 0;
-  static const PLAYER_GREEN = 1;
-  static const PLAYER_RED = 2;
-  static const PLAYER_YELLOW = 3;
+  static const PLAYER_DARK = 0;
+  static const PLAYER_BLUE = 1;
+  static const PLAYER_GREEN = 2;
+  static const PLAYER_RED = 3;
+  static const PLAYER_YELLOW = 4;
 
   int _current = 0;
 
   int get currentAnimation => _current;
 
+  changeToDark() => this._current = PLAYER_DARK;
   changeToBlue() => this._current = PLAYER_BLUE;
   changeToGreen() => this._current = PLAYER_GREEN;
   changeToRed() => this._current = PLAYER_RED;
   changeToYellow() => this._current = PLAYER_YELLOW;
 
   final List<CustomSpriteAnimation> _playerAnimations = [];
+
+  final List<KeyObject> _keys = [];
+
+  List<KeyObject> get currentKeys => this._keys;
 
   @override
   double get moveSpeed => 0.7; // Vel in X axis
@@ -68,13 +76,15 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
   PlayerGame(CustomTiledComponent tileMap){
     this.tileMap = tileMap;
     this.isLookingAtLeft = true;
-    
+
+    final animationsDark = CustomSpriteAnimation.fromAnimations(AlienHunterGoldenColorDark().animations);
     final animationsBlue = CustomSpriteAnimation.fromAnimations(AlienHunterGoldenColorBlue().animations);
     final animationsGreen = CustomSpriteAnimation.fromAnimations(AlienHunterGoldenColorGreen().animations);
     final animationsRed = CustomSpriteAnimation.fromAnimations(AlienHunterGoldenColorRed().animations);
     final animationsYellow = CustomSpriteAnimation.fromAnimations(AlienHunterGoldenColorYellow().animations);
 
     _playerAnimations.addAll([
+      animationsDark,
       animationsBlue,
       animationsGreen,
       animationsRed ,
@@ -82,12 +92,15 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
     ]);
 
     this.setColisionBox(height: 35, width: 32);
+    this.resetLifes();
   }
 
 
   @override
   List<int> colisionFactor() {
     switch (currentAnimation) {
+      case PLAYER_DARK:
+        return [6];
       case PLAYER_BLUE:
         return [6, 3];
       case PLAYER_GREEN:
@@ -133,7 +146,8 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
         x: x, y: y, invertX: invertX, invertY: invertY, scale: scale);
     canvas.restore(); // Analisar a necessidade de deixar aqui
 
-    LifeEntity.instance.render(canvas, this);
+    LifeObject().renderOn(canvas, this);
+    this._keys.forEach((key) => key.renderOn(canvas, this));
   }
 
   @override
@@ -159,8 +173,5 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
       startInvertion = true;
     }
   }
-
-
-
 
 }
