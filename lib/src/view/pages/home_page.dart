@@ -8,6 +8,9 @@ import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
 
 class MyHomePage extends StatefulWidget {
   
+  static const ROUTE = "/home";
+
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
   
@@ -50,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 // textContent: 'CRÉDITOS',
                                 widget: _buildImageSized(image: "menu_item_3.png", maxHeight: 35, color: Colors.lightGreenAccent),
                                 onAction: () async {
-                                  await Navigator.pushNamed(context, "/credits");
+                                  await Navigator.pushNamed(context, CreditosPage.ROUTE);
                                 },
                                 splashColor: Colors.green[800]),
                             MenuButtomWidget(

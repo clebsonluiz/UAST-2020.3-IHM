@@ -1,20 +1,19 @@
 import 'package:flame/flame.dart';
-import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ihm_2020_3/src/controller/game/game_controller.dart';
 import 'package:ihm_2020_3/src/model/utils/assets_acess.dart';
 import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
-import 'package:ihm_2020_3/src/view/pages/game_test.dart';
+import 'package:ihm_2020_3/src/view/pages/game_page.dart';
+import 'package:ihm_2020_3/src/view/pages/home_page.dart';
+import 'package:ihm_2020_3/src/view/pages/splash_screen.dart';
 // import 'package:ihm_2020_3/src/view/pages/home_page.dart';
 
 final rotas = <String, WidgetBuilder>{
-  '/': (_) => FlameSplashScreen(
-      theme: FlameSplashTheme.dark,
-      
-      onFinish: (BuildContext context) async =>
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => MyHomePage()))),
-  // '/home': (_) => MyHomePage(),
-  '/credits': (_) => CreditosPage(),
+  SplashScreenGame.ROUTE: (_) => SplashScreenGame(),
+  MyHomePage.ROUTE: (_) => MyHomePage(),
+  GamePage.ROUTE: (_) => GamePage(mainGame: GameController()),
+  CreditosPage.ROUTE: (_) => CreditosPage(),
 };
 
 void main() async {
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         // home: MyHomePage(),
-        initialRoute: '/',
+        initialRoute: SplashScreenGame.ROUTE,
         routes: rotas,
       );
 }

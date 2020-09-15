@@ -10,6 +10,9 @@ import 'package:ihm_2020_3/src/model/animations/jellyfish.dart';
 import 'package:ihm_2020_3/src/view/components/credito_widget.dart';
 
 class CreditosPage extends StatefulWidget {
+
+  static const ROUTE = "/credits";
+
   final List list = [];
 
   CreditosPage();
@@ -22,7 +25,6 @@ class CreditosPageState extends State<CreditosPage> {
   @override
   void initState() {
     super.initState();
-    // _loadAnimations();
   }
 
   void _loadAnimations() {

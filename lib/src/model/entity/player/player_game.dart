@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flame/position.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_animation.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_colision.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_entity.dart';
@@ -50,6 +51,13 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
 
   
 
+  void setCurrentStatus(CustomTiledComponent tileMap, Position bornPosition){
+    this.setPosition(x: bornPosition.x, y: bornPosition.y);
+    this.tileMap = tileMap;
+  }
+
+
+
   bool startInvertion = false;
 
 
@@ -73,8 +81,7 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
 
   bool get isDead => this.life <= 0;
 
-  PlayerGame(CustomTiledComponent tileMap){
-    this.tileMap = tileMap;
+  PlayerGame(){
     this.isLookingAtLeft = true;
 
     final animationsDark = CustomSpriteAnimation.fromAnimations(AlienHunterGoldenColorDark().animations);
@@ -87,7 +94,7 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
       animationsDark,
       animationsBlue,
       animationsGreen,
-      animationsRed ,
+      animationsRed,
       animationsYellow
     ]);
 

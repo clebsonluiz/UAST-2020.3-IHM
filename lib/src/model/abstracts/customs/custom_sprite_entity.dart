@@ -17,7 +17,7 @@ mixin CustomSpriteEntity
   CustomTiledComponent tileMap;
 
   void calcularPosicaoNoMapa(double x, double y) {
-    if (tileMap == null || !tileMap.loaded()) return;
+    if (!this.hasMapReady) return;
 
     int leftTile = ((x - colisionBoxWidth / 2) ~/ tileMap.tileWidth);
     int rightTile = ((x + colisionBoxWidth / 2 - 1) ~/ tileMap.tileWidth);
@@ -31,7 +31,7 @@ mixin CustomSpriteEntity
   }
 
   void checkTileMapColision() {
-    if (tileMap == null || !tileMap.loaded()) return;
+    if (!this.hasMapReady) return;
 
     int currCol = (this.posX ~/ tileMap.tileWidth);
     int currRow = (this.posY ~/ tileMap.tileHeight);
@@ -93,12 +93,14 @@ mixin CustomSpriteEntity
 
   /// Retorna `true` se o elemento estiver dentro do quadrante onde se concentra a tela
   bool get isVisible {
-
+    if(!this.hasMapReady) return false;
     return this.posX + this.tileMap.x + this.spriteAnimation.currWidth > 0 &&
         this.posX + this.tileMap.x - this.spriteAnimation.currWidth < this.tileMap.renderSize.width &&
         this.posY + this.tileMap.y + this.spriteAnimation.currHeight > 0 &&
         this.posY + this.tileMap.y - this.spriteAnimation.currHeight < this.tileMap.renderSize.height;
   }
+
+  bool get hasMapReady => (this.tileMap != null && this.tileMap.loaded());
 
   void render(Canvas canvas);
   void update(double dt);
