@@ -151,8 +151,7 @@ class CustomTiledComponent extends Component {
     }
   }
 
-  //TODO - 
-  void updateScreenSize(Size size) {
+  void resize(Size size) {
     if (this.imageWidth == null || this.imageHeight == null) return;
     this._renderSize = size ?? Size.zero;
     this._min = Size(this._renderSize.width - this.imageWidth,

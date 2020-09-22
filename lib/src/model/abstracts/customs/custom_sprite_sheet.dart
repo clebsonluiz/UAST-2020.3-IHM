@@ -52,10 +52,10 @@ class CustomSpriteSheet {
     List<Map<String, int>> positions,
   }) {
     assert(positions != null && positions.length > 0);
-    
+
     this.ignoreFirsts = 0;
     this.ignoreLasts = 0;
-    
+
     rows ??= 1;
     columns ??= positions.length;
 
@@ -169,14 +169,12 @@ class CustomSpriteSheet {
       int from = 0,
       int to,
       int toRow,
-      int toColumn}) {
+      int toColumn,
+      double scale = 1.0}) {
     final spriteList = mySpriteList(
         fromRow: fromRow, from: from, to: to, toRow: toRow, toColumn: toColumn);
 
-    return CustomAnimation.spriteList(
-      spriteList,
-      stepTime: stepTime,
-      loop: loop,
-    );
+    return CustomAnimation.spriteList(spriteList,
+        stepTime: stepTime, loop: loop, scale: scale);
   }
 }

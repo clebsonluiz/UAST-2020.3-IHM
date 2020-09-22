@@ -7,13 +7,13 @@ import 'package:flame/sprite.dart';
 /// Baseado no package:flame/animation.dart, customizado para atender as minhas necessidades
 class CustomAnimation extends Animation {
   List<SpriteComponent> _spriteComponents;
-
+  double scale = 1.0;
   CustomAnimation.empty() : super.empty();
 
   CustomAnimation(List<Frame> frames, {bool loop = false})
       : super(frames, loop: loop);
 
-  CustomAnimation.spriteList(List<Sprite> sprites, {double stepTime, bool loop})
+  CustomAnimation.spriteList(List<Sprite> sprites, {double stepTime, bool loop, this.scale = 1.0})
       : super.spriteList(sprites, stepTime: stepTime, loop: loop);
 
   SpriteComponent getSpriteComponent() =>
@@ -21,8 +21,8 @@ class CustomAnimation extends Animation {
 
   List<SpriteComponent> get spritesComponents {
     return List.generate(frames.length, (index) {
-      return SpriteComponent.fromSprite(frames[index].sprite.src.width,
-          frames[index].sprite.src.height, frames[index].sprite);
+      return SpriteComponent.fromSprite(frames[index].sprite.src.width * scale ?? 1.0,
+          frames[index].sprite.src.height * scale ?? 1.0, frames[index].sprite);
     });
   }
 
