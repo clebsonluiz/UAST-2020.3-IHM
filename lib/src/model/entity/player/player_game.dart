@@ -7,11 +7,6 @@ import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_entity.dart
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_moviment.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_position.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_color_blue.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_color_dark.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_color_green.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_color_red.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_color_yellow.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
 import 'package:ihm_2020_3/src/model/entity/component/key_object.dart';
 import 'package:ihm_2020_3/src/model/entity/component/life_object.dart';

@@ -2,9 +2,10 @@ import 'dart:ui';
 
 import 'package:flame/components/component.dart';
 import 'package:flame/position.dart';
+import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_animation.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_sheet.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
-import 'package:ihm_2020_3/src/model/utils/assets_acess.dart';
+import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 
 abstract class DoorObject {
   Position _position = Position.empty();
@@ -24,9 +25,11 @@ abstract class DoorObject {
 
   CustomSpriteSheet get spriteSheet => _spriteSheet;
 
+  CustomSpriteAnimation customSpriteAnimation;
+
   DoorObject.empty() {
     this._spriteSheet = CustomSpriteSheet(
-      imageName: Another.PORTAS,
+      imageName: AnotherConsts.PORTAS,
       textureWidth: 32 * 7,
       textureHeight: 32 * 8,
       jumpPixelX: 32,
@@ -45,9 +48,9 @@ abstract class DoorObject {
     canvas.restore();
   }
 
-  void update(double dt);
+  void update(double dt) => this.customSpriteAnimation?.update(dt);
 
-  SpriteComponent get component;
+  SpriteComponent get component => customSpriteAnimation?.currentSpriteFrame;
 
   int get colorCode;
 

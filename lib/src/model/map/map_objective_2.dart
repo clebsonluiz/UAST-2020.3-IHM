@@ -1,10 +1,10 @@
 import 'package:ihm_2020_3/src/model/abstracts/objective_map.dart';
-import 'package:ihm_2020_3/src/model/utils/assets_acess.dart';
+import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 
 class MapObjective2 extends ObjectiveMap {
   
 
-  MapObjective2(): super(Another.BG_OBJETIVE_2);
+  MapObjective2(): super(AnotherConsts.BG_OBJETIVE_2);
 
   
 

@@ -7,7 +7,7 @@ import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_entity.dart
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
 
 import 'package:ihm_2020_3/src/model/entity/component/mixin_entity_component.dart';
-import 'package:ihm_2020_3/src/model/utils/assets_acess.dart';
+import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 
 abstract class KeyObject implements MixinEntityComponent {
 
@@ -36,7 +36,7 @@ abstract class KeyObject implements MixinEntityComponent {
     final width = 352.0;
     final height = 192.0;
 
-    Sprite.loadSprite(Another.KEYS,
+    Sprite.loadSprite(AnotherConsts.KEYS,
             x: x,
             y: y + (((row * height) + (row * 32))),
             width: width,

@@ -1,6 +1,6 @@
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_animation.dart';
 import 'package:ihm_2020_3/src/model/animations/creater_animation.dart';
-import 'package:ihm_2020_3/src/model/utils/assets_acess.dart';
+import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 
 class AlienHunterGoldenColor {
 
@@ -9,7 +9,7 @@ class AlienHunterGoldenColor {
 
 
   factory AlienHunterGoldenColor(){
-    return _instance??= AlienHunterGoldenColor.fromCreaterAnimation(CreaterAnimation(EntityAsset.ALIEN_HUNTER_GOLD_MG));
+    return _instance??= AlienHunterGoldenColor.fromCreaterAnimation(CreaterAnimation(ConstEntityAssets.ALIEN_HUNTER_GOLD_MG));
   }  
 
   AlienHunterGoldenColor.fromCreaterAnimation(this._createrAnimation);
@@ -115,4 +115,64 @@ class AlienHunterGoldenColor {
   CustomAnimation gravity() => _gravity
       .createAnimation(0, from: 0, to: 21, stepTime: 0.05, loop: false)
       .reversed();
+}
+
+class AlienHunterGoldenColorBlue extends AlienHunterGoldenColor {
+  
+  static final AlienHunterGoldenColorBlue _instance =
+      AlienHunterGoldenColorBlue.fromCreaterAnimation();
+
+  factory AlienHunterGoldenColorBlue() => _instance;
+
+  AlienHunterGoldenColorBlue.fromCreaterAnimation()
+      : super.fromCreaterAnimation(
+            CreaterAnimation(ConstEntityAssets.ALIEN_HUNTER_GOLD_BLUE_MG));
+}
+
+class AlienHunterGoldenColorDark extends AlienHunterGoldenColor {
+  
+  static final AlienHunterGoldenColorDark _instance =
+      AlienHunterGoldenColorDark.fromCreaterAnimation();
+
+  factory AlienHunterGoldenColorDark() => _instance;
+
+  AlienHunterGoldenColorDark.fromCreaterAnimation()
+      : super.fromCreaterAnimation(
+            CreaterAnimation(ConstEntityAssets.ALIEN_HUNTER_GOLD_DARK_MG));
+}
+
+class AlienHunterGoldenColorGreen extends AlienHunterGoldenColor {
+  
+  static final AlienHunterGoldenColorGreen _instance =
+      AlienHunterGoldenColorGreen.fromCreaterAnimation();
+
+  factory AlienHunterGoldenColorGreen() => _instance;
+
+  AlienHunterGoldenColorGreen.fromCreaterAnimation()
+      : super.fromCreaterAnimation(
+            CreaterAnimation(ConstEntityAssets.ALIEN_HUNTER_GOLD_GREEN_MG));
+}
+
+class AlienHunterGoldenColorRed extends AlienHunterGoldenColor {
+  
+  static final AlienHunterGoldenColorRed _instance =
+      AlienHunterGoldenColorRed.fromCreaterAnimation();
+
+  factory AlienHunterGoldenColorRed() => _instance;
+
+  AlienHunterGoldenColorRed.fromCreaterAnimation()
+      : super.fromCreaterAnimation(
+            CreaterAnimation(ConstEntityAssets.ALIEN_HUNTER_GOLD_RED_MG));
+}
+
+class AlienHunterGoldenColorYellow extends AlienHunterGoldenColor {
+  
+  static final AlienHunterGoldenColorYellow _instance =
+      AlienHunterGoldenColorYellow.fromCreaterAnimation();
+
+  factory AlienHunterGoldenColorYellow() => _instance;
+
+  AlienHunterGoldenColorYellow.fromCreaterAnimation()
+      : super.fromCreaterAnimation(
+            CreaterAnimation(ConstEntityAssets.ALIEN_HUNTER_GOLD_YELLOW_MG));
 }

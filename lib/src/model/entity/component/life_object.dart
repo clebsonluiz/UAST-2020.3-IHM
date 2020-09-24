@@ -1,7 +1,10 @@
 import 'dart:ui';
 
 import 'package:flame/components/component.dart';
+import 'package:flame/effects/scale_effect.dart';
+import 'package:flame/position.dart';
 import 'package:flame/sprite.dart';
+import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_entity.dart';
 import 'package:ihm_2020_3/src/model/entity/component/mixin_entity_component.dart';
 
@@ -18,8 +21,22 @@ class LifeObject implements MixinEntityComponent {
   LifeObject._() {
     Sprite.loadSprite('Vida.png', x: 0, y: 0, width: 65, height: 55)
         .then((life) {
+
+      final width = life.size.x * 0.15;
+      final height = life.size.y * 0.15;
+
+
       this._life = SpriteComponent.fromSprite(
-          life.size.x * 0.15, life.size.y * 0.15, life);
+          width, life.size.y * 0.15, life);
+
+      this._life.addEffect(
+        ScaleEffect(
+          size: Position(width * 1.5, height * 1.5).toSize(),
+          speed: 0.01,
+          curve: Curves.bounceInOut,
+          isInfinite: true,
+          isAlternating: true)
+      );
     });
   }
 
@@ -56,5 +73,9 @@ class LifeObject implements MixinEntityComponent {
     _life.renderFlipY = g;
     _life.render(canvas);
     canvas.restore();
+  }
+
+  void update(double dt){
+    this._life.update(dt);
   }
 }

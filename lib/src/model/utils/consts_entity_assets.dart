@@ -1,4 +1,6 @@
-abstract class EntityAsset {
+part of 'game_model_constants.dart';
+
+mixin ConstEntityAssets {
   static const String ALIEN_BIG_EYES_MG =
       'Neo Geo NGCD - Metal Slug 3 - Big Eyes.png';
 
@@ -38,46 +40,20 @@ abstract class EntityAsset {
   static const String RAT_MG =
       'Neo Geo NGCD - Metal Slug 2 Metal Slug X - Rat.png';
 
-  static List<String> asList() => <String>[
-        ALIEN_BIG_EYES_MG,
-        ALIEN_FLYING_COMMANDER_MG,
-        ALIEN_HUNTER_GOLD_MG,
-        ALIEN_HUNTER_GOLD_BLUE_MG,
-        ALIEN_HUNTER_GOLD_DARK_MG,
-        ALIEN_HUNTER_GOLD_GREEN_MG,
-        ALIEN_HUNTER_GOLD_RED_MG,
-        ALIEN_HUNTER_GOLD_YELLOW_MG,
-        ALIEN_HUNTER_WALKER_MG,
-        ALIEN_MINI_UFO_MG,
-        ALIEN_SMASHER_MG,
-        ALIEN_UFO_MG,
-        FLESH_EATING_SLUG_MG,
-        RAT_MG,
-      ];
-}
-
-abstract class TileMapAssets {}
-
-abstract class Another {
-  static const String HEARTH_STATUS = "Vida.png";
-  static const String KEYS = "Keys.png";
-
-  static const String PORTAS = "portas.png";
-  
-  static const String BG_MENU_CAVE = 'bg_menu.png';
-
-  static const String BG_OBJETIVE_1 = 'objetivo_fundo_1.png';
-  static const String BG_OBJETIVE_2 = 'objetivo_fundo_2.png';
-
-  static const String BG_SIMBOLO_1 = 'fundo_simbolo_1.png';
-
-  static List<String> asList() => <String>[
-        HEARTH_STATUS,
-        KEYS,
-        PORTAS,
-        BG_MENU_CAVE,
-        BG_OBJETIVE_1,
-        BG_OBJETIVE_2,
-        BG_SIMBOLO_1,
-      ];
+  static const List<String> ALL = <String>[
+    ALIEN_BIG_EYES_MG,
+    ALIEN_FLYING_COMMANDER_MG,
+    ALIEN_HUNTER_GOLD_MG,
+    ALIEN_HUNTER_GOLD_BLUE_MG,
+    ALIEN_HUNTER_GOLD_DARK_MG,
+    ALIEN_HUNTER_GOLD_GREEN_MG,
+    ALIEN_HUNTER_GOLD_RED_MG,
+    ALIEN_HUNTER_GOLD_YELLOW_MG,
+    ALIEN_HUNTER_WALKER_MG,
+    ALIEN_MINI_UFO_MG,
+    ALIEN_SMASHER_MG,
+    ALIEN_UFO_MG,
+    FLESH_EATING_SLUG_MG,
+    RAT_MG,
+  ];
 }
