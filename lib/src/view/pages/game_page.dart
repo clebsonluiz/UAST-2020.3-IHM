@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:ihm_2020_3/src/controller/game/game_controller.dart';
 import 'package:ihm_2020_3/src/controller/game/mixin_game_controller.dart';
 import 'package:ihm_2020_3/src/view/components/dpad_buttom_widget.dart';
 import 'package:ihm_2020_3/src/view/components/dpad_joystick_widget.dart';

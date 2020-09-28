@@ -1,12 +1,9 @@
 import 'dart:ui';
 
-import 'package:flame/anchor.dart';
 import 'package:flame/position.dart';
-import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/controller/game/game_controller.dart';
 import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object.dart';
-import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object_box_cave.dart';
 import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object_box_color.dart';
 import 'package:ihm_2020_3/src/model/map/map_tester.dart';
 
@@ -14,8 +11,6 @@ import 'level_controller.dart';
 
 class Level1 extends LevelController {
   
-  TextConfig config = TextConfig(fontSize: 25.0, fontFamily: 'Awesome Font', color: Colors.red);
-  TextConfig emoji = TextConfig(fontSize: 25.0, fontFamily: 'Awesome Font', color: Colors.red);
   
   final SymbolObject symbol = SymbolObjectBoxColorGreen();
   
@@ -47,21 +42,13 @@ class Level1 extends LevelController {
     super.render(canvas);
     
     final p = Position(100, 100);
-    config.render(canvas, "→", p, );
     
     final e = "🤔";
 
-    // print(String.fromCharCode(e.runes.single));
-    // print(e.length);
     symbol.setPosition(x: p.x, y: p.y);
     
     symbol.renderOnTiled(canvas, this.tileMap);
-    // canvas.save();
-    // double scale = 1.0;
-    // canvas.translate(p.x - (p.x * scale), 0);
-    // canvas.scale(scale, 1.0);
-    // emoji.render(canvas, e, p, anchor: Anchor.center);
-    // canvas.restore();
+
   }
 
   @override
