@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:ihm_2020_3/src/model/database/models/cadeia.dart';
-import 'package:ihm_2020_3/src/view/components/cadeia_widget.dart';
 import 'package:ihm_2020_3/src/view/components/dialog_emoji_page.dart';
 import 'package:ihm_2020_3/src/view/components/simbolo_widget.dart';
 
@@ -13,194 +12,171 @@ class CadExpressaoPage extends StatefulWidget {
 }
 
 class _CadExpressaoPageState extends State<CadExpressaoPage> {
+  final _limite = 10;
+
   final _scrollController = ScrollController();
-  final _children = <CadeiaWidget>[];
 
   final _strings = <String>[];
 
   var _firstChildren = <Widget>[];
-  var _secondChildren = <Widget>[
-    SimboloWidget(tipo: Cadeia.OP_NEGACAO, simbolo: "~"),
-    SimboloWidget(tipo: Cadeia.OP_CONJUNCAO, simbolo: "^"),
-    SimboloWidget(tipo: Cadeia.OP_DISJUNCAO, simbolo: "v"),
-    SimboloWidget(tipo: Cadeia.OP_CONDICIONAL, simbolo: "→"),
-    SimboloWidget(tipo: Cadeia.OP_BICONDICIONAL, simbolo: "↔"),
-    SimboloWidget(tipo: Cadeia.OP_VARIAVEL_A, simbolo: "A"),
-    SimboloWidget(tipo: Cadeia.OP_VARIAVEL_B, simbolo: "B"),
-    SimboloWidget(tipo: Cadeia.OP_VARIAVEL_C, simbolo: "C"),
-    SimboloWidget(tipo: Cadeia.OP_PARENTESE_E, simbolo: Cadeia.OP_PARENTESE_E),
-    SimboloWidget(tipo: Cadeia.OP_PARENTESE_D, simbolo: Cadeia.OP_PARENTESE_D),
-  ];
+  var _secondChildren = <Widget>[];
   var _thirdChildren = <Widget>[];
   var _fourthChildren = <Widget>[];
 
   @override
   void initState() {
+    _secondChildren
+      ..clear()
+      ..addAll([
+        SimboloWidget(tipo: Cadeia.OP_NEGACAO, simbolo: "~"),
+        SimboloWidget(tipo: Cadeia.OP_CONJUNCAO, simbolo: "^"),
+        SimboloWidget(tipo: Cadeia.OP_DISJUNCAO, simbolo: "v"),
+        SimboloWidget(tipo: Cadeia.OP_CONDICIONAL, simbolo: "→"),
+        SimboloWidget(tipo: Cadeia.OP_BICONDICIONAL, simbolo: "↔"),
+        SimboloWidget(tipo: Cadeia.OP_VARIAVEL_A, simbolo: "A"),
+        SimboloWidget(tipo: Cadeia.OP_VARIAVEL_B, simbolo: "B"),
+        SimboloWidget(tipo: Cadeia.OP_VARIAVEL_C, simbolo: "C"),
+        SimboloWidget(
+            tipo: Cadeia.OP_PARENTESE_E, simbolo: Cadeia.OP_PARENTESE_E),
+        SimboloWidget(
+            tipo: Cadeia.OP_PARENTESE_D, simbolo: Cadeia.OP_PARENTESE_D),
+      ]);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white60,
         body: Stack(
-      children: <Widget>[
-        // _buildImageSized(image: "objetivo_fundo_2.png", fit: BoxFit.cover),
-        ListView(children: <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Center(
-              child: Text(
-                "NOVA EXPRESSÃO",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 26,
-                    color: Colors.black54),
+          children: <Widget>[
+            // _buildImageSized(image: "objetivo_fundo_2.png", fit: BoxFit.cover),
+            ListView(children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Center(
+                  child: Text(
+                    "NOVA EXPRESSÃO",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                        color: Colors.black54),
+                  ),
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              child: Container(
-                color: Colors.black26,
-                height: 80,
-                // padding: EdgeInsets.all(5),
-                // margin: EdgeInsets.all(5),
-                child: Stack(
-                  children: <Widget>[
-                    // _buildImageSized(image: "objetivo_fundo_1.png", fit: BoxFit.none),
-                    ListView.builder(
-                      padding: EdgeInsets.all(10),
-                      itemCount: _firstChildren.length,
-                      itemBuilder: (context, i) => _firstChildren[i],
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      // children: _firstChildren,
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child: Container(
+                    color: Colors.black26,
+                    height: 80,
+                    // padding: EdgeInsets.all(5),
+                    // margin: EdgeInsets.all(5),
+                    child: Stack(
+                      children: <Widget>[
+                        // _buildImageSized(image: "objetivo_fundo_2.png", fit: BoxFit.fill),
+                        ListView.builder(
+                          padding: EdgeInsets.all(10),
+                          itemCount: _firstChildren.length,
+                          itemBuilder: (context, i) =>
+                              Center(child: _firstChildren[i]),
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          _textMin("*Tamanho maximo permitido para expressões é 10!"),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              child: Container(
-                color: Colors.black26,
-                height: 160,
-                // padding: EdgeInsets.all(5),
-                // margin: EdgeInsets.all(5),
-                child: Stack(
-                  children: <Widget>[
-                    // _buildImageSized(image: "objetivo_fundo_2.png"),
-                    GridView.count(
-                      crossAxisCount: 5,
-                      childAspectRatio: 1.0,
-                      padding: const EdgeInsets.all(20.0),
-                      mainAxisSpacing: 8.0,
-                      crossAxisSpacing: 8.0,
-                      children: List.generate(
-                        _secondChildren.length,
-                        (i) => _generate(_secondChildren[i]),
-                      ),
-                    )
-                  ],
+              _textMin("*Tamanho maximo permitido para expressões é $_limite!"),
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child: Container(
+                    color: Colors.black26,
+                    height: 160,
+                    // padding: EdgeInsets.all(5),
+                    // margin: EdgeInsets.all(5),
+                    child: Stack(
+                      children: <Widget>[
+                        _buildImageSized(image: "objetivo_fundo_2.png"),
+                        GridView.count(
+                          crossAxisCount: 5,
+                          childAspectRatio: 1.0,
+                          padding: const EdgeInsets.all(20.0),
+                          mainAxisSpacing: 8.0,
+                          crossAxisSpacing: 8.0,
+                          children: List.generate(
+                            _secondChildren.length,
+                            (i) => _generate(_secondChildren[i]),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          _textMin("**Use os simbolos acima para gerar uma expressão!"),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              child: RaisedButton.icon(
-                onPressed: _confirmExpression,
-                icon: Icon(
-                  Icons.touch_app,
-                  size: 30,
-                ),
-                label: Text(
-                  "Confirmar Expressão",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-              ),
-            ),
-          ),
-          this._thirdChildren.isEmpty
-              ? Center()
-              : Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        child: Container(
-                          color: Colors.black26,
-                          height: 80,
-                          // padding: EdgeInsets.all(5),
-                          // margin: EdgeInsets.all(5),
-                          child: Stack(
-                            children: <Widget>[
-                              // _buildImageSized(image: "objetivo_fundo_1.png", fit: BoxFit.none),
-                              ListView.builder(
-                                padding: EdgeInsets.all(10),
-                                itemCount: _thirdChildren.length,
-                                itemBuilder: (context, i) => _generate(
-                                    _thirdChildren[i], onTap: () async {
-                                  final _child = _thirdChildren[i];
-                                  // final _i = i;
+              _textMin("**Use os simbolos acima para gerar uma expressão!"),
+              _raisedButton("Confirmar Expressão", _confirmExpression),
+              this._thirdChildren.isEmpty
+                  ? Center()
+                  : Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: Container(
+                              color: Colors.black26,
+                              height: 80,
+                              // padding: EdgeInsets.all(5),
+                              // margin: EdgeInsets.all(5),
+                              child: Stack(
+                                children: <Widget>[
+                                  // _buildImageSized(image: "objetivo_fundo_1.png", fit: BoxFit.none),
+                                  ListView.builder(
+                                    padding: EdgeInsets.all(10),
+                                    itemCount: _thirdChildren.length,
+                                    itemBuilder: (context, i) => _generate(
+                                        _thirdChildren[i], onTap: () async {
+                                      final _child = _thirdChildren[i];
+                                      // final _i = i;
 
-                                  final sym = _child as SimboloWidget;
-                                  if (sym.tipo == Cadeia.OP_VARIAVEL_A ||
-                                      sym.tipo == Cadeia.OP_VARIAVEL_B ||
-                                      sym.tipo == Cadeia.OP_VARIAVEL_C) {
-                                    try {
-                                      final emoji =
-                                          await DialogEmojiPage.call(context);
-                                      _validate(emoji, _child);
-                                    } catch (e) {}
-                                    print("Variavel");
-                                  } else {
-                                    print("Operador");
-                                  }
-                                }),
-                                scrollDirection: Axis.horizontal,
-                                // controller: _scrollController,
-                                // children: _firstChildren,
+                                      final sym = _child as SimboloWidget;
+                                      if (sym.tipo == Cadeia.OP_VARIAVEL_A ||
+                                          sym.tipo == Cadeia.OP_VARIAVEL_B ||
+                                          sym.tipo == Cadeia.OP_VARIAVEL_C) {
+                                        try {
+                                          final emoji =
+                                              await DialogEmojiPage.call(
+                                                  context);
+                                          _validate(emoji, _child);
+                                        } catch (e) {}
+                                        print("Variavel");
+                                      } else {
+                                        print("Operador");
+                                      }
+                                    }),
+                                    scrollDirection: Axis.horizontal,
+                                    // controller: _scrollController,
+                                    // children: _firstChildren,
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
+                        _textMin(
+                            "*Selecione um emoji atrelado às váriaveis (A, B, C)"),
+                        _raisedButton("Cadastrar Expressão", () {}),
+                      ],
                     ),
-                    _textMin("*Selecione um emoji atrelado às váriaveis"),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        child: RaisedButton.icon(
-                          onPressed: _confirmExpression,
-                          icon: Icon(
-                            Icons.touch_app,
-                            size: 30,
-                          ),
-                          label: Text(
-                            "Cadastrar Expressão",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-        ]),
-      ],
-    ));
+            ]),
+          ],
+        ));
   }
 
   Widget _textMin(String msg) {
@@ -217,26 +193,21 @@ class _CadExpressaoPageState extends State<CadExpressaoPage> {
     );
   }
 
-  Future<void> _load() async {
-    setState(() {
-      _children
-        ..clear()
-        ..addAll([
-          CadeiaWidget(
-              nome: "Cadeia Padrão",
-              verdadeiro: "1",
-              falso: "0",
-              negacao: "~",
-              conjuncao: "^",
-              dijuncao: "v",
-              condicional: "→",
-              bicondicional: "↔",
-              onSelected: (cadeia) {
-                print(cadeia);
-              })
-        ]);
-    });
-    return Future.value();
+  Widget _raisedButton(String msg, Function onPressed) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 30),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(25)),
+        child: RaisedButton.icon(
+          // splashColor: Colors.orange,
+          elevation: 1,
+          onPressed: onPressed,
+          icon: const Icon(Icons.touch_app, size: 30),
+          label: Text(msg,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+        ),
+      ),
+    );
   }
 
   Widget _buildImageSized(
@@ -253,9 +224,14 @@ class _CadExpressaoPageState extends State<CadExpressaoPage> {
       child: SizedBox(
         height: 50,
         width: 50,
-        child: Center(child: simboloWidget),
+        child: Center(
+            child: Stack(
+          children: <Widget>[
+            simboloWidget,
+          ],
+        )),
       ),
-      onTap: onTap ?? () => addDimissible(simboloWidget),
+      onTap: onTap ?? () => simboloWidget.activate? addDimissible(simboloWidget) : (){},
     );
     return Center(child: val);
   }
@@ -263,22 +239,31 @@ class _CadExpressaoPageState extends State<CadExpressaoPage> {
   void addDimissible(SimboloWidget simboloWidget) {
     final _index = _firstChildren.length;
 
-    final _this = SimboloWidget(
-        tipo: simboloWidget.tipo,
-        simbolo: simboloWidget.simbolo,
-        isDimissible: true,
-        confirmDismiss: (_) async {
-          return await Future.value(
-              _index == _firstChildren.indexOf(_firstChildren.last));
-        },
-        onDismissed: (_) => removeDimissible());
+    if (_index == _limite) {
+      _showMyDialog('Limite máximo permitido é de $_limite elementos!!');
+    } else {
+      final _this = SimboloWidget(
+          tipo: simboloWidget.tipo,
+          simbolo: simboloWidget.simbolo,
+          isDimissible: true,
+          confirmDismiss: (_) async {
+            return await Future.value(
+                _index == _firstChildren.indexOf(_firstChildren.last));
+          },
+          onDismissed: (_) => removeDimissible());
 
-    setState(() {
-      _thirdChildren = List.from(_thirdChildren)..clear();
-      _firstChildren = List.from(_firstChildren)..add(_this);
+      setState(() {
+        _thirdChildren = List.from(_thirdChildren)..clear();
+        _firstChildren = List.from(_firstChildren)..add(_this);
 
-      _scrollToEnd();
-    });
+        // final indexOf = _secondChildren.indexOf(simboloWidget);
+        // _secondChildren[indexOf] = SimboloWidget(activate: false,);
+        
+        // _secondChildren = List.from(_secondChildren);
+
+        _scrollToEnd();
+      });
+    }
   }
 
   void removeDimissible() {
@@ -319,7 +304,6 @@ class _CadExpressaoPageState extends State<CadExpressaoPage> {
           curve: Curves.easeOut,
         );
       });
-
     });
   }
 
@@ -375,11 +359,19 @@ class _CadExpressaoPageState extends State<CadExpressaoPage> {
   Future<void> _showMyDialog(String msg) async {
     return _showDialog(
       AlertDialog(
-        title: Text('Alerta!'),
+        title: Text('Oops!',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+                color: Colors.black54)),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              Text(msg),
+              Text(msg,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black54)),
             ],
           ),
         ),

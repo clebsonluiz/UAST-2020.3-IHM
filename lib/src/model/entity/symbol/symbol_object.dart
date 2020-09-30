@@ -9,9 +9,13 @@ import 'package:flame/sprite.dart';
 import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
+import 'package:ihm_2020_3/src/model/entity/component/key_object.dart';
 
 abstract class SymbolObject {
   TextComponent _textComponent;
+
+  set text(String text) => this._textComponent.text = text;
+  get text => this._textComponent.text;
 
   Position _position = Position.empty();
 
@@ -34,8 +38,17 @@ abstract class SymbolObject {
 
   SpriteComponent get component => _component;
 
+  TextConfig get textConfig => TextConfig(
+      fontSize: 25.0,
+      fontFamily: 'Awesome Font',
+      color: const Color(0xFF303030));
+
   SymbolObject.fromAsset(String imgAsset,
-      {double width, double height, double scale = 0.5, double x = 0.0, double y = 0.0}) {
+      {double width,
+      double height,
+      double scale = 0.5,
+      double x = 0.0,
+      double y = 0.0}) {
     Sprite.loadSprite(imgAsset, x: x, y: x, width: width, height: height)
         .then((value) {
       final width = value.size.x * scale ?? 0.5;
@@ -53,9 +66,7 @@ abstract class SymbolObject {
       _component
         ..clearEffects()
         ..addEffect(_effect);
-      _textComponent = TextComponent("🤔",
-          config: TextConfig(
-              fontSize: 25.0, fontFamily: 'Awesome Font', color: Colors.grey))
+      _textComponent = TextComponent("🤔", config: this.textConfig)
         ..anchor = Anchor.center;
     });
   }
@@ -123,5 +134,17 @@ abstract class SymbolObject {
     this._textComponent.y = p.y;
   }
 
+
+  KeyObject get keyObject;
+
+  KeyObject get dropKey {
+    final _key = this.keyObject;
+    final x = (this.posX - this.component.width / 2) - (_key.component.width / 2);
+    final y = (this.posY - this.component.height / 2) - (_key.component.height / 2);
+    
+    _key.setPosition(x: x, y: y);
+
+    return _key;
+  }
 
 }
