@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:ihm_2020_3/src/model/database/models/cadeia.dart';
-import 'package:ihm_2020_3/src/view/components/dialog_emoji_page.dart';
 import 'package:ihm_2020_3/src/view/components/simbolo_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'cad_expressao_controller.dart';
@@ -81,7 +78,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                   crossAxisSpacing: 8.0,
                                   children: List.generate(
                                     con.secondChildren.length,
-                                    (i) => _generate(con.secondChildren[i]),
+                                    con.secondChildrenBuilder,
                                   ),
                                 )
                               ],
@@ -107,7 +104,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                 children: <Widget>[
                   _raisedButton("Confirmar", con.confirmExpression,
                       padding: EdgeInsets.all(5)),
-                  _raisedButton("Cadastrar?", () {},
+                  _raisedButton("Cadastrar?", con.uploadExpressao,
                       padding: EdgeInsets.all(5), icon: Icons.cloud_upload),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -122,33 +119,28 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                             ListView.builder(
                               padding: EdgeInsets.all(10),
                               itemCount: con.thirdChildren.length,
-                              itemBuilder: (context, i) => _generate(
-                                  con.thirdChildren[i], onTap: () async {
-                                final _child = con.thirdChildren[i];
-                                // final _i = i;
-
-                                final sym = _child as SimboloWidget;
-                                if (sym.tipo == Cadeia.OP_VARIAVEL_A ||
-                                    sym.tipo == Cadeia.OP_VARIAVEL_B ||
-                                    sym.tipo == Cadeia.OP_VARIAVEL_C) {
-                                  try {
-                                    final emoji =
-                                        await DialogEmojiPage.call(context);
-                                    con.validate(emoji, _child);
-                                  } catch (e) {}
-                                  print("Variavel");
-                                } else {
-                                  print("Operador");
-                                }
-                              }),
+                              itemBuilder: con.thirdChildrenBuilder,
                               scrollDirection: Axis.horizontal,
-                              // controller: _scrollController,
-                              // children: _firstChildren,
                             ),
                           ],
                         ),
                         _textMin(
                             "*Selecione um emoji atrelado às váriaveis (A, B, C)"),
+
+                        _buildGridOrList(
+                          <Widget>[
+                            // con.image,
+                            ListView.builder(
+                              padding: EdgeInsets.all(10),
+                              itemCount: con.fourthChildren.length,
+                              itemBuilder: con.fourthChildrenBuilder,
+                              scrollDirection: Axis.horizontal,
+                            ),
+                          ],
+                        ),
+                        _textMin(
+                            "*Selecione quem será o (?) pelas"),
+                        
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -167,14 +159,13 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                           // con.image,
                                           ListView.builder(
                                             padding: EdgeInsets.all(10),
-                                            itemCount: con.thirdChildren.length,
-                                            itemBuilder: (context, i) =>
-                                                _generate(con.thirdChildren[i],
-                                                    onTap: () async {}),
+                                            itemCount:
+                                                con.fifthChildren.length,
+                                            itemBuilder:
+                                                con.fifthChildrenBuilder,
                                             scrollDirection: Axis.horizontal,
                                             controller:
                                                 con.scrollControllerCertos,
-                                            // children: _firstChildren,
                                           ),
                                         ],
                                       ),
@@ -182,7 +173,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                     _textMin("*Alternativas corretas"),
                                     _floatingActionButton(
                                         "Adicionar alternativas corretas",
-                                        () {},
+                                        con.cadCorreto,
                                         cor: Colors.green[800]),
                                   ],
                                 ),
@@ -197,14 +188,12 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                           // con.image,
                                           ListView.builder(
                                             padding: EdgeInsets.all(10),
-                                            itemCount: con.thirdChildren.length,
-                                            itemBuilder: (context, i) =>
-                                                _generate(con.thirdChildren[i],
-                                                    onTap: () async {}),
+                                            itemCount: con.sixthChildren.length,
+                                            itemBuilder:
+                                                con.sixthChildrenBuilder,
                                             scrollDirection: Axis.horizontal,
                                             controller:
                                                 con.scrollControllerErrados,
-                                            // children: _firstChildren,
                                           ),
                                         ],
                                       ),
@@ -212,7 +201,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                     _textMin("*Alternativas incorretas"),
                                     _floatingActionButton(
                                         "Adicionar novas alternativas incorretas",
-                                        () {},
+                                        con.cadIncorreto,
                                         cor: Colors.red[800]),
                                   ],
                                 ),
@@ -222,7 +211,8 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                         ),
                         SizedBox(
                           height: 100,
-                          child: _raisedButton("Cadastrar Expressão", () {},
+                          child: _raisedButton(
+                              "Cadastrar Expressão", con.cadExpressao,
                               padding: EdgeInsets.symmetric(vertical: 20),
                               icon: Icons.archive),
                         )
@@ -329,7 +319,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
     );
   }
 
-  Widget _generate(SimboloWidget simboloWidget, {Function onTap}) {
+  Widget generateWithGesture(SimboloWidget simboloWidget, {Function onTap}) {
     final val = GestureDetector(
       child: SizedBox(
         height: 50,
@@ -341,11 +331,9 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
           ],
         )),
       ),
-      onTap: onTap ??
-          () => simboloWidget.activate ? con.addDimissible(simboloWidget) : () {},
+      onTap: onTap,
     );
     return Center(child: val);
   }
 
 }
-
