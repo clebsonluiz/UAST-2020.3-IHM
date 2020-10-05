@@ -139,7 +139,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                           ],
                         ),
                         _textMin(
-                            "*Selecione quem será o (?) pelas"),
+                            "*Selecione quem será o (?) pelas váriaveis"),
                         
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,

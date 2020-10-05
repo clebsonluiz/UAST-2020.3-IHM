@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:ihm_2020_3/src/model/database/models/cadeia.dart';
+import 'package:ihm_2020_3/src/model/database/models/expressao_emoji.dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 import 'package:ihm_2020_3/src/view/components/dialog_emoji_page.dart';
 import 'package:ihm_2020_3/src/view/components/simbolo_widget.dart';
@@ -64,6 +65,10 @@ class CadExpressaoController extends ControllerMVC {
         try {
           final emoji = await DialogEmojiPage.call(this.stateMVC.context);
           validate(emoji, _child);
+
+          // print(";A;→;B;↔;C".split(";")..removeWhere((e) => e.isEmpty));
+
+          print(emoji);
         } catch (e) {}
         print("Variavel");
       } else {
@@ -215,7 +220,39 @@ class CadExpressaoController extends ControllerMVC {
     }
   }
 
-  void cadExpressao() {}
+  void cadExpressao() {
+    String expressao = "";
+    String corretas = "";
+    String incorretas = "";
+
+    for (int i = 0; i < _fourthChildren.length; i++) {
+      final e = _fourthChildren[i] as SimboloWidget;
+      if (i == _indexDesconhecido) {
+        expressao += ";" + Cadeia.OP_INTERROGACAO;
+      } else {
+        if (e.tipo == Cadeia.OP_VARIAVEL_A ||
+            e.tipo == Cadeia.OP_VARIAVEL_B ||
+            e.tipo == Cadeia.OP_VARIAVEL_C) {
+          expressao += ";" + e.simbolo;
+        } else {
+          expressao += ";" + e.tipo;
+        }
+      }
+    }
+
+    _fifthChildren.forEach((e) {
+      corretas += ";" + (e as SimboloWidget).simbolo;
+    });
+    _sixthChildren.forEach((e) {
+      incorretas += ";" + (e as SimboloWidget).simbolo;
+    });
+
+    ExpressaoEmoji(expressaoEmoji: expressao, respostas: corretas, erradas: incorretas);
+
+    print(expressao);
+    print(corretas);
+    print(incorretas);
+  }
 
   void addDimissible(SimboloWidget simboloWidget) {
     final _index = _firstChildren.length;

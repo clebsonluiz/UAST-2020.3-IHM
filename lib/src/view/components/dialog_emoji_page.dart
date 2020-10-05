@@ -46,7 +46,6 @@ class _DialogEmojiPageState extends State<DialogEmojiPage> {
             ),
           ),
           EmojiPicker(
-            
             rows: 3,
             buttonMode: ButtonMode.MATERIAL,
             noRecentsText: "Sem emojis recentemente!",
@@ -62,15 +61,20 @@ class _DialogEmojiPageState extends State<DialogEmojiPage> {
             },
           ),
           RaisedButton.icon(
-              onPressed: () => widget.accept(_selected),
-              icon: Icon(
-                Icons.touch_app,
-                size: 30,
-              ),
-              label: Text(
-                "Confirmar",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),)
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              side: BorderSide(color: Colors.black54),
+            ),
+            onPressed: () => widget.accept(_selected),
+            icon: Icon(
+              Icons.touch_app,
+              size: 30,
+            ),
+            label: Text(
+              "Confirmar",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          )
         ],
       ),
     );
