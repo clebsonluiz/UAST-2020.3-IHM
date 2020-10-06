@@ -85,7 +85,9 @@ class QuestExpressao {
     final _isRight = _checkResposta(_sym);
     if (_isRight){
       final index = _expressao.indexWhere((sym) => sym.text == Cadeia.OP_INTERROGACAO);
-      _expressao[index] = _sym;
+      if(index >= 0){
+        _expressao[index] = _sym;
+      }
       _alternativas.remove(_sym);
 
     }

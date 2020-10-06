@@ -42,14 +42,89 @@ class CadExpressaoController extends ControllerMVC {
   get sixthChildren => _sixthChildren; // Alternativas dos Errados
   get seventhChildren => _seventhChildren;
 
+  final simboloNOTController = SimboloWidgetController();
+  final simboloANDController = SimboloWidgetController();
+  final simboloAController = SimboloWidgetController();
+  final simboloBController = SimboloWidgetController();
+  final simboloCController = SimboloWidgetController();
+  final simboloCONJController = SimboloWidgetController();
+  final simboloDISController = SimboloWidgetController();
+  final simboloCONController = SimboloWidgetController();
+  final simboloBICONController = SimboloWidgetController();
+  final simboloParDController = SimboloWidgetController();
+  final simboloParEController = SimboloWidgetController();
+
+  bool _activateNOT = true;
+  bool _activateOP = false;
+  bool _activateParE = true;
+  bool _activateParD = false;
+  bool _activateVAR = true;
+
+  void _updateExpressionButtons(
+      {bool not = false,
+      bool op = false,
+      bool parentesisE = false,
+      bool parentesisD = false,
+      bool variables = false}) {
+    setState(() {
+      _activateNOT = not;
+      _activateOP = op;
+      _activateParE = parentesisE;
+      _activateParD = parentesisD;
+      _activateVAR = variables;
+    });
+    simboloNOTController.activate = _activateNOT;
+    simboloANDController.activate = _activateOP;
+    simboloAController.activate = _activateVAR;
+    simboloBController.activate = _activateVAR;
+    simboloCController.activate = _activateVAR;
+    simboloCONJController.activate = _activateOP;
+    simboloDISController.activate = _activateOP;
+    simboloCONController.activate = _activateOP;
+    simboloBICONController.activate = _activateOP;
+    simboloParDController.activate = _activateParD;
+    simboloParEController.activate = _activateParE;
+  }
+
+  void _checkActivateButtons() {
+    if (this.elementAtRight == null) {
+      this._updateExpressionButtons(
+          not: true, parentesisE: true, variables: true);
+    } else {
+      final _op = this.elementAtRight.tipo;
+
+      if (_op == Cadeia.OP_NEGACAO || _op == Cadeia.OP_PARENTESE_E) {
+        this._updateExpressionButtons(
+            not: true, parentesisE: true, variables: true);
+      } else if (_op == Cadeia.OP_VARIAVEL_A ||
+          _op == Cadeia.OP_VARIAVEL_B ||
+          _op == Cadeia.OP_VARIAVEL_C ||
+          _op == Cadeia.OP_PARENTESE_D) {
+        this._updateExpressionButtons(op: true, parentesisD: true);
+      } else {
+        this._updateExpressionButtons(
+            not: true, parentesisE: true, variables: true);
+      }
+    }
+  }
+
+  SimboloWidget get elementAtRight {
+    try {
+      return this._firstChildren.last as SimboloWidget;
+    } catch (e) {
+      return null;
+    }
+  }
+
   Widget firstChildrenBuilder(BuildContext context, int i) =>
       Center(child: firstChildren[i]);
 
   Widget secondChildrenBuilder(int i) {
     final _simboloWidget = this.secondChildren[i];
     return this.stateMVC.generateWithGesture(_simboloWidget,
-        onTap: () =>
-            _simboloWidget.activate ? addDimissible(_simboloWidget) : () {});
+        onTap: () => _simboloWidget.controller.activate
+            ? addDimissible(_simboloWidget)
+            : () {});
   }
 
   Widget thirdChildrenBuilder(BuildContext context, int i) {
@@ -157,14 +232,50 @@ class CadExpressaoController extends ControllerMVC {
 
   void confirmExpression() {
     _thirdChildren.clear();
+
+    int _iP1 = 0;
+    int _iP2 = 0;
+    int _iOP = 0;
+
     _firstChildren.forEach((child) {
       final sym = child as SimboloWidget;
+
+      _iP1 += (sym.simbolo == Cadeia.OP_PARENTESE_E) ? 1 : 0;
+      _iP2 += (sym.simbolo == Cadeia.OP_PARENTESE_D) ? 1 : 0;
+
+      _iOP += (sym.simbolo != Cadeia.OP_PARENTESE_E &&
+              sym.simbolo != Cadeia.OP_PARENTESE_D &&
+              sym.simbolo != Cadeia.OP_VARIAVEL_A &&
+              sym.simbolo != Cadeia.OP_VARIAVEL_B &&
+              sym.simbolo != Cadeia.OP_VARIAVEL_C)
+          ? 1
+          : 0;
 
       _thirdChildren.add(SimboloWidget(
         tipo: sym.tipo,
         simbolo: sym.simbolo,
       ));
     });
+
+    if (_firstChildren.length < 2 ||
+        (_iP1 != _iP2) ||
+        (_iOP < 1) ||
+        !((_firstChildren.last as SimboloWidget).tipo == Cadeia.OP_VARIAVEL_A ||
+            (_firstChildren.last as SimboloWidget).tipo ==
+                Cadeia.OP_VARIAVEL_B ||
+            (_firstChildren.last as SimboloWidget).tipo ==
+                Cadeia.OP_VARIAVEL_C ||
+            (_firstChildren.last as SimboloWidget).tipo ==
+                Cadeia.OP_PARENTESE_D)) {
+      showMyDialog(
+          "Verifique se a sua expressão tenha os requisitos: \n\n\n"
+          "*Ao menos 1 variável\n\n"
+          "*Ao menos 1 operador válido!\n\n"
+          "*Cada parentese aberto presente, tenha um fechando\n"
+          );
+      return;
+    }
+
     setState(() {
       // final list = <Widget>[];
       _indexDesconhecido = -1;
@@ -178,6 +289,12 @@ class CadExpressaoController extends ControllerMVC {
   void uploadExpressao() {}
 
   Future<void> cadCorreto() async {
+    if (this.fifthChildren.length == 2) {
+      showMyDialog(
+          "Desculpe, mas o maximo de alternativas corretas é de 2 elementos!");
+      return;
+    }
+
     final emoji = await DialogEmojiPage.call(this.stateMVC.context);
 
     final existsInterrogacao = _exists(fourthChildren, emoji);
@@ -221,6 +338,16 @@ class CadExpressaoController extends ControllerMVC {
   }
 
   void cadExpressao() {
+    if ((this._fifthChildren.length + this._sixthChildren.length) < 4) {
+      final _c = this._fifthChildren.length;
+      final _e = (_c - 4).abs();
+
+      showMyDialog(
+          "Desculpe, mas é necessário $_c alternativa(s) correta(s) e pelo menos $_e alternativas incorretas");
+
+      return;
+    }
+
     String expressao = "";
     String corretas = "";
     String incorretas = "";
@@ -247,7 +374,8 @@ class CadExpressaoController extends ControllerMVC {
       incorretas += ";" + (e as SimboloWidget).simbolo;
     });
 
-    ExpressaoEmoji(expressaoEmoji: expressao, respostas: corretas, erradas: incorretas);
+    ExpressaoEmoji(
+        expressaoEmoji: expressao, respostas: corretas, erradas: incorretas);
 
     print(expressao);
     print(corretas);
@@ -275,6 +403,7 @@ class CadExpressaoController extends ControllerMVC {
         _thirdChildren = List.from(_thirdChildren)..clear();
         _firstChildren = List.from(_firstChildren)..add(_this);
       });
+      _checkActivateButtons();
       this.scrollFirstControllerToEnd();
 
       // final indexOf = _secondChildren.indexOf(simboloWidget);
@@ -290,6 +419,7 @@ class CadExpressaoController extends ControllerMVC {
       _thirdChildren = List.from(_thirdChildren)..clear();
       _firstChildren = List.from(_firstChildren)..removeLast();
     });
+    _checkActivateButtons();
     this.scrollFirstControllerToEnd();
   }
 
@@ -331,6 +461,8 @@ class CadExpressaoController extends ControllerMVC {
               ));
 
           _fourthChildren = List.of(_thirdChildren);
+          if (_indexDesconhecido != -1)
+            _fifthChildren = []..add(this._fourthChildren[_indexDesconhecido]);
         });
       }
     }
@@ -338,23 +470,73 @@ class CadExpressaoController extends ControllerMVC {
 
   @override
   void initState() {
-    _secondChildren
-      ..clear()
-      ..addAll([
-        SimboloWidget(tipo: Cadeia.OP_NEGACAO, simbolo: "~"),
-        SimboloWidget(tipo: Cadeia.OP_CONJUNCAO, simbolo: "^"),
-        SimboloWidget(tipo: Cadeia.OP_DISJUNCAO, simbolo: "v"),
-        SimboloWidget(tipo: Cadeia.OP_CONDICIONAL, simbolo: "→"),
-        SimboloWidget(tipo: Cadeia.OP_BICONDICIONAL, simbolo: "↔"),
-        SimboloWidget(tipo: Cadeia.OP_VARIAVEL_A, simbolo: "A"),
-        SimboloWidget(tipo: Cadeia.OP_VARIAVEL_B, simbolo: "B"),
-        SimboloWidget(tipo: Cadeia.OP_VARIAVEL_C, simbolo: "C"),
-        SimboloWidget(
-            tipo: Cadeia.OP_PARENTESE_E, simbolo: Cadeia.OP_PARENTESE_E),
-        SimboloWidget(
-            tipo: Cadeia.OP_PARENTESE_D, simbolo: Cadeia.OP_PARENTESE_D),
-      ]);
+    _secondChildren = _revalidateButtons();
     super.initState();
+  }
+
+  List<Widget> _revalidateButtons() {
+    return [
+      SimboloWidget(
+        tipo: Cadeia.OP_NEGACAO,
+        simbolo: "~",
+        activate: _activateNOT,
+        controller: simboloNOTController,
+      ),
+      SimboloWidget(
+        tipo: Cadeia.OP_CONJUNCAO,
+        simbolo: "^",
+        activate: _activateOP,
+        controller: simboloCONJController,
+      ),
+      SimboloWidget(
+        tipo: Cadeia.OP_DISJUNCAO,
+        simbolo: "v",
+        activate: _activateOP,
+        controller: simboloDISController,
+      ),
+      SimboloWidget(
+        tipo: Cadeia.OP_CONDICIONAL,
+        simbolo: "→",
+        activate: _activateOP,
+        controller: simboloCONController,
+      ),
+      SimboloWidget(
+        tipo: Cadeia.OP_BICONDICIONAL,
+        simbolo: "↔",
+        activate: _activateOP,
+        controller: simboloBICONController,
+      ),
+      SimboloWidget(
+        tipo: Cadeia.OP_VARIAVEL_A,
+        simbolo: "A",
+        activate: _activateVAR,
+        controller: simboloAController,
+      ),
+      SimboloWidget(
+        tipo: Cadeia.OP_VARIAVEL_B,
+        simbolo: "B",
+        activate: _activateVAR,
+        controller: simboloBController,
+      ),
+      SimboloWidget(
+        tipo: Cadeia.OP_VARIAVEL_C,
+        simbolo: "C",
+        activate: _activateVAR,
+        controller: simboloCController,
+      ),
+      SimboloWidget(
+        tipo: Cadeia.OP_PARENTESE_E,
+        simbolo: Cadeia.OP_PARENTESE_E,
+        activate: _activateParE,
+        controller: simboloParEController,
+      ),
+      SimboloWidget(
+        tipo: Cadeia.OP_PARENTESE_D,
+        simbolo: Cadeia.OP_PARENTESE_D,
+        activate: _activateParD,
+        controller: simboloParDController,
+      ),
+    ];
   }
 
   void scrollFirstControllerToEnd() => this._scrollToEnd(this.scrollController);

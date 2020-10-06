@@ -14,6 +14,15 @@ mixin AnotherConsts {
   static const String BG_SIMBOLO_1 = 'fundo_simbolo_1.png';
   static const String BG_SIMBOLO_2 = 'fundo_simbolo_2.png';
 
+  static const String MENU_ITEM_1 = 'menu_item_1.png';
+  static const String MENU_ITEM_2 = 'menu_item_2.png';
+  static const String MENU_ITEM_3 = 'menu_item_3.png';
+  static const String MENU_ITEM_4 = 'menu_item_4.png';
+  static const String MENU_ITEM_5 = 'menu_item_5.png';
+  static const String MENU_ITEM_6 = 'menu_item_6.png';
+  static const String MENU_ITEM_7 = 'menu_item_7.png';
+  static const String MENU_ITEM_8 = 'menu_item_8.png';
+
   static const List<String> ALL = <String>[
     HEARTH_STATUS,
     KEYS,
@@ -23,5 +32,14 @@ mixin AnotherConsts {
     BG_OBJETIVE_2,
     BG_SIMBOLO_1,
     BG_SIMBOLO_2,
+    MENU_ITEM_1,
+    MENU_ITEM_2,
+    MENU_ITEM_3,
+    MENU_ITEM_4,
+    MENU_ITEM_5,
+    MENU_ITEM_6,
+    MENU_ITEM_7,
+    MENU_ITEM_8,
+    
   ];
 }
