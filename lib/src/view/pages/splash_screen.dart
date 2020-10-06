@@ -1,6 +1,7 @@
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/view/pages/game_page.dart';
+import 'package:ihm_2020_3/src/view/pages/home_page.dart';
 
 
 class SplashScreenGame extends StatefulWidget {
@@ -54,7 +55,7 @@ class _SplashScreenGameState extends State<SplashScreenGame> {
       ),
       theme: FlameSplashTheme.dark,
       onFinish: (context) async =>
-          Navigator.pushReplacementNamed(context, GamePage.ROUTE),
+          Navigator.pushReplacementNamed(context, MyHomePage.ROUTE),
       controller: _controller,
     );
   }

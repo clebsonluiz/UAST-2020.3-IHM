@@ -14,8 +14,10 @@ class SimboloWidget extends StatefulWidget {
 
   final Future<bool> Function(DismissDirection) confirmDismiss;
   final Function(DismissDirection) onDismissed;
+  final controller;
 
-  const SimboloWidget({
+
+  SimboloWidget({
     Key key,
     this.simbolo,
     this.tipo,
@@ -23,16 +25,27 @@ class SimboloWidget extends StatefulWidget {
     this.isDimissible = false,
     this.confirmDismiss,
     this.onDismissed,
+    this.controller
   }) : super(key: key);
 
   @override
-  _SimboloWidgetState createState() => _SimboloWidgetState();
+  _SimboloWidgetState createState() => _SimboloWidgetState(controller: controller);
 }
 
 class _SimboloWidgetState extends StateMVC<SimboloWidget> {
-  _SimboloWidgetState() : super(_Controller());
+  
+  bool activate = false;
 
-  _Controller get con => this.controller;
+
+  _SimboloWidgetState({SimboloWidgetController controller}) : super(controller ?? SimboloWidgetController());
+
+  SimboloWidgetController get con => this.controller;
+
+  @override
+  void initState() {
+    this.activate = this.widget.activate;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +87,7 @@ class _SimboloWidgetState extends StateMVC<SimboloWidget> {
                 widget.simbolo ?? "",
                 style: TextStyle(
                     fontSize: 30,
-                    color:
-                        (widget.activate ? con.component1 : con.component2) !=
-                                null
-                            ? Colors.black
-                            : Colors.white,
+                    color: (activate? Colors.black : Colors.black26),
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -90,12 +99,12 @@ class _SimboloWidgetState extends StateMVC<SimboloWidget> {
   }
 }
 
-class _Controller extends ControllerMVC {
+class SimboloWidgetController extends ControllerMVC {
 
   var _spriteWidget1;
   var _spriteWidget2;
-  
-  _Controller() {
+
+  SimboloWidgetController() {
     this._future(9 * 32.0, 9 * 32.0).then((sprite) => setState(() {
           _spriteWidget1 =
               Flame.util.spriteAsWidget(sprite.size.toSize(), sprite);
@@ -114,17 +123,25 @@ class _Controller extends ControllerMVC {
   @override
   _SimboloWidgetState get state => super.state;
 
-  get image => (this.component1 ?? this.component2) ?? component3;
+  get image =>
+      ((this.state.activate) ? this.component1 : this.component2) ?? component3;
 
   get component1 => _spriteWidget1;
   get component2 => _spriteWidget2;
   get component3 => Image.asset(
         'assets/images/' + AnotherConsts.BG_SIMBOLO_1,
-        color: this.state.widget.activate
-            ? null
-            : Colors.grey,
+        color: this.state.activate ? null : Colors.grey,
       );
 
-  get dimissibleKey => this.state.widget.tipo + this.state.widget.simbolo + Random(10).nextDouble().toString();
+  get dimissibleKey =>
+      this.state.widget.tipo +
+      this.state.widget.simbolo +
+      Random(10).nextDouble().toString();
 
+
+  set activate(bool b) {
+    this.setState(() => this.state.activate = b);
+  }
+
+  get activate => this.state.activate;
 }
