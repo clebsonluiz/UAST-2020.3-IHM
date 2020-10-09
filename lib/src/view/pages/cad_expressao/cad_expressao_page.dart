@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/view/components/simbolo_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -42,7 +44,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
               ),
               _buildGridOrList(
                 <Widget>[
-                  // con.image,
+                  con.image,
                   ListView.builder(
                     padding: EdgeInsets.all(10),
                     itemCount: con.firstChildren.length,
@@ -77,8 +79,8 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                   mainAxisSpacing: 8.0,
                                   crossAxisSpacing: 8.0,
                                   children: List.generate(
-                                    con.secondChildren.length,
-                                    con.secondChildrenBuilder,
+                                    con.secondChildren1.length,
+                                    con.secondChildren1Builder,
                                   ),
                                 )
                               ],
@@ -92,11 +94,56 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                             "Ou deseja selecionar uma expressão já existente? →"),
                       ],
                     ),
-                    // SizedBox(
-                    //   width: MediaQuery.of(context).size.width,
-                    //   height: 200,
-                    //   child: Center(),
-                    // ),
+                    Column(children: <Widget>[
+                      Center(
+                          child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        // height: 200,
+                        child: _buildGridOrList(
+                          <Widget>[
+                            con.image,
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 8),
+                              child: RefreshIndicator(
+                                child: con.secondChildren2.isEmpty
+                                    ? ListView(
+                                        children: <Widget>[
+                                          SizedBox(
+                                            height: 100,
+                                            child: ListTile(
+                                              title: Icon(
+                                                Icons.file_download,
+                                                size: 50,
+                                                color: Colors.black54,
+                                              ),
+                                              subtitle: Text(
+                                                "Arraste para baixo para atualizar",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.black54,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : ListView.builder(
+                                        itemCount: con.secondChildren2.length,
+                                        itemBuilder:
+                                            con.secondChildren2Builder),
+                                onRefresh: con.onRefresh,
+                              ),
+                            )
+                          ],
+                          height: 160,
+                        ),
+                      )),
+                      _textMin("**Toque em um dos elementos para usa-lo!"),
+                      _textMin("← Ou deseja criar sua própria expressão?"),
+                    ]),
                   ],
                 ),
               ),
@@ -105,7 +152,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                   _raisedButton("Confirmar", con.confirmExpression,
                       padding: EdgeInsets.all(5)),
                   _raisedButton("Cadastrar?", con.uploadExpressao,
-                      padding: EdgeInsets.all(5), icon: Icons.cloud_upload),
+                      padding: EdgeInsets.all(5), icon: Icons.file_upload),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               ),
@@ -115,7 +162,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                       children: <Widget>[
                         _buildGridOrList(
                           <Widget>[
-                            // con.image,
+                            con.image,
                             ListView.builder(
                               padding: EdgeInsets.all(10),
                               itemCount: con.thirdChildren.length,
@@ -126,10 +173,9 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                         ),
                         _textMin(
                             "*Selecione um emoji atrelado às váriaveis (A, B, C)"),
-
                         _buildGridOrList(
                           <Widget>[
-                            // con.image,
+                            con.image,
                             ListView.builder(
                               padding: EdgeInsets.all(10),
                               itemCount: con.fourthChildren.length,
@@ -138,9 +184,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                             ),
                           ],
                         ),
-                        _textMin(
-                            "*Selecione quem será o (?) pelas váriaveis"),
-                        
+                        _textMin("*Selecione quem será o (?) pelas váriaveis"),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -156,11 +200,10 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                               0.5,
                                       child: _buildGridOrList(
                                         <Widget>[
-                                          // con.image,
+                                          con.image,
                                           ListView.builder(
                                             padding: EdgeInsets.all(10),
-                                            itemCount:
-                                                con.fifthChildren.length,
+                                            itemCount: con.fifthChildren.length,
                                             itemBuilder:
                                                 con.fifthChildrenBuilder,
                                             scrollDirection: Axis.horizontal,
@@ -174,7 +217,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                     _floatingActionButton(
                                         "Adicionar alternativas corretas",
                                         con.cadCorreto,
-                                        cor: Colors.green[800]),
+                                        cor: Colors.green[800], heroTag: "${Random(1).nextDouble().toString()} + G"),
                                   ],
                                 ),
                                 Column(
@@ -185,7 +228,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                               0.5,
                                       child: _buildGridOrList(
                                         <Widget>[
-                                          // con.image,
+                                          con.image,
                                           ListView.builder(
                                             padding: EdgeInsets.all(10),
                                             itemCount: con.sixthChildren.length,
@@ -202,7 +245,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                     _floatingActionButton(
                                         "Adicionar novas alternativas incorretas",
                                         con.cadIncorreto,
-                                        cor: Colors.red[800]),
+                                        cor: Colors.red[800], heroTag: "${Random(10).nextDouble().toString()} + T"),
                                   ],
                                 ),
                               ],
@@ -238,12 +281,13 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
   }
 
   Widget _floatingActionButton(String msg, Function onPressed,
-      {EdgeInsets padding = const EdgeInsets.all(5),
+      {EdgeInsets padding = const EdgeInsets.all(5), String heroTag,
       Color cor = Colors.black54,
       IconData icon = Icons.add_circle_outline}) {
     return Padding(
       padding: padding,
       child: FloatingActionButton(
+        heroTag: heroTag,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
           side: BorderSide(color: cor),
@@ -272,7 +316,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
         // splashColor: Colors.orange,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: BorderSide(color: Colors.black54),
+          side: BorderSide(color: Colors.black54, width: 2),
         ),
         elevation: 1,
         onPressed: onPressed,
@@ -335,5 +379,4 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
     );
     return Center(child: val);
   }
-
 }
