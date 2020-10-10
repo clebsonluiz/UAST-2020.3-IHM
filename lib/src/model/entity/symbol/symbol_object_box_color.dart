@@ -16,6 +16,18 @@ abstract class SymbolObjectBoxColor extends SymbolObject {
           width: (8 * 32).toDouble(),
           height: (8 * 32).toDouble(),
         );
+
+  KeyObject get keyObject;
+
+  KeyObject get dropKey {
+    final _key = this.keyObject;
+    final x = (this.posX - this.component.width / 2) - (_key.component.width / 2);
+    final y = (this.posY - this.component.height / 2) - (_key.component.height / 2);
+    
+    _key.setPosition(x: x, y: y);
+
+    return _key;
+  }
 }
 
 class SymbolObjectBoxColorGreen extends SymbolObjectBoxColor {

@@ -5,6 +5,7 @@ import 'package:ihm_2020_3/src/controller/game/game_controller.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
 import 'package:ihm_2020_3/src/model/entity/component/door_object.dart';
 import 'package:ihm_2020_3/src/model/entity/component/door_object_colors.dart';
+import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object_box_timer.dart';
 
 import 'mixin_game_actions.dart';
 import 'mixin_game_methods.dart';
@@ -28,7 +29,10 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
   DoorObject get redDoor => DoorObjectRed();
   DoorObject get whiteDoor => DoorObjectWhite();
 
+  SymbolObjectBoxTimer get timer => SymbolObjectBoxTimerWhite();
+
   LevelController(this._controller, this._tileMap) : assert (_controller != null && _tileMap != null) {
+
     _doors..clear()..addAll([
       greenDoor,
       // yellowDoor,
@@ -83,8 +87,9 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
   @override
   void render(Canvas canvas) {
     this.tileMap.render(canvas);
-    _doors.forEach((door) => door.renderOnTiled(canvas, tileMap));
+    this._doors.forEach((door) => door.renderOnTiled(canvas, tileMap));
     this.game.player.render(canvas);
+    this.timer.renderOnPositioned(canvas);
   }
 
   @override
@@ -96,5 +101,10 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
 			this.game.size.height / 2 - this.game.player.posY
     );
     _doors.forEach((door) => door.update(dt));
+    if(timer.loaded()){
+      this.timer?.text = this.game.currentTime.toString().substring(3, 8);
+      this.timer?.setPosition(x: this.game.size.width - this.timer.component?.width - 5, y: 5);
+      // this.timer?.update(dt);
+    }
   }
 }

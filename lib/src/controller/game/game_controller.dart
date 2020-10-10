@@ -8,6 +8,19 @@ import 'package:ihm_2020_3/src/view/components/dpad_joystick_widget.dart';
 import 'mixin_game_controller.dart';
 
 class GameController extends Game implements MixinGameController {
+
+  final Duration _initialTime = Duration(days: 1, minutes: 0, seconds: 0);
+
+  double _elapsed = 0.0;
+
+
+  Duration get currentTime  {
+    final duration = _initialTime + Duration(minutes: 0, seconds: 0, milliseconds: _elapsed.toInt() * 1000);
+
+    return duration;
+  }
+
+
   bool _loaded;
 
   bool loaded() => this._loaded;
@@ -49,7 +62,8 @@ class GameController extends Game implements MixinGameController {
     return Future.value(true);
   }
 
-
+  void pauseGame() => this.pauseEngine();
+  void resumeGame() => this.resumeEngine();
 
   @override
   void resize(Size size) {
@@ -65,6 +79,7 @@ class GameController extends Game implements MixinGameController {
   @override
   void update(double dt) {
     this._currentLevel?.update(dt);
+    this._elapsed += dt;
   }
 
   @override

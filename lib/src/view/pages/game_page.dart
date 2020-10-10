@@ -1,18 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:ihm_2020_3/src/controller/game/game_controller.dart';
 import 'package:ihm_2020_3/src/controller/game/mixin_game_controller.dart';
 import 'package:ihm_2020_3/src/view/components/dpad_buttom_widget.dart';
 import 'package:ihm_2020_3/src/view/components/dpad_joystick_widget.dart';
 import 'package:ihm_2020_3/src/view/components/dpad_widget.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 
 class GamePage extends StatefulWidget {
-  
   static const ROUTE = "/main-game-route";
 
-  final MixinGameController mainGame;
-
-  const GamePage({Key key, @required this.mainGame}) : super(key: key);
+  const GamePage({Key key}) : super(key: key);
 
   @override
   _GamePageState createState() {
@@ -20,35 +19,14 @@ class GamePage extends StatefulWidget {
   }
 }
 
-class _GamePageState extends State<GamePage> {
+class _GamePageState extends StateMVC<GamePage> {
+  _GamePageState() : super(_GamePageController());
+
+  _GamePageController get con => this.controller;
+
   final GlobalKey _globalKey = GlobalKey();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  DateTime backButtonPressTime;
-
-  static const snackBarDuration = Duration(seconds: 2);
-
-  final snackBar = SnackBar(
-    content: Text('Pressione Novamente Para Sair'),
-    duration: snackBarDuration,
-  );
-
-  Future<bool> onWillPop() async {
-    DateTime currentTime = DateTime.now();
-
-    bool backButtonHasNotBeenPressedOrSnackBarHasBeenClosed =
-        backButtonPressTime == null ||
-            currentTime.difference(backButtonPressTime) > snackBarDuration;
-
-    if (backButtonHasNotBeenPressedOrSnackBarHasBeenClosed) {
-      backButtonPressTime = currentTime;
-      scaffoldKey.currentState.showSnackBar(snackBar);
-      return false;
-    }
-
-    return true;
-  }
 
   Widget _screenGame() {
     return Expanded(
@@ -62,8 +40,7 @@ class _GamePageState extends State<GamePage> {
             child: ClipRRect(
               key: _globalKey,
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              child:
-                  widget.mainGame != null ? widget.mainGame.widget : Center(),
+              child: con.game != null ? con.game.widget : Center(),
             ),
           ),
         ),
@@ -110,7 +87,7 @@ class _GamePageState extends State<GamePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             DpadButtonWidget(
-                              onAction: widget.mainGame.actionObjective,
+                              onAction: con.game.actionObjective,
                               iconData: Icons.inbox,
                               onReleasedColor: Colors.deepOrange,
                               onSelectedColor: Colors.white,
@@ -124,25 +101,24 @@ class _GamePageState extends State<GamePage> {
                           ],
                         )),
                     botoesDirecionais: <Widget>[
-                      DpadJoystickWidget(
-                          onChange: widget.mainGame.actionMovement)
+                      DpadJoystickWidget(onChange: con.game.actionMovement)
                     ],
                     botoesAcao: <Widget>[
                       DpadButtonWidget(
                         iconData: Icons.looks_one,
-                        onAction: widget.mainGame.actionButtonOne,
+                        onAction: con.game.actionButtonOne,
                       ),
                       DpadButtonWidget(
                         iconData: Icons.looks_two,
-                        onAction: widget.mainGame.actionButtonTwo,
+                        onAction: con.game.actionButtonTwo,
                       ),
                       DpadButtonWidget(
                         iconData: Icons.looks_3,
-                        onAction: widget.mainGame.actionButtonTree,
+                        onAction: con.game.actionButtonTree,
                       ),
                       DpadButtonWidget(
                         iconData: Icons.looks_4,
-                        onAction: widget.mainGame.actionButtonFour,
+                        onAction: con.game.actionButtonFour,
                       ),
                     ],
                   ),
@@ -164,16 +140,100 @@ class _GamePageState extends State<GamePage> {
       extendBodyBehindAppBar: true,
       extendBody: true,
       body: WillPopScope(
-        onWillPop: onWillPop,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            _screenGame(),
-            _dpadGame(),
-          ],
+          onWillPop: con.onWillPop,
+          child: Stack(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _screenGame(),
+                  _dpadGame(),
+                ],
+              ),
+              // con.isActive
+              //     ? Center()
+              //     : Container(
+              //         color: Colors.black87,
+              //       )
+            ],
+          )),
+    );
+  }
+}
+
+class _GamePageController extends ControllerMVC {
+  bool _pausedGame = false;
+
+  bool get isActive => !_pausedGame;
+
+  final MixinGameController _mainGame = GameController();
+
+  GameController get game => this._mainGame;
+
+  @override
+  _GamePageState get state => super.state;
+
+  DateTime _backButtonPressTime;
+
+  static const _duration = Duration(seconds: 1);
+
+  Future<bool> onWillPop() async {
+    _pausedGame = true;
+    this.game.pauseGame();
+
+    DateTime currentTime = DateTime.now();
+
+    bool backButtonHasNotBeenPressed = _backButtonPressTime == null ||
+        currentTime.difference(_backButtonPressTime) > _duration;
+
+    if (backButtonHasNotBeenPressed) {
+      _backButtonPressTime = currentTime;
+      await _showDialog(Center());
+
+      _pausedGame = false;
+      this.game.resumeGame();
+    }
+
+    return _pausedGame && true;
+  }
+
+  Future<void> _showDialog(Widget child, {bool dimissible = false}) async {
+    return showDialog<void>(
+      context: this.stateMVC.context,
+      barrierDismissible: dimissible, // user must tap button!
+      builder: (BuildContext context) => child,
+    );
+  }
+
+  Future<void> showMyDialog(String msg, {String title}) async {
+    return _showDialog(
+      AlertDialog(
+        title: Text(title ?? 'Oops!',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+                color: Colors.black54)),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text(msg,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black54)),
+            ],
+          ),
         ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: navigatorPop,
+          ),
+        ],
       ),
     );
   }
+
+  navigatorPop() => Navigator.of(this.state.context).pop();
 }
