@@ -9,6 +9,10 @@ import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 import 'package:ihm_2020_3/src/view/pages/base_game_page.dart';
 import 'package:ihm_2020_3/src/view/pages/cad_expressao_page.dart';
 import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
+import 'package:ihm_2020_3/src/view/pages/extras_page.dart';
+import 'package:ihm_2020_3/src/view/pages/game_over_page.dart';
+import 'package:ihm_2020_3/src/view/pages/rank_page.dart';
+import 'package:ihm_2020_3/src/view/pages/ranking_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 class HomePageController extends ControllerMVC {
@@ -65,7 +69,11 @@ class HomePageController extends ControllerMVC {
   Future actionAjustes() async {}
 
   Future actionExtras() async {
-    Navigator.pushNamed(this.state.context, CadExpressaoPage.ROUTE);
+    // Navigator.pushNamed(this.state.context, CadExpressaoPage.ROUTE);
+    //  Navigator.pushNamed(this.state.context, GameOverPage.ROUTE);
+    //  Navigator.pushNamed(this.state.context, RankPage.ROUTE);
+    //  Navigator.pushNamed(this.state.context, RankingPage.ROUTE);
+     Navigator.pushNamed(this.state.context, ExtrasPage.ROUTE);
   }
 
   Future actionCredits() async {

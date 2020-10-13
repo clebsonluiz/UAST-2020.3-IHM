@@ -1,58 +1,31 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_flying_commander.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_hunter_walker.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_mini_ufo.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_smasher.dart';
-import 'package:ihm_2020_3/src/model/animations/flesh_eating_slugger.dart';
-import 'package:ihm_2020_3/src/model/animations/jellyfish.dart';
+import 'package:ihm_2020_3/src/controller/views/pages/creditos_page_controller.dart';
+import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
+
 import 'package:ihm_2020_3/src/view/components/credito_widget.dart';
+import 'package:ihm_2020_3/src/view/components/menu_buttom_widget.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 
 class CreditosPage extends StatefulWidget {
-
   static const ROUTE = "/credits";
-
-  final List list = [];
 
   CreditosPage();
 
   @override
-  State<CreditosPage> createState() => CreditosPageState();
+  CreditosPageState createState() => CreditosPageState();
 }
 
-class CreditosPageState extends State<CreditosPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class CreditosPageState extends StateMVC<CreditosPage> {
+  CreditosPageState() : super(CreditosPageController());
 
-  void _loadAnimations() {
-    AlienHunterGoldenColor().detalhes
-        .then((value) => setState(() => this.widget.list.add(value)));
-    AlienHunterWalker.detalhes
-        .then((value) => setState(() => this.widget.list.add(value)));
-    AlienSmasher.detalhes
-        .then((value) => setState(() => this.widget.list.add(value)));
-    FleshEatingSlug.detalhes
-        .then((value) => setState(() => this.widget.list.add(value)));
-    AlienFlyingCommander.detalhes
-        .then((value) => setState(() => this.widget.list.add(value)));
-    AlienMiniUFO.detalhes
-        .then((value) => setState(() => this.widget.list.add(value)));
-    Jellyfish.detalhes
-        .then((value) => setState(() => this.widget.list.add(value)));
-  }
+  CreditosPageController get con => this.controller;
+
 
   @override
   Widget build(BuildContext context) {
-    final logobsi = 'logo_bsi.png';
-    final logouast = 'logo_uast.png';
-    final desc =
-        'Projeto direcionado a disciplina de Interface Homem-Máquina (IHM) ' +
-            'para o curso de Bacharelado em Sistemas de Informação na Unidade Acadêmica de Serra Talhada (UAST) ' +
-            'no período de 2020.3';
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -68,8 +41,12 @@ class CreditosPageState extends State<CreditosPage> {
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: Column(
               children: <Widget>[
+
+                
                 SizedBox(
-                  height: 15,
+                  height: 80,
+                  width: 300,
+                  child: this.con.imageCredits,
                 ),
                 _buildTextSized(
                     text: 'Sobre a Aplicação',
@@ -82,15 +59,12 @@ class CreditosPageState extends State<CreditosPage> {
                   height: 15,
                 ),
                 _buildTextSized(
-                  text: desc,
+                  text: con.desc,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _buildImageSized(image: logouast, maxHeight: 100.0),
-                    _buildImageSized(image: logobsi, maxHeight: 70.0)
-                  ],
+                  children: [con.image1, con.image2],
                 )
               ],
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -101,12 +75,7 @@ class CreditosPageState extends State<CreditosPage> {
             elevation: 0,
             color: Colors.black26,
             child: ExpansionTile(
-              onExpansionChanged: (b) async {
-                if (b) {
-                  this.widget.list.clear();
-                  _loadAnimations();
-                }
-              },
+              onExpansionChanged: con.onExpansionChanged,
               // backgroundColor: Colors.grey,
               initiallyExpanded: false,
               title: Text(
@@ -117,22 +86,26 @@ class CreditosPageState extends State<CreditosPage> {
                 'Créditos das imagens tiradas da internet',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
-              children: List.generate(widget.list.length,
-                  (i) => CreditoWidget(element: widget.list[i])),
+              children: List.generate(
+                  con.list.length, (i) => CreditoWidget(element: con.list[i])),
             ),
           ),
+          SizedBox(
+            height: 40,
+          ),
+          Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  MenuButtomWidget(
+                      widget: this.con.imageSair,
+                      onAction: this.con.navigatorPop,
+                      splashColor: Colors.yellow[800]),
+                ],
+              ),
         ],
       ),
     );
-  }
-
-  Widget _buildImageSized({String image, double maxHeight = 70}) {
-    return LimitedBox(
-        maxHeight: maxHeight,
-        child: Image.asset(
-          'assets/images/' + image.toString(),
-          color: null,
-        ));
   }
 
   Widget _buildTextSized(
@@ -149,7 +122,10 @@ class CreditosPageState extends State<CreditosPage> {
         maxLines: maxLines,
         textAlign: textAlin,
         style: new TextStyle(
-            color: color, fontSize: fontSize, fontWeight: fontWeight, fontFamily: "Arial"),
+            color: color,
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+            fontFamily: "Arial"),
       ),
       SizedBox(
         height: hSizedBox,

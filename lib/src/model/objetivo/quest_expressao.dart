@@ -37,7 +37,8 @@ class QuestExpressao {
     for (int i = 0; i < _temp.length; i ++){
       _alternativas[i].text = _temp[i].text;
     }
-
+    _alternativas.shuffle();
+    
     return Future.value();
   }
 

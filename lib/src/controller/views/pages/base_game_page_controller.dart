@@ -6,6 +6,8 @@ import 'package:ihm_2020_3/src/controller/game/mixin_game_controller.dart';
 import 'package:ihm_2020_3/src/model/entity/component/key_object_colors.dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 import 'package:ihm_2020_3/src/view/pages/base_game_page.dart';
+import 'package:ihm_2020_3/src/view/pages/game_over_page.dart';
+import 'package:ihm_2020_3/src/view/pages/rank_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 
@@ -129,6 +131,9 @@ class BaseGamePageController extends ControllerMVC {
           ],
         ));
   }
+
+  Future navigationGameOver() async => Navigator.pushReplacementNamed(this.state.context, GameOverPage.ROUTE);
+  Future navigationRank() async => Navigator.pushReplacementNamed(this.state.context, RankPage.ROUTE);
 
   navigatorPop() => Navigator.of(this.state.context).pop();
   navigatorExit() {

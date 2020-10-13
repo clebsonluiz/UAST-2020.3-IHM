@@ -30,6 +30,7 @@ class SqlHelper {
   void _create(Database db, int newVersion) async {
     await db.execute(TableExpressao.CREATE_TABLE);
     await db.execute(TableExpressaoEmoji.CREATE_TABLE);
+    await db.execute(TableRank.CREATE_TABLE);
   }
 
   void _update(Database db, int oldVersion, int newVersion) async {}

@@ -6,6 +6,7 @@ import 'package:ihm_2020_3/src/controller/level/level_2_controller.dart';
 import 'package:ihm_2020_3/src/controller/level/level_3_controller.dart';
 import 'package:ihm_2020_3/src/controller/level/level_4_controller.dart';
 import 'package:ihm_2020_3/src/controller/level/level_controller.dart';
+import 'package:ihm_2020_3/src/model/database/utils/rank_utils..dart';
 import 'package:ihm_2020_3/src/model/entity/component/key_object_colors.dart';
 import 'package:ihm_2020_3/src/model/entity/player/player_game.dart';
 import 'package:ihm_2020_3/src/model/map/map_objectives.dart';
@@ -65,7 +66,9 @@ class GameController extends Game implements MixinGameController {
       await this.currentQuest.build();
     }catch(e){
       if(this._gameLevels.length <= 0){
-        
+        RankUtils().vidasRestantes = this.player.life;
+        RankUtils().tempoDecorrido = this.currentTime;
+        this.gamePageController.navigationRank();
       }
     }
     return Future.value();
@@ -109,10 +112,15 @@ class GameController extends Game implements MixinGameController {
   }
 
   @override
-  void update(double dt) {
+  void update(double dt) async {
     if (!loaded()) return;
     this._currentLevel?.update(dt);
     this._elapsed += dt;
+    if(this.player.isDead){
+      this.pauseGame();
+      await this.gamePageController.navigationGameOver();
+      this._loaded = false;
+    }
   }
 
   @override
