@@ -9,7 +9,7 @@ class Level4Controller extends LevelController {
 
   @override
   Future init() async {
-    await Future.delayed(Duration(seconds: 3)).then((value) async {
+    await Future.delayed(Duration(seconds: 1)).then((value) async {
       await super.init();
     });
   }

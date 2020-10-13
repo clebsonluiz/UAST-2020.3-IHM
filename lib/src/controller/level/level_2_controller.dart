@@ -9,13 +9,13 @@ class Level2Controller extends LevelController {
 
   @override
   Future init() async {
-    await Future.delayed(Duration(seconds: 3)).then((value) async {
+    await Future.delayed(Duration(seconds: 1)).then((value) async {
       await super.init();
     });
   }
 
   @override
-  Position get playerPosition => Position(32 * 7.0, 32.0 * 3);
+  Position get playerPosition => Position(32 * 8.0, 32.0 * 3);
 
   List<Position> get doorsPositions {
     final _height = (0.2 * 32 * 8);
@@ -29,7 +29,7 @@ class Level2Controller extends LevelController {
   }
 
   final _altPositions = [
-    Position(32 * 8.0, 32 * 3.0),
+    Position(32 * 27.0, 32 * 3.0),
     Position(32 * 17.0, 32 * 11.0),
     Position(32 * 20.0, 32 * 26.0),
     Position(32 * 21.0, 32 * 21.0),

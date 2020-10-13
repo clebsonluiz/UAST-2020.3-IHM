@@ -7,10 +7,8 @@ import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.da
 import 'package:ihm_2020_3/src/model/entity/component/door_object.dart';
 import 'package:ihm_2020_3/src/model/entity/component/door_object_colors.dart';
 import 'package:ihm_2020_3/src/model/entity/component/key_object.dart';
-import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object.dart';
 import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object_box_color.dart';
 import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object_box_timer.dart';
-import 'package:ihm_2020_3/src/model/objetivo/quest_expressao.dart';
 
 import 'mixin_game_actions.dart';
 import 'mixin_game_methods.dart';
@@ -25,6 +23,8 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
   final _keys = <KeyObject>[];
 
   bool _interrupt = false;
+  bool _loaded = false;
+
 
   CustomTiledComponent get tileMap => this._tileMap;
 
@@ -65,6 +65,7 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
       _door.setPosition(x: _pos.x, y: _pos.y);
     }
 
+    _loaded = true;
     return Future.value();
   }
 
@@ -149,7 +150,7 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
     });
 
     if (collisionWithDoor) {
-      print("Colidiu com porta certa");
+      this.game.goToNextlevel();
     }
 
     this._interrupt = false;
@@ -177,7 +178,7 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
 
   @override
   void render(Canvas canvas) {
-    if (this._interrupt) return;
+    if (this._interrupt || !this._loaded) return;
     this.tileMap.render(canvas);
     this._keys.forEach((key) => key.renderOnTiled(canvas, tileMap));
     this._doors.forEach((door) => door.renderOnTiled(canvas, tileMap));
@@ -196,7 +197,7 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
 
   @override
   void update(double dt) {
-    if (this._interrupt) return;
+    if (this._interrupt || !this._loaded) return;
     this.resize();
     this.game.player.update(dt);
     this.tileMap.updatePosition(

@@ -54,13 +54,22 @@ class GameController extends Game implements MixinGameController {
 
   Size get size => this._size;
 
-  // Future<void> goToNextlevel() async {
-    
-  //   final current = this._gameLevels.removeAt(0);
-  //   this._currentLevel = this._gameLevels.first;
 
-  //   return Future.value();
-  // }
+  //TODO 
+  Future<void> goToNextlevel() async {
+    try{
+      final current = this._gameLevels.removeAt(0);
+      this._currentLevel = this._gameLevels.first;
+      await this._currentLevel.init();
+      await this.currentObjetivo.proximoObjetivo();
+      await this.currentQuest.build();
+    }catch(e){
+      if(this._gameLevels.length <= 0){
+        
+      }
+    }
+    return Future.value();
+  }
 
   GameController(this.gamePageController) {
     final future = _load();
