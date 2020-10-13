@@ -116,14 +116,14 @@ mixin CustomSpriteEntity
     if (this.spriteAnimation.animations == null ||
         this.spriteAnimation.animations.length == 0) return Rect.zero;
 
-    var sprite = this
-        .spriteAnimation
-        .animations[this.spriteAnimation.currRow]
-        .getSpriteComponent();
+    // var sprite = this
+    //     .spriteAnimation
+    //     .animations[this.spriteAnimation.currRow]
+    //     .getSpriteComponent();
 
     return Rect.fromLTWH(
-        this.posX - sprite.anchor.relativePosition.dx * colisionBoxWidth,
-        this.posY - sprite.anchor.relativePosition.dy * colisionBoxHeight,
+        this.posX,
+        this.posY,
         colisionBoxWidth.toDouble(),
         colisionBoxHeight.toDouble());
   }

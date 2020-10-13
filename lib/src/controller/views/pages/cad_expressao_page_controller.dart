@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:ihm_2020_3/src/model/database/models/expressao.dart';
 import 'package:ihm_2020_3/src/model/utils/const_simbolos.dart';
-import 'package:ihm_2020_3/src/model/database/models/expressao_emoji.dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 import 'package:ihm_2020_3/src/view/components/dialog_emoji_page.dart';
 import 'package:ihm_2020_3/src/view/components/expressao_widget.dart';
 import 'package:ihm_2020_3/src/view/components/simbolo_widget.dart';
+import 'package:ihm_2020_3/src/view/pages/cad_expressao_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'cad_expressao_page.dart';
 
-class CadExpressaoController extends ControllerMVC {
+class CadExpressaoPageController extends ControllerMVC {
   @override
   CadExpressaoPageState get stateMVC => super.stateMVC;
 

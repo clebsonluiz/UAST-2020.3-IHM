@@ -15,7 +15,9 @@ abstract class SymbolObjectBoxColor extends SymbolObject {
           y: y,
           width: (8 * 32).toDouble(),
           height: (8 * 32).toDouble(),
-        );
+        ){
+          this.keyObject;
+        }
 
   KeyObject get keyObject;
 

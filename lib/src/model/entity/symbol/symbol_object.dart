@@ -13,8 +13,10 @@ import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.da
 abstract class SymbolObject {
   TextComponent _textComponent;
 
-  set text(String text) => this._textComponent?.text = text;
-  get text => this._textComponent?.text;
+  String _text = "";
+
+  set text(String text) => this._text = text;
+  get text => this._text;
 
   Position _position = Position.empty();
 
@@ -65,7 +67,7 @@ abstract class SymbolObject {
       _component
         ..clearEffects()
         ..addEffect(_effect);
-      _textComponent = TextComponent("🤔", config: this.textConfig)
+      _textComponent = TextComponent(_text, config: this.textConfig)
         ..anchor = Anchor.center;
     });
   }
@@ -85,6 +87,7 @@ abstract class SymbolObject {
 
     canvas.translate(width - width * _scale, height - height * _scale);
     canvas.scale(_scale);
+    this._textComponent.text = text;
     this._textComponent.render(canvas);
 
     canvas.restore();
@@ -97,6 +100,7 @@ abstract class SymbolObject {
 
     canvas.save();
     this.component.render(canvas);
+    this._textComponent.text = text;
     this._textComponent.x = this.component.width / 2;
     this._textComponent.y = this.component.height / 2;
     this._textComponent.render(canvas);
@@ -138,4 +142,15 @@ abstract class SymbolObject {
       !this.component.loaded() ||
       this._textComponent == null ||
       !this._textComponent.loaded());
+
+
+  @override
+  String toString() {
+    return super.toString() + "[$text]";
+  }
+
+  Rect toRect(){
+    return (Rect.fromLTWH(posX, posY, this.component.width, this.component.height));
+  }
+
 }

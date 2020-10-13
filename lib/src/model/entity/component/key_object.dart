@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flame/components/component.dart';
+import 'package:flame/effects/effects.dart';
 import 'package:flame/position.dart';
 import 'package:flame/sprite.dart';
+import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_entity.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
 
@@ -23,6 +25,7 @@ abstract class KeyObject implements MixinEntityComponent {
     this.posX = x ?? this.posX;
     this.posY = y ?? this.posY;
   }
+  ScaleEffect _effect;
 
   SpriteComponent _component;
 
@@ -42,15 +45,30 @@ abstract class KeyObject implements MixinEntityComponent {
             width: width,
             height: height)
         .then((value) {
+
+      final width = value.size.x * 0.05 ;
+      final height = value.size.y * 0.05;
+
       _component = SpriteComponent.fromSprite(
-          value.size.x * 0.05, value.size.y * 0.05, value);
+          width, height, value);
+          
+      _effect = ScaleEffect(
+          size: Position(width * 1.05, height * 1.05).toSize(),
+          speed: 5,
+          curve: Curves.bounceInOut,
+          isInfinite: true,
+          isAlternating: true);
+
+      _component
+        ..clearEffects()
+        ..addEffect(_effect);
     });
   }
 
   void renderOnTiled(Canvas canvas, CustomTiledComponent t){
     if (!isVisibleOnTiled(t)) return;
-    this.component.x = posX + t.x;
-    this.component.y = posY + t.y;
+    this.component.x += t.x;
+    this.component.y += t.y;
     canvas.save();
     this.component.render(canvas);
     canvas.restore();
@@ -60,7 +78,7 @@ abstract class KeyObject implements MixinEntityComponent {
   void renderOnPositioned(Canvas canvas, CustomSpriteEntity e,
       {double onX = 1.0, double onY = 1.0}) {
     if (component == null || !component.loaded() || !e.hasMapReady ||!e.isVisible) return;
-
+    
     final double x = e.posX + e.tileMap.x;
     final double y = e.posY + e.tileMap.y;
     final double height = e.colisionBoxHeight.toDouble();
@@ -69,7 +87,7 @@ abstract class KeyObject implements MixinEntityComponent {
 
     this.posX = x - width * onX;
     this.posY = y - height * (g ? -onY : onY);
-
+    
     component.x = this.posX;
     component.y = this.posY;
 
@@ -91,5 +109,21 @@ abstract class KeyObject implements MixinEntityComponent {
         this.posY + t.y - this.component.height < t.renderSize.height;
   }
 
+  void update(double dt){
+    if (!this.component.loaded()) return;
+    
+    this.component.update(dt);
+    
+    final p = Position(
+      this.component.width / 2,
+      this.component.height / 2,
+    );
 
+    this.component.x = posX - p.x;
+    this.component.y = posY - p.y;
+  }
+
+  Rect toRect(){
+    return (Rect.fromLTWH(posX , posY - this.component.height , this.component.width * 2, this.component.height * 3));
+  }
 }

@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
-import 'package:ihm_2020_3/src/view/pages/game_page.dart';
+import 'package:ihm_2020_3/src/view/pages/base_game_page.dart';
 import 'package:ihm_2020_3/src/view/pages/home_page.dart';
 import 'package:ihm_2020_3/src/view/pages/splash_screen.dart';
-import 'package:ihm_2020_3/src/view/pages/cad_expressao/cad_expressao_page.dart';
+import 'package:ihm_2020_3/src/view/pages/cad_expressao_page.dart';
 
 final rotas = <String, WidgetBuilder>{
   SplashScreenGame.ROUTE: (_) => SplashScreenGame(),
   MyHomePage.ROUTE: (_) => MyHomePage(),
-  GamePage.ROUTE: (_) => GamePage(),
+  BaseGamePage.ROUTE: (_) => BaseGamePage(),
   CreditosPage.ROUTE: (_) => CreditosPage(),
   CadExpressaoPage.ROUTE: (_) => CadExpressaoPage(),
 };

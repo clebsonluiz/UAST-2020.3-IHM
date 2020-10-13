@@ -1,4 +1,4 @@
-import 'package:ihm_2020_3/src/model/database/models/cadeia.dart';
+import 'package:ihm_2020_3/src/model/utils/const_simbolos.dart';
 import 'package:ihm_2020_3/src/model/database/models/expressao_emoji.dart';
 import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object.dart';
 import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object_box_color.dart';
@@ -13,7 +13,7 @@ class QuestExpressao {
     SymbolObjectBoxColorBlue(),
     SymbolObjectBoxColorGreen(),
     SymbolObjectBoxColorYellow(),
-    SymbolObjectBoxColorWhite(),
+    // SymbolObjectBoxColorWhite(),
     SymbolObjectBoxColorRed(),
   ];
 
@@ -21,7 +21,7 @@ class QuestExpressao {
 
   QuestExpressao(this._expressaoEmoji);
 
-  void build() {
+  Future<void> build() async {
 
     final emojinador = this._expressaoEmoji;
 
@@ -38,34 +38,33 @@ class QuestExpressao {
       _alternativas[i].text = _temp[i].text;
     }
 
-    _alternativas..clear()..addAll(_splitter(emojinador.erradas));
+    return Future.value();
   }
 
   List<SymbolObject> _splitter(String s){
     final _list = <SymbolObject>[];
     final _splited = s.split(";")..removeWhere((e) => e.isEmpty);
     _splited.forEach((string) => _list.add(_get(string)));
-
     return _list;
   }
 
   SymbolObject _get(String s){
     switch (s) {
-      case Cadeia.OP_PARENTESE_E: 
+      case ConstSimbolos.OP_PARENTESE_E: 
         return _sym("(");
-      case Cadeia.OP_PARENTESE_D: 
+      case ConstSimbolos.OP_PARENTESE_D: 
         return _sym(")");
-      case Cadeia.OP_NEGACAO: 
+      case ConstSimbolos.OP_NEGACAO: 
         return _sym("~");
-      case Cadeia.OP_INTERROGACAO: 
+      case ConstSimbolos.OP_INTERROGACAO: 
         return _sym("?");
-      case Cadeia.OP_CONJUNCAO: 
+      case ConstSimbolos.OP_CONJUNCAO: 
         return _sym("∧");
-      case Cadeia.OP_DISJUNCAO: 
+      case ConstSimbolos.OP_DISJUNCAO: 
         return _sym("v");
-      case Cadeia.OP_CONDICIONAL: 
+      case ConstSimbolos.OP_CONDICIONAL: 
         return _sym("→");
-      case Cadeia.OP_BICONDICIONAL: 
+      case ConstSimbolos.OP_BICONDICIONAL: 
         return _sym("↔");
       default: {
         return _sym(s);
@@ -75,22 +74,20 @@ class QuestExpressao {
 
   SymbolObject _sym(String s) => SymbolObjectBoxColorDark()..text = s;
 
-  get expressao => this._expressao;
-  get alternativas => this._alternativas;
-  get respostas => this._respostas;
+  List<SymbolObject> get expressao => this._expressao;
+  List<SymbolObject> get alternativas => this._alternativas;
+  List<SymbolObject> get respostas => this._respostas;
 
 
-  //TODO - Mudar para adicionar o Drop Key
   bool responder(SymbolObject _sym){
     final _isRight = _checkResposta(_sym);
     if (_isRight){
-      final index = _expressao.indexWhere((sym) => sym.text == Cadeia.OP_INTERROGACAO);
+      final index = _expressao.indexWhere((sym) => sym.text == ConstSimbolos.OP_INTERROGACAO);
       if(index >= 0){
-        _expressao[index] = _sym;
+        _expressao[index].text = _sym.text;
       }
-      _alternativas.remove(_sym);
-
     }
+    _alternativas.remove(_sym);
     return _isRight;
   }
 

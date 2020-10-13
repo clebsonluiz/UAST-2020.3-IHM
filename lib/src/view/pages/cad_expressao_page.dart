@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:ihm_2020_3/src/controller/views/pages/cad_expressao_page_controller.dart';
 import 'package:ihm_2020_3/src/view/components/simbolo_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'cad_expressao_controller.dart';
 
 class CadExpressaoPage extends StatefulWidget {
   static const ROUTE = "/cad-expressao-page";
@@ -13,9 +13,9 @@ class CadExpressaoPage extends StatefulWidget {
 }
 
 class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
-  CadExpressaoPageState() : super(CadExpressaoController());
+  CadExpressaoPageState() : super(CadExpressaoPageController());
 
-  CadExpressaoController get con => this.controller;
+  CadExpressaoPageController get con => this.controller;
 
   @override
   void initState() {
@@ -217,7 +217,9 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                     _floatingActionButton(
                                         "Adicionar alternativas corretas",
                                         con.cadCorreto,
-                                        cor: Colors.green[800], heroTag: "${Random(1).nextDouble().toString()} + G"),
+                                        cor: Colors.green[800],
+                                        heroTag:
+                                            "${Random(1).nextDouble().toString()} + G"),
                                   ],
                                 ),
                                 Column(
@@ -245,7 +247,9 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                     _floatingActionButton(
                                         "Adicionar novas alternativas incorretas",
                                         con.cadIncorreto,
-                                        cor: Colors.red[800], heroTag: "${Random(10).nextDouble().toString()} + T"),
+                                        cor: Colors.red[800],
+                                        heroTag:
+                                            "${Random(10).nextDouble().toString()} + T"),
                                   ],
                                 ),
                               ],
@@ -281,7 +285,8 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
   }
 
   Widget _floatingActionButton(String msg, Function onPressed,
-      {EdgeInsets padding = const EdgeInsets.all(5), String heroTag,
+      {EdgeInsets padding = const EdgeInsets.all(5),
+      String heroTag,
       Color cor = Colors.black54,
       IconData icon = Icons.add_circle_outline}) {
     return Padding(
