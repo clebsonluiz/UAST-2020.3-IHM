@@ -10,6 +10,7 @@ import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.da
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
 import 'package:ihm_2020_3/src/model/entity/component/key_object.dart';
 import 'package:ihm_2020_3/src/model/entity/component/life_object.dart';
+import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 
 class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteColision, CustomSpriteEntity{
 
@@ -18,6 +19,14 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
   static const PLAYER_GREEN = 2;
   static const PLAYER_RED = 3;
   static const PLAYER_YELLOW = 4;
+
+  int get currentKeyCode {
+    if(currentAnimation == PLAYER_GREEN) return ConstColorsCode.COLOR_GREEN;
+    if(currentAnimation == PLAYER_YELLOW) return ConstColorsCode.COLOR_YELLOW;
+    if(currentAnimation == PLAYER_BLUE) return ConstColorsCode.COLOR_BLUE;
+    if(currentAnimation == PLAYER_RED) return ConstColorsCode.COLOR_RED;
+    return 0;
+  }
 
   int _current = 0;
 
@@ -65,11 +74,13 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
   void resetLifes() => this._life = maxLifes;
 
   set life(int life) {
-    if (life >= 0 && life < this.maxLifes)
+    if (life >= 0 && life <= this.maxLifes)
       this._life = life;
     else
       this.resetLifes();
   }
+
+  void doDamage() => life = life -= 1;
 
   @override
   int get life => this._life;
@@ -164,6 +175,7 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
     this.spriteAnimation.update(dt, currentRow: currentAnimation);
 
     startInvertion = nextAnimation==AlienHunterGoldenColor.GRAVITY;
+    this._keys.forEach((key) => key.update(dt));
   }
 
 

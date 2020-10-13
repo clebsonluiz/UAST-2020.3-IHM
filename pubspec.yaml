@@ -65,6 +65,8 @@ flutter:
     - assets/images/fundo_simbolo_1.png
     - assets/images/fundo_simbolo_2.png
 
+    - assets/images/fundo_timer.png
+
     - assets/images/portas.png
 
     - assets/images/logo_bsi.png
@@ -95,8 +97,10 @@ flutter:
     
     - assets/images/bg_menu.png
 
-    - assets/tiles/teste.tmx
-    - assets/tiles/cave_1.tmx
+    - assets/tiles/level_1.tmx
+    - assets/tiles/level_2.tmx
+    - assets/tiles/level_3.tmx
+    - assets/tiles/level_4.tmx
     
 
   # To add assets to your application, add an assets section, like this:

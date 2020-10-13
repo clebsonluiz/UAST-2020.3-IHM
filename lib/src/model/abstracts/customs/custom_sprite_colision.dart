@@ -33,7 +33,8 @@ mixin CustomSpriteColision {
 
   bool isIntersectingAnotherBox(Rect outrem) {
     Rect rect = toRect().intersect(outrem);
-    return (rect.width > 0 || rect.height > 0);
+
+    return !(rect.width < 0 || rect.height < 0);
   }
 
   Rect toRect();

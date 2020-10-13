@@ -80,13 +80,13 @@ class _DpadWidgetState extends State<DpadWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               children[1],
-              SizedBox(
-                width: 20,
-              ),
+              
               children[2],
+
+              children[3],
             ],
           ),
-          children[3],
+          children[4],
         ],
         color: Colors.black38
       );

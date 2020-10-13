@@ -41,14 +41,18 @@ abstract class DoorObject {
 
   void renderOnTiled(Canvas canvas, CustomTiledComponent t) {
     if (!isVisibleOnTiled(t)) return;
-    this.component.x = posX + t.x;
-    this.component.y = posY + t.y;
+    this.component.x += t.x;
+    this.component.y += t.y;
     canvas.save();
     this.component.render(canvas);
     canvas.restore();
   }
 
-  void update(double dt) => this.customSpriteAnimation?.update(dt);
+  void update(double dt) {
+    this.customSpriteAnimation?.update(dt);
+    this.component.x = posX;
+    this.component.y = posY;
+  }
 
   SpriteComponent get component => customSpriteAnimation?.currentSpriteFrame;
 
@@ -60,5 +64,9 @@ abstract class DoorObject {
         this.posX + t.x - this.component.width < t.renderSize.width &&
         this.posY + t.y + this.component.height > 0 &&
         this.posY + t.y - this.component.height < t.renderSize.height;
+  }
+
+  Rect toRect(){
+    return (Rect.fromLTWH(posX + this.component.width / 2, posY, this.component.width, this.component.height));
   }
 }

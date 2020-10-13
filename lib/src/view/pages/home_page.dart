@@ -1,13 +1,19 @@
+import 'dart:math';
+
 import 'package:flame/flame.dart';
+import 'package:flame/position.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ihm_2020_3/src/controller/views/pages/home_page_controller.dart';
+import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 
 import 'package:ihm_2020_3/src/view/components/menu_buttom_widget.dart';
 import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
-import 'package:ihm_2020_3/src/view/pages/game_page.dart';
+import 'package:ihm_2020_3/src/view/pages/base_game_page.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 
-import 'cad_expressao/cad_expressao_page.dart';
+import 'cad_expressao_page.dart';
 
 class MyHomePage extends StatefulWidget {
   static const ROUTE = "/home";
@@ -16,7 +22,11 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends StateMVC<MyHomePage> {
+  _MyHomePageState() : super(HomePageController());
+
+  HomePageController get con => this.controller;
+
   final GlobalKey _globalKey = GlobalKey();
 
   @override
@@ -24,28 +34,49 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         key: _globalKey,
         extendBodyBehindAppBar: true,
+        backgroundColor: Colors.grey,
         body: Stack(
           children: <Widget>[
-            Image.asset(
-              'assets/images/' + AnotherConsts.BG_OBJETIVE_2,
-              colorBlendMode: BlendMode.modulate,
-              color: Colors.grey,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
+            Transform.scale(
+              scale: 1.5,
+              child: this.con.imageBG,
             ),
-            
-            // Positioned(
-            //   child: Container(
-            //     child: Flame.util.animationAsWidget(size, animation),
-            //     color: Colors.pink,
-            //     width: 50,
-            //     height: 50,
-
-            //   ),
-            //   bottom: 0,
-            //   right: 0,
-            // ),
+            Positioned(
+              child: Transform.rotate(
+                angle: pi / 1.5,
+                child: this.con.imgAnimated1,
+              ),
+            ),
+            Positioned(
+              child: Transform.rotate(
+                angle: -pi / 1.5,
+                child: this.con.imgAnimated2,
+              ),
+              right: 0,
+            ),
+            Positioned(
+              child: Transform.rotate(
+                angle: -pi / 4,
+                child: this.con.imgAnimated3,
+              ),
+              bottom: 0,
+              right: 0,
+            ),
+            Positioned(
+              child: Transform.rotate(
+                angle: pi / 3.5,
+                child: this.con.imgAnimated4,
+              ),
+              bottom: 0,
+            ),
+            Positioned(
+              child: Transform.rotate(
+                angle: 0,
+                child: this.con.imgAnimated5,
+              ),
+              bottom: 0,
+              left: 150,
+            ),
             Container(
                 // color: Colors.black38,
                 padding: EdgeInsets.only(bottom: 40, top: 40),
@@ -58,12 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: <Widget>[
                         MenuButtomWidget(
                             // textContent: 'NOVO JOGO',
-                            widget: _buildImageSized(
-                                image: "menu_item_1.png",
-                                color: Colors.blueGrey),
-                            onAction: () async {
-                              Navigator.pushNamed(context, GamePage.ROUTE);
-                            },
+                            widget: this.con.imageNewGame,
+                            onAction: this.con.actionNewGame,
                             splashColor: Colors.black54),
                         // MenuButtomWidget(
                         //     // textContent: 'CONTINUAR',
@@ -74,58 +101,28 @@ class _MyHomePageState extends State<MyHomePage> {
                         //     splashColor: Colors.blueGrey[800]),
                         MenuButtomWidget(
                             // textContent: 'AJUSTES',
-                            widget: _buildImageSized(
-                                image: AnotherConsts.MENU_ITEM_6,
-                                color: Colors.yellow),
-                            onAction: () async {},
+                            widget: this.con.imageAjustes,
+                            onAction: this.con.actionAjustes,
                             splashColor: Colors.yellow[800]),
                         MenuButtomWidget(
                             // textContent: 'EXTRAS',
-                            widget: _buildImageSized(
-                                image: AnotherConsts.MENU_ITEM_7,
-                                color: Colors.tealAccent),
-                            onAction: () async {
-                              Navigator.pushNamed(context, CadExpressaoPage.ROUTE);
-                            },
+                            widget: this.con.imageExtras,
+                            onAction: this.con.actionExtras,
                             splashColor: Colors.teal[800]),
                         MenuButtomWidget(
                             // textContent: 'CRÉDITOS',
-                            widget: _buildImageSized(
-                                image: "menu_item_3.png",
-                                maxHeight: 30,
-                                color: Colors.lightGreenAccent),
-                            onAction: () async {
-                              await Navigator.pushNamed(
-                                  context, CreditosPage.ROUTE);
-                            },
+                            widget: this.con.imageCredits,
+                            onAction: this.con.actionCredits,
                             splashColor: Colors.green[800]),
                         MenuButtomWidget(
                             // textContent: 'SAIR',
-                            widget: _buildImageSized(
-                                image: "menu_item_4.png",
-                                color: Colors.redAccent),
-                            onAction: () async => await SystemChannels.platform
-                                .invokeMethod<void>('SystemNavigator.pop'),
+                            widget: this.con.imageSair,
+                            onAction: this.con.actionSair,
                             splashColor: Colors.red[800]),
                       ],
                     ),
                   ],
                 )),
-          ],
-        ));
-  }
-
-  Widget _buildImageSized({String image, double maxHeight = 20, Color color}) {
-    return LimitedBox(
-        key: Key(_globalKey.toString() + image),
-        maxHeight: maxHeight,
-        child: Stack(
-          children: <Widget>[
-            Image.asset(
-              'assets/images/' + image.toString(),
-              color: color,
-              colorBlendMode: BlendMode.modulate,
-            )
           ],
         ));
   }
