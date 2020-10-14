@@ -83,7 +83,7 @@ class _ExtrasPageState extends StateMVC<ExtrasPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   MenuButtomWidget(
-                      widget: this.con.imageSair,
+                      widget: this.con.imageVoltar,
                       onAction: this.con.navigatorPop,
                       splashColor: Colors.yellow[800]),
                 ],
@@ -117,8 +117,8 @@ class ExtrasPageController extends ControllerMVC {
   Widget get imageRanking =>
       _buildImg(image: AnotherConsts.MENU_ITEM_8, color: Colors.redAccent);
 
-  Widget get imageSair =>
-      _buildImg(image: AnotherConsts.MENU_ITEM_4, color: Colors.yellow);
+  Widget get imageVoltar =>
+      _buildImg(image: AnotherConsts.MENU_ITEM_12, color: Colors.yellow);
 
   Widget get imageExtras =>
       _buildImg(image: AnotherConsts.MENU_ITEM_7, color: Colors.tealAccent);

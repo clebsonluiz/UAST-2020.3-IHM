@@ -27,6 +27,7 @@ mixin AnotherConsts {
   static const String MENU_ITEM_9 = 'menu_item_9.png';
   static const String MENU_ITEM_10 = 'menu_item_10.png';
   static const String MENU_ITEM_11 = 'menu_item_11.png';
+  static const String MENU_ITEM_12 = 'menu_item_12.png';
 
   static const List<String> ALL = <String>[
     HEARTH_STATUS,
@@ -48,6 +49,7 @@ mixin AnotherConsts {
     MENU_ITEM_9,
     MENU_ITEM_10,
     MENU_ITEM_11,
+    MENU_ITEM_12,
     BG_TIMER,
   ];
 }

@@ -26,8 +26,8 @@ class CadExpressaoPageController extends ControllerMVC {
       });
     });
   }
-  Widget get imageSair =>
-      _buildImageSized(image: AnotherConsts.MENU_ITEM_4, color: Colors.yellow, maxHeight: 25);
+  Widget get imageVoltar =>
+      _buildImageSized(image: AnotherConsts.MENU_ITEM_12, color: Colors.yellow, maxHeight: 25);
 
   Widget _widget1;
   Widget get img => _widget1;

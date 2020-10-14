@@ -8,6 +8,7 @@ import 'package:ihm_2020_3/src/model/database/models/rank.dart';
 import 'package:ihm_2020_3/src/model/database/utils/rank_utils..dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 import 'package:ihm_2020_3/src/view/components/menu_buttom_widget.dart';
+import 'package:ihm_2020_3/src/view/pages/base_game_page.dart';
 
 import 'package:mvc_pattern/mvc_pattern.dart';
 
@@ -81,6 +82,16 @@ class RankPageState extends StateMVC<RankPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       MenuButtomWidget(
+                          widget: this.con.imageNewGame,
+                          onAction: this.con.navigatorToNewGame,
+                          splashColor: Colors.grey[800]),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      MenuButtomWidget(
                           widget: this.con.imageSair,
                           onAction: this.con.navigatorPop,
                           splashColor: Colors.yellow[800]),
@@ -96,7 +107,6 @@ class RankPageState extends StateMVC<RankPage> {
 
 class RankPageController extends ControllerMVC {
   RankPageController() {
-
     this._rank = Rank(
       vidasRestantes: RankUtils().vidasRestantes,
       tempo: RankUtils().tempoDecorridoStr,
@@ -161,6 +171,9 @@ class RankPageController extends ControllerMVC {
   Widget get imageSair =>
       _buildImg(image: AnotherConsts.MENU_ITEM_4, color: Colors.yellow);
 
+  Widget get imageNewGame =>
+      _buildImg(image: AnotherConsts.MENU_ITEM_1, color: Colors.grey[800]);
+
   Widget get imageRank =>
       _buildImg(image: AnotherConsts.MENU_ITEM_9, color: Colors.redAccent);
 
@@ -212,6 +225,10 @@ class RankPageController extends ControllerMVC {
   }
 
   navigatorPop() => Navigator.of(this.state.context).pop();
+
+  navigatorToNewGame() =>
+      Navigator.pushReplacementNamed(this.state.context, BaseGamePage.ROUTE);
+
   navigatorExit() {
     navigatorPop();
     navigatorPop();

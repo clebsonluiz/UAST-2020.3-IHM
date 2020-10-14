@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ihm_2020_3/src/controller/views/pages/creditos_page_controller.dart';
@@ -23,89 +24,133 @@ class CreditosPageState extends StateMVC<CreditosPage> {
 
   CreditosPageController get con => this.controller;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   iconTheme: IconThemeData(
+        //     color: Colors.grey,
+        //   ),
+        //   elevation: 0,
+        // ),
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-          color: Colors.grey,
-        ),
-        elevation: 0,
-      ),
-      backgroundColor: Colors.white,
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            child: Column(
+        body: Stack(
+          children: <Widget>[
+            Transform.scale(
+              scale: 1.5,
+              child: this.con.imageBG,
+            ),
+            ListView(
               children: <Widget>[
-
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 80,
+                        width: 300,
+                        child: this.con.imageCredits,
+                      ),
+                      _buildTextSized(
+                          text: 'Sobre a Aplicação',
+                          maxLines: 2,
+                          textAlin: TextAlign.center,
+                          color: Color(0xFFFFFFFF),
+                          fontSize: 20,
+                          hSizedBox: 7),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      _buildTextSized(
+                        text: con.desc,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 160,
+                            width: 160,
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  // side:
+                                  //     BorderSide(color: Colors.black87, width: 5),
+                                ),
+                                // margin: EdgeInsets.symmetric(
+                                //     vertical: 5, horizontal: 10),
+                                elevation: 0,
+                                color: Colors.white,
+                                child: con.image1),
+                          ),
+                          SizedBox(
+                            height: 160,
+                            width: 160,
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  // side:
+                                  //     BorderSide(color: Colors.black87, width: 5),
+                                ),
+                                // margin: EdgeInsets.symmetric(
+                                //     vertical: 5, horizontal: 10),
+                                elevation: 0,
+                                color: Colors.white,
+                                child: con.image2),
+                          )
+                        ],
+                      )
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  ),
+                ),
                 
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    side: BorderSide(color: Colors.black87, width: 5),
+                  ),
+                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  elevation: 0,
+                  color: Colors.white,
+                  child: ExpansionTile(
+                    onExpansionChanged: con.onExpansionChanged,
+                    // backgroundColor: Colors.grey,
+                    initiallyExpanded: false,
+                    title: Text(
+                      'Sprites e Animações',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      'Créditos das imagens tiradas da internet',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                    children: List.generate(
+                        con.list.length,
+                        (i) => Padding(
+                              padding: EdgeInsets.all(10),
+                              child: CreditoWidget(element: con.list[i]),
+                            )),
+                  ),
+                ),
                 SizedBox(
-                  height: 80,
-                  width: 300,
-                  child: this.con.imageCredits,
+                  height: 40,
                 ),
-                _buildTextSized(
-                    text: 'Sobre a Aplicação',
-                    maxLines: 2,
-                    textAlin: TextAlign.center,
-                    color: Color(0xFF8A8A8A),
-                    fontSize: 20,
-                    hSizedBox: 7),
-                SizedBox(
-                  height: 15,
-                ),
-                _buildTextSized(
-                  text: con.desc,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [con.image1, con.image2],
-                )
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    MenuButtomWidget(
+                        widget: this.con.imageVoltar,
+                        onAction: this.con.navigatorPop,
+                        splashColor: Colors.yellow[800]),
+                  ],
+                ),
               ],
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             ),
-          ),
-          Card(
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            elevation: 0,
-            color: Colors.black26,
-            child: ExpansionTile(
-              onExpansionChanged: con.onExpansionChanged,
-              // backgroundColor: Colors.grey,
-              initiallyExpanded: false,
-              title: Text(
-                'Sprites e Animações',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(
-                'Créditos das imagens tiradas da internet',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-              children: List.generate(
-                  con.list.length, (i) => CreditoWidget(element: con.list[i])),
-            ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  MenuButtomWidget(
-                      widget: this.con.imageSair,
-                      onAction: this.con.navigatorPop,
-                      splashColor: Colors.yellow[800]),
-                ],
-              ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 
   Widget _buildTextSized(
@@ -113,7 +158,7 @@ class CreditosPageState extends StateMVC<CreditosPage> {
       double hSizedBox = 5,
       maxLines = 40,
       textAlin = TextAlign.justify,
-      color = Colors.black54,
+      color = Colors.white,
       double fontSize = 14.0,
       fontWeight = FontWeight.bold}) {
     return Column(children: <Widget>[

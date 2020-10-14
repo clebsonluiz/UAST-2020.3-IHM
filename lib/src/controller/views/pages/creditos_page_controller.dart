@@ -16,9 +16,11 @@ class CreditosPageController extends ControllerMVC {
   final logobsi = 'logo_bsi.png';
   final logouast = 'logo_uast.png';
   final desc =
-      'Projeto direcionado a disciplina de Interface Homem-Máquina (IHM) ' +
-          'para o curso de Bacharelado em Sistemas de Informação na Unidade Acadêmica de Serra Talhada (UAST) ' +
-          'no período de 2020.3';
+      'Projeto desenvolvido por Clébson Luiz de Moraes Silva, sendo ' +
+      'direcionado a disciplina de Interface Homem-Máquina (IHM), voltado ' +
+      'para o curso de Bacharelado em Sistemas de Informação na Unidade Acadêmica de Serra Talhada (UAST) ' +
+      'no período de 2020.3, este projeto foi acompanhado e orientado pelo professor da disciplina '
+      'Richarlyson D\'Emery.';
 
   final List list = [];
 
@@ -29,8 +31,25 @@ class CreditosPageController extends ControllerMVC {
       image: AnotherConsts.MENU_ITEM_3,
       color: Colors.lightGreenAccent,
       maxHeight: 30);
-  Widget get imageSair =>
-      _buildImg(image: AnotherConsts.MENU_ITEM_4, color: Colors.yellow);
+  Widget get imageVoltar =>
+      _buildImg(image: AnotherConsts.MENU_ITEM_12, color: Colors.yellow);
+
+  Widget get imageCover =>
+      Image.asset('assets/images/' + AnotherConsts.BG_OBJETIVE_2,
+          color: Colors.grey[500],
+          fit: BoxFit.fill,
+          colorBlendMode: BlendMode.modulate,
+          width: double.infinity,
+          height: double.infinity);
+
+  Widget get imageBG => Image.asset(
+        'assets/images/' + AnotherConsts.BG_OBJETIVE_2,
+        colorBlendMode: BlendMode.modulate,
+        color: Colors.grey[500],
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      );
 
   @override
   CreditosPageState get state => super.state;

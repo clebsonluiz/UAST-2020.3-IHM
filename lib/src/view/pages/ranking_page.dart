@@ -74,7 +74,7 @@ class RankingPageState extends StateMVC<RankingPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   MenuButtomWidget(
-                      widget: this.con.imageSair,
+                      widget: this.con.imageVoltar,
                       onAction: this.con.navigatorPop,
                       splashColor: Colors.yellow[800]),
                 ],
@@ -88,8 +88,8 @@ class RankingPageState extends StateMVC<RankingPage> {
 }
 
 class RankingPageController extends ControllerMVC {
-  Widget get imageSair =>
-      _buildImg(image: AnotherConsts.MENU_ITEM_4, color: Colors.yellow);
+  Widget get imageVoltar =>
+      _buildImg(image: AnotherConsts.MENU_ITEM_12, color: Colors.yellow);
 
   Widget get imageRanking =>
       _buildImg(image: AnotherConsts.MENU_ITEM_8, color: Colors.redAccent);
@@ -139,7 +139,7 @@ class RankingPageController extends ControllerMVC {
       // leading:  Icon(Icons.timer, size: 30, color: Colors.black87,),
       leading: SizedBox(
           height: 30,
-          width: 100,
+          width: 80,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -167,7 +167,7 @@ class RankingPageController extends ControllerMVC {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
-        side: BorderSide(color: Colors.black87, width: 4),
+        side: BorderSide(color: Colors.black87, width: 5),
       ),
       color: Colors.grey,
       child: tile,
@@ -184,7 +184,8 @@ class RankingPageController extends ControllerMVC {
 
   _loadRanks() {
     Rank.getAll().then((value) {
-      value..addAll([
+      value
+        ..addAll([
           // Rank(
           //   vidasRestantes: 3,
           //   tempo: "0;0;05;30",
@@ -210,7 +211,8 @@ class RankingPageController extends ControllerMVC {
       value.sort();
 
       setState(() {
-        this._ranks = List.of(value).sublist(0, value.length <=6 ? value.length : 6);
+        this._ranks =
+            List.of(value).sublist(0, value.length <= 6 ? value.length : 6);
       });
     });
   }

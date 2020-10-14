@@ -265,8 +265,8 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                 alignment: Alignment.center,
                 child: MenuButtomWidget(
                     widget: SizedBox(
-                      child: this.con.imageSair,
-                      width: 100,
+                      child: this.con.imageVoltar,
+                      width: 180,
                     ),
                     onAction: this.con.navigatorPop,
                     splashColor: Colors.yellow[800]),
