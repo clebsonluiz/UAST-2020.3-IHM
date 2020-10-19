@@ -50,6 +50,12 @@ flutter:
   uses-material-design: true
   assets:
 
+    - assets/images/NEGACAO.png
+    - assets/images/CONJUNCAO.png
+    - assets/images/DISJUNCAO.png
+    - assets/images/CONDICIONAL.png
+    - assets/images/BICONDICIONAL.png
+
     - assets/images/titulo.png
     - assets/images/menu_item_1.png
     - assets/images/menu_item_2.png

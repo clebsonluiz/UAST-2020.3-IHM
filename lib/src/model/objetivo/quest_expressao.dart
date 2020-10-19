@@ -7,6 +7,7 @@ class QuestExpressao {
   final ExpressaoEmoji _expressaoEmoji;
 
   final _expressao = <SymbolObject>[];
+  final _dicionario = <String>[];
   final _respostas = <SymbolObject>[];
   final _erradas = <SymbolObject>[];
   final _alternativas = <SymbolObject>[
@@ -28,6 +29,20 @@ class QuestExpressao {
     _expressao..clear()..addAll(_splitter(emojinador.expressaoEmoji));
     _respostas..clear()..addAll(_splitter(emojinador.respostas));
     _erradas..clear()..addAll(_splitter(emojinador.erradas));
+    
+
+    final _dict = emojinador.dicionario.split(";")..removeWhere((e) => e.isEmpty);
+
+    _dicionario..clear()..addAll(
+      _dict.map((e) {
+        final _s = e.split(":");
+        return "${_s.first}=${_s.last}";
+      }).toList()
+    );
+
+
+
+
 
     final _temp = <SymbolObject>[];
     _alternativas..shuffle();

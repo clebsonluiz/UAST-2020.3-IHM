@@ -33,6 +33,16 @@ mixin AnotherConsts {
   static const String MENU_ITEM_11 = 'menu_item_11.png';
   static const String MENU_ITEM_12 = 'menu_item_12.png';
 
+
+
+  static const String AJUDA_NEGACAO = 'NEGACAO.png';
+  static const String AJUDA_CONJUNCAO = 'CONJUNCAO.png';
+  static const String AJUDA_DISJUNCAO = 'DISJUNCAO.png';
+  static const String AJUDA_CONDICIONAL = 'CONDICIONAL.png';
+  static const String AJUDA_BICONDICIONAL = 'BICONDICIONAL.png';
+
+
+
   static const List<String> ALL = <String>[
     HEARTH_STATUS,
     KEYS,
@@ -56,5 +66,11 @@ mixin AnotherConsts {
     MENU_ITEM_12,
     BG_TIMER,
     BG_TIMER_EXPRESSAO,
+    AJUDA_NEGACAO,
+    AJUDA_CONJUNCAO,
+    AJUDA_DISJUNCAO,
+    AJUDA_CONDICIONAL,
+    AJUDA_BICONDICIONAL,
+    
   ];
 }
