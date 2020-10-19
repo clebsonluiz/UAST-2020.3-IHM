@@ -45,10 +45,13 @@ class QuestExpressao {
 
 
     final _temp = <SymbolObject>[];
-    _alternativas..shuffle();
+    _alternativas.shuffle();
     _temp..addAll(_respostas)..addAll(_erradas);
     
     while(_temp.length > _alternativas.length)   _temp.removeLast();
+    
+    _temp.shuffle();
+
     for (int i = 0; i < _temp.length; i ++){
       _alternativas[i].text = _temp[i].text;
     }
@@ -93,7 +96,7 @@ class QuestExpressao {
   List<SymbolObject> get expressao => this._expressao;
   List<SymbolObject> get alternativas => this._alternativas;
   List<SymbolObject> get respostas => this._respostas;
-
+  List<String> get dicionario => this._dicionario;
 
   bool responder(SymbolObject _sym){
     final _isRight = _checkResposta(_sym);

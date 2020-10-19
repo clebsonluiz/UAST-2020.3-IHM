@@ -10,11 +10,6 @@ class Objetivo {
 
   final List<QuestExpressao> _questoes = <QuestExpressao>[];
 
-  // final List<QuestExpressao> _questoesLevel1 = <QuestExpressao>[];
-  // final List<QuestExpressao> _questoesLevel2 = <QuestExpressao>[];
-  // final List<QuestExpressao> _questoesLevel3 = <QuestExpressao>[];
-  // final List<QuestExpressao> _questoesLevel4 = <QuestExpressao>[];
-
   QuestExpressao get current {
     try {
       return _questoes.first;
@@ -260,7 +255,7 @@ final _level4 = [
     expressaoEmoji: ";(;NOT;A;BICON;NOT;B;);OR;C",
     respostas: ";V;V",
     erradas: ";F;F",
-    dicionario: ";A:F;B:V;C;V",
+    dicionario: ";A:F;B:V;C:V",
   ),
   ExpressaoEmoji(
     expressaoEmoji: ";(;NOT;A;);BICON;(;A;OR;NOT;A;)",
@@ -299,8 +294,8 @@ final _level4 = [
     dicionario: ";A:F;B:F;C:F",
   ),
   ExpressaoEmoji(
-    expressaoEmoji: ";(;NOT;A;BICON;A;);CON;(;NOT;A;OR;A)",
-    respostas: ";V;F",
+    expressaoEmoji: ";(;A;CON;A;);BICON;(;NOT;A;OR;A;)",
+    respostas: ";V;V",
     erradas: ";F;F",
     dicionario: ";A:F",
   ),
