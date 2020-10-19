@@ -87,6 +87,11 @@ class _MyHomePageState extends StateMVC<MyHomePage> {
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
+                        Transform.scale(
+                          scale: 1.0,
+                          child: this.con.imgTitle,
+                        ),
+
                         MenuButtomWidget(
                             // textContent: 'NOVO JOGO',
                             widget: this.con.imageNewGame,
@@ -99,15 +104,20 @@ class _MyHomePageState extends StateMVC<MyHomePage> {
                         //         color: Colors.lightBlueAccent),
                         //     onAction: () async {},
                         //     splashColor: Colors.blueGrey[800]),
+                        // MenuButtomWidget(
+                        //     // textContent: 'AJUSTES',
+                        //     widget: this.con.imageAjustes,
+                        //     onAction: this.con.actionAjustes,
+                        //     splashColor: Colors.yellow[800]),
+                        // MenuButtomWidget(
+                        //     // textContent: 'EXTRAS',
+                        //     widget: this.con.imageExtras,
+                        //     onAction: this.con.actionExtras,
+                        //     splashColor: Colors.teal[800]),
                         MenuButtomWidget(
-                            // textContent: 'AJUSTES',
-                            widget: this.con.imageAjustes,
-                            onAction: this.con.actionAjustes,
-                            splashColor: Colors.yellow[800]),
-                        MenuButtomWidget(
-                            // textContent: 'EXTRAS',
-                            widget: this.con.imageExtras,
-                            onAction: this.con.actionExtras,
+                            // textContent: 'RANKING',
+                            widget: this.con.imageRanking,
+                            onAction: this.con.actionRanking,
                             splashColor: Colors.teal[800]),
                         MenuButtomWidget(
                             // textContent: 'CRÉDITOS',

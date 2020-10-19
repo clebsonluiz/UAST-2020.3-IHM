@@ -8,6 +8,7 @@ import 'package:ihm_2020_3/src/model/entity/component/door_object.dart';
 import 'package:ihm_2020_3/src/model/entity/component/door_object_colors.dart';
 import 'package:ihm_2020_3/src/model/entity/component/key_object.dart';
 import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object_box_color.dart';
+import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object_box_expression.dart';
 import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object_box_timer.dart';
 
 import 'mixin_game_actions.dart';
@@ -25,7 +26,6 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
   bool _interrupt = false;
   bool _loaded = false;
 
-
   CustomTiledComponent get tileMap => this._tileMap;
 
   GameController get game => this._controller;
@@ -37,6 +37,9 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
   DoorObject get whiteDoor => DoorObjectWhite();
 
   SymbolObjectBoxTimer get timer => SymbolObjectBoxTimerWhite();
+
+  SymbolObjectBoxExpression get expressao =>
+      SymbolObjectBoxExpression.fromNormal();
 
   LevelController(this._controller, this._tileMap)
       : assert(_controller != null && _tileMap != null) {
@@ -173,7 +176,7 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
 
   @override
   void actionObjective() {
-    this.game.objective.changeVisible();
+    this.game.objective.changeVisibility();
   }
 
   @override
@@ -189,10 +192,8 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
         .forEach((alt) => alt.renderOnTiled(canvas, tileMap));
     this.game.player.render(canvas);
     this.timer.renderOnPositioned(canvas);
-    this.game.objective.render(
-          canvas,
-          scale: 0.55,
-        );
+    this.expressao.renderOnPositioned(canvas);
+    this.game.objective.render(canvas);
   }
 
   @override
@@ -220,10 +221,25 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
           x: this.game.size.width - this.timer.component?.width - 5, y: 5);
       // this.timer?.update(dt);
     }
-    this
-        .game
-        .objective
-        .setPosition(x: this.game.size.width, y: this.game.size.height);
+
+    // var _text = "";
+
+    //   this.game.currentQuest.expressao.forEach((el) {
+    //     _text += el.text;
+    //   });
+
+    //   this.expressao?.text = _text;
+    //   this.expressao?.setPosition(x: 5, y: 5);
+    //   // this.expressao?.update(dt);
+    // }
+
+    // this
+    //     .game
+    //     .objective
+    //     .setPosition(x: this.game.size.width, y: this.game.size.height);
+    this.expressao?.setPosition(x: 5, y: 5);
+    this.expressao?.update(dt);
+    this.game.objective.setPosition(x: 5, y: 5);
     this.game.objective.update(dt);
   }
 }

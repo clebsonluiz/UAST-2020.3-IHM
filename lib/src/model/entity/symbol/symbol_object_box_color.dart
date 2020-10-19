@@ -10,7 +10,7 @@ abstract class SymbolObjectBoxColor extends SymbolObject {
   SymbolObjectBoxColor.fromAsset({double x = 0.0, double y = 0.0})
       : super.fromAsset(
           AnotherConsts.BG_SIMBOLO_2,
-          scale: 0.16,
+          scaleX: 0.16,
           x: x,
           y: y,
           width: (8 * 32).toDouble(),
@@ -30,6 +30,11 @@ abstract class SymbolObjectBoxColor extends SymbolObject {
 
     return _key;
   }
+
+  @override
+  TextConfig get textConfig => TextConfig(
+      fontSize: 25.0, fontFamily: 'Roboto', color: const Color(0xFF303030));
+
 }
 
 class SymbolObjectBoxColorGreen extends SymbolObjectBoxColor {

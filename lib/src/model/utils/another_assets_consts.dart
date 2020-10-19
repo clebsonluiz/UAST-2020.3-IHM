@@ -16,6 +16,10 @@ mixin AnotherConsts {
 
   static const String BG_TIMER = 'fundo_timer.png';
 
+  static const String BG_TIMER_EXPRESSAO = 'fundo_timer_expressao.png';
+
+  static const String TITLE_GAME = 'titulo.png';
+
   static const String MENU_ITEM_1 = 'menu_item_1.png';
   static const String MENU_ITEM_2 = 'menu_item_2.png';
   static const String MENU_ITEM_3 = 'menu_item_3.png';
@@ -51,5 +55,6 @@ mixin AnotherConsts {
     MENU_ITEM_11,
     MENU_ITEM_12,
     BG_TIMER,
+    BG_TIMER_EXPRESSAO,
   ];
 }

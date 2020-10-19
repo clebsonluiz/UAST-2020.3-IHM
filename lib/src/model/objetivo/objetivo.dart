@@ -10,6 +10,11 @@ class Objetivo {
 
   final List<QuestExpressao> _questoes = <QuestExpressao>[];
 
+  final List<QuestExpressao> _questoesLevel1 = <QuestExpressao>[];
+  final List<QuestExpressao> _questoesLevel2 = <QuestExpressao>[];
+  final List<QuestExpressao> _questoesLevel3 = <QuestExpressao>[];
+  final List<QuestExpressao> _questoesLevel4 = <QuestExpressao>[];
+
   QuestExpressao get current {
     try {
       return _questoes.first;

@@ -8,6 +8,7 @@ import 'package:flame/position.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart';
+import 'package:ihm_2020_3/src/model/abstracts/customs/custom_text_config.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
 
 abstract class SymbolObject {
@@ -39,7 +40,7 @@ abstract class SymbolObject {
 
   SpriteComponent get component => _component;
 
-  TextConfig get textConfig => TextConfig(
+  TextConfig get textConfig => CustomTextConfig(
       fontSize: 25.0,
       fontFamily: 'Awesome Font',
       color: const Color(0xFF303030));
@@ -47,13 +48,14 @@ abstract class SymbolObject {
   SymbolObject.fromAsset(String imgAsset,
       {double width,
       double height,
-      double scale = 0.5,
+      double scaleX = 0.5,
+      double scaleY,
       double x = 0.0,
       double y = 0.0}) {
     Sprite.loadSprite(imgAsset, x: x, y: y, width: width, height: height)
         .then((value) {
-      final width = value.size.x * scale ?? 0.5;
-      final height = value.size.y * scale ?? 0.5;
+      final width = value.size.x * scaleX ?? 0.5;
+      final height = value.size.y * (scaleY ?? scaleX ?? 0.5);
 
       _component = SpriteComponent.fromSprite(width, height, value);
 

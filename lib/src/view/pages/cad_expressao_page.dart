@@ -71,6 +71,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                             child: _buildGridOrList(
                               <Widget>[
                                 con.image,
+                                Container(color: Colors.black26),
                                 GridView.count(
                                   crossAxisCount: 5,
                                   childAspectRatio: 1.0,
@@ -101,10 +102,12 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                         child: _buildGridOrList(
                           <Widget>[
                             con.image,
+                            Container(color: Colors.black26),
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 8),
                               child: RefreshIndicator(
+                                
                                 child: con.secondChildren2.isEmpty
                                     ? ListView(
                                         children: <Widget>[
@@ -148,10 +151,15 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
               ),
               Row(
                 children: <Widget>[
-                  _raisedButton("Confirmar", con.confirmExpression,
-                      padding: EdgeInsets.all(5)),
-                  _raisedButton("Cadastrar?", con.uploadExpressao,
-                      padding: EdgeInsets.all(5), icon: Icons.file_upload),
+                  _raisedButton("Prosseguir", con.confirmExpression,
+                      padding: EdgeInsets.all(5),
+                      icon: Icons.check_circle,
+                      height: 70),
+                  _raisedButton(
+                      "Salvar para\nusar mais\ntarde?", con.uploadExpressao,
+                      padding: EdgeInsets.all(5),
+                      icon: Icons.file_upload,
+                      height: 70),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               ),
@@ -301,7 +309,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
         heroTag: heroTag,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: BorderSide(color: cor),
+          side: BorderSide(color: cor, width: 3),
         ),
         splashColor: cor,
         tooltip: msg,
@@ -309,7 +317,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
         mini: true,
         child: Icon(
           icon,
-          color: Colors.black,
+          color: cor,
         ),
         backgroundColor: Colors.white70,
         elevation: 1,
@@ -319,43 +327,43 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
 
   Widget _raisedButton(String msg, Function onPressed,
       {EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 30),
-      IconData icon = Icons.touch_app}) {
+      IconData icon = Icons.touch_app,
+      Color borderColor = Colors.black87,
+      double height,
+      double width}) {
+    Color _secondary = borderColor.opacity == 1.0
+        ? (borderColor as MaterialColor)[900]
+        : Colors.black;
+
     return Padding(
       padding: padding,
-      child: RaisedButton.icon(
-        splashColor: Colors.black54,
-        // splashColor: Colors.orange,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-          side: BorderSide(color: Colors.black54, width: 2),
-        ),
-        elevation: 1,
-        onPressed: onPressed,
-        icon: Icon(icon, size: 30),
-        label: Text(
-          msg,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          maxLines: 2,
+      child: SizedBox(
+        height: height,
+        width: width,
+        child: RaisedButton.icon(
+          splashColor: borderColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            side: BorderSide(color: borderColor, width: 3),
+          ),
+          elevation: 1,
+          onPressed: onPressed,
+          icon: Icon(icon, size: 30, color: _secondary),
+          label: Text(
+            msg,
+            softWrap: true,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 18, color: _secondary),
+            maxLines: 3,
+          ),
         ),
       ),
     );
   }
 
-  //   Widget _buildHorizontalList({int itemCount, Widget Function(BuildContext, int) itemBuilder,
-  //     ScrollController scrollController}) {
-  //   return _buildGridOrList(
-  //     <Widget>[
-  //       // _buildImageSized(image: "objetivo_fundo_2.png", fit: BoxFit.fill),
-  //       ListView.builder(
-  //         padding: EdgeInsets.all(10),
-  //         itemCount: _thirdChildren.length,
-  //         itemBuilder: itemBuilder,
-  //         scrollDirection: Axis.horizontal,
-  //         controller: scrollController,
-  //       ),
-  //     ],
-  //   );
-  // }
+
+ 
 
   Widget _buildGridOrList(List<Widget> _children,
       {double height = 80, Color cor = Colors.black26}) {

@@ -23,7 +23,7 @@ class GameController extends Game implements MixinGameController {
 
 
 
-  final MapObjectiveSimple objective = MapObjectiveSimple();
+  final MapObjectiveExpression objective = MapObjectiveExpression();
 
   final Duration _initialTime = Duration(days: 1, minutes: 0, seconds: 0);
 

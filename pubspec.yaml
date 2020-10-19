@@ -50,6 +50,7 @@ flutter:
   uses-material-design: true
   assets:
 
+    - assets/images/titulo.png
     - assets/images/menu_item_1.png
     - assets/images/menu_item_2.png
     - assets/images/menu_item_3.png
@@ -70,6 +71,7 @@ flutter:
     - assets/images/fundo_simbolo_2.png
 
     - assets/images/fundo_timer.png
+    - assets/images/fundo_timer_expressao.png
 
     - assets/images/portas.png
 

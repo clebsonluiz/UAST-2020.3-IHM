@@ -4,18 +4,21 @@ import 'package:flame/flame.dart';
 import 'package:flame/position.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_sheet.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 import 'package:ihm_2020_3/src/view/pages/base_game_page.dart';
-import 'package:ihm_2020_3/src/view/pages/cad_expressao_page.dart';
+// import 'package:ihm_2020_3/src/view/pages/cad_expressao_page.dart';
 import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
-import 'package:ihm_2020_3/src/view/pages/extras_page.dart';
-import 'package:ihm_2020_3/src/view/pages/game_over_page.dart';
-import 'package:ihm_2020_3/src/view/pages/rank_page.dart';
+// import 'package:ihm_2020_3/src/view/pages/extras_page.dart';
+// import 'package:ihm_2020_3/src/view/pages/game_over_page.dart';
+// import 'package:ihm_2020_3/src/view/pages/rank_page.dart';
 import 'package:ihm_2020_3/src/view/pages/ranking_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 class HomePageController extends ControllerMVC {
+  Widget _widget0;
+
   Widget _widget1;
   Widget _widget2;
   Widget _widget3;
@@ -23,6 +26,17 @@ class HomePageController extends ControllerMVC {
   Widget _widget5;
 
   HomePageController() {
+    final _title = CustomSpriteSheet(
+      imageName: AnotherConsts.TITLE_GAME,
+      textureHeight: 32 * 4,
+      textureWidth: 1568,
+      rows: 5,
+      columns: 1,
+      jumpPixelY: 64,
+    ).createAnimation(0, from: 0, to: 5, loop: true, stepTime: 0.07, scale: 0.5);
+
+    _widget0 = Flame.util.animationAsWidget(Position(300, 60), _title);
+
     AlienHunterGoldenColorDark().detalhes.then((value) {
       final first = (value['Animations'] as List)?.first;
       setState(() => _widget5 = _generateWidget(first));
@@ -56,6 +70,7 @@ class HomePageController extends ControllerMVC {
         element.createAnimation(0, loop: true, stepTime: step ?? 0.04));
   }
 
+  Widget get imgTitle => _widget0;
   Widget get imgAnimated1 => _widget1;
   Widget get imgAnimated2 => _widget2;
   Widget get imgAnimated3 => _widget3;
@@ -66,15 +81,18 @@ class HomePageController extends ControllerMVC {
     Navigator.pushNamed(this.state.context, BaseGamePage.ROUTE);
   }
 
-  Future actionAjustes() async {}
+  // Future actionAjustes() async {}
 
-  Future actionExtras() async {
-    // Navigator.pushNamed(this.state.context, CadExpressaoPage.ROUTE);
-    //  Navigator.pushNamed(this.state.context, GameOverPage.ROUTE);
-    //  Navigator.pushNamed(this.state.context, RankPage.ROUTE);
-    //  Navigator.pushNamed(this.state.context, RankingPage.ROUTE);
-     Navigator.pushNamed(this.state.context, ExtrasPage.ROUTE);
-  }
+  // Future actionExtras() async {
+  //   // Navigator.pushNamed(this.state.context, CadExpressaoPage.ROUTE);
+  //   //  Navigator.pushNamed(this.state.context, GameOverPage.ROUTE);
+  //   //  Navigator.pushNamed(this.state.context, RankPage.ROUTE);
+  //   //  Navigator.pushNamed(this.state.context, RankingPage.ROUTE);
+  //    Navigator.pushNamed(this.state.context, ExtrasPage.ROUTE);
+  // }
+
+  Future actionRanking() async =>
+      await Navigator.pushNamed(this.state.context, RankingPage.ROUTE);
 
   Future actionCredits() async {
     await Navigator.pushNamed(this.state.context, CreditosPage.ROUTE);
@@ -89,8 +107,12 @@ class HomePageController extends ControllerMVC {
 
   Widget get imageAjustes =>
       _buildImg(image: AnotherConsts.MENU_ITEM_6, color: Colors.yellow);
-  Widget get imageExtras =>
-      _buildImg(image: AnotherConsts.MENU_ITEM_7, color: Colors.tealAccent);
+  // Widget get imageExtras =>
+  //     _buildImg(image: AnotherConsts.MENU_ITEM_7, color: Colors.tealAccent);
+
+  Widget get imageRanking =>
+      _buildImg(image: AnotherConsts.MENU_ITEM_8, color: Colors.redAccent);
+
   Widget get imageCredits => _buildImg(
       image: AnotherConsts.MENU_ITEM_3,
       color: Colors.lightGreenAccent,

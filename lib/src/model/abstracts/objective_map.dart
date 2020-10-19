@@ -8,6 +8,8 @@ import 'package:flame/text_config.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_position.dart';
 import 'package:ihm_2020_3/src/model/objetivo/objetivo.dart';
 
+import 'customs/custom_text_config.dart';
+
 abstract class ObjectiveMap extends Sprite with CustomSpritePosition{
   
 
@@ -16,7 +18,7 @@ abstract class ObjectiveMap extends Sprite with CustomSpritePosition{
   String get text => _text;
 
 
-  TextConfig get textConfig => TextConfig(
+  TextConfig get textConfig => CustomTextConfig(
       fontSize: 30.0,
       fontFamily: 'Consolas', 
       color: const Color(0xFF303030));
