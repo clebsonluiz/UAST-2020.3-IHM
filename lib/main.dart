@@ -40,7 +40,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
-        title: 'A UAST IHM 2020.3 Game',
+        title: 'ALIEN COLORS: A UAST IHM 2020.3 Game',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

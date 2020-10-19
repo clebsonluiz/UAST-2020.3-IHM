@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flame/text_config.dart';
+import 'package:ihm_2020_3/src/model/abstracts/customs/custom_text_config.dart';
 import 'package:ihm_2020_3/src/model/entity/component/key_object.dart';
 import 'package:ihm_2020_3/src/model/entity/component/key_object_colors.dart';
 import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object.dart';
@@ -32,8 +33,8 @@ abstract class SymbolObjectBoxColor extends SymbolObject {
   }
 
   @override
-  TextConfig get textConfig => TextConfig(
-      fontSize: 25.0, fontFamily: 'Roboto', color: const Color(0xFF303030));
+  TextConfig get textConfig => CustomTextConfig(
+      fontSize: 25.0, color: const Color(0xFF303030));
 
 }
 

@@ -33,7 +33,7 @@ class SymbolObjectBoxExpression extends SymbolObject {
 
   @override
   TextConfig get textConfig => CustomTextConfig(
-      fontSize: 25.0, fontFamily: 'Roboto', color: const Color(0xFF303030));
+      fontSize: 25.0, color: const Color(0xFF303030), fontStyle: FontStyle.italic);
 
 }
 

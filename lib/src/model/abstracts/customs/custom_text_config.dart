@@ -6,12 +6,17 @@ import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart' as material;
 
 class CustomTextConfig extends TextConfig {
+  final material.FontStyle fontStyle;
+  final material.FontWeight fontWeight;
+
   const CustomTextConfig({
     fontSize = 24.0,
     color = const Color(0xFF000000),
-    fontFamily = 'Arial',
+    fontFamily = 'Roboto',
     textAlign = TextAlign.left,
     textDirection = TextDirection.ltr,
+    this.fontStyle = material.FontStyle.normal,
+    this.fontWeight = material.FontWeight.bold,
   }) : super(
           fontSize: fontSize,
           color: color,
@@ -26,8 +31,8 @@ class CustomTextConfig extends TextConfig {
         color: color,
         fontSize: fontSize,
         fontFamily: fontFamily,
-        fontStyle: material.FontStyle.italic,
-        fontWeight: material.FontWeight.bold);
+        fontStyle: fontStyle,
+        fontWeight: fontWeight);
     final material.TextSpan span = material.TextSpan(
       style: style,
       text: text,

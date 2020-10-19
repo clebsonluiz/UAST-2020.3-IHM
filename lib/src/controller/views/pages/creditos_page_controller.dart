@@ -16,7 +16,7 @@ class CreditosPageController extends ControllerMVC {
   final logobsi = 'logo_bsi.png';
   final logouast = 'logo_uast.png';
   final desc =
-      'Projeto desenvolvido por Clébson Luiz de Moraes Silva, sendo ' +
+      'Alien Colors é um projeto desenvolvido por Clébson Luiz de Moraes Silva, sendo ' +
       'direcionado a disciplina de Interface Homem-Máquina (IHM), voltado ' +
       'para o curso de Bacharelado em Sistemas de Informação na Unidade Acadêmica de Serra Talhada (UAST) ' +
       'no período de 2020.3, este projeto foi acompanhado e orientado pelo professor da disciplina '
@@ -67,13 +67,13 @@ class CreditosPageController extends ControllerMVC {
         .then((value) => setState(() => this.list.add(value)));
     AlienHunterWalker.detalhes
         .then((value) => setState(() => this.list.add(value)));
-    AlienSmasher.detalhes.then((value) => setState(() => this.list.add(value)));
-    FleshEatingSlug.detalhes
-        .then((value) => setState(() => this.list.add(value)));
-    AlienFlyingCommander.detalhes
-        .then((value) => setState(() => this.list.add(value)));
-    AlienMiniUFO.detalhes.then((value) => setState(() => this.list.add(value)));
-    Jellyfish.detalhes.then((value) => setState(() => this.list.add(value)));
+    // AlienSmasher.detalhes.then((value) => setState(() => this.list.add(value)));
+    // FleshEatingSlug.detalhes
+    //     .then((value) => setState(() => this.list.add(value)));
+    // AlienFlyingCommander.detalhes
+    //     .then((value) => setState(() => this.list.add(value)));
+    // AlienMiniUFO.detalhes.then((value) => setState(() => this.list.add(value)));
+    // Jellyfish.detalhes.then((value) => setState(() => this.list.add(value)));
   }
 
   // Widget _buildImageSized({String image, double maxHeight = 70}) {

@@ -40,22 +40,18 @@ class QuestExpressao {
       }).toList()
     );
 
-
-
-
-
     final _temp = <SymbolObject>[];
-    _alternativas.shuffle();
+    _alternativas..shuffle();
     _temp..addAll(_respostas)..addAll(_erradas);
     
     while(_temp.length > _alternativas.length)   _temp.removeLast();
     
-    _temp.shuffle();
+    _temp..shuffle()..shuffle();
 
     for (int i = 0; i < _temp.length; i ++){
       _alternativas[i].text = _temp[i].text;
     }
-    _alternativas.shuffle();
+    _alternativas..shuffle();
     
     return Future.value();
   }
