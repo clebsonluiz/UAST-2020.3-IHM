@@ -66,13 +66,13 @@ final _level1 = [
     expressaoEmoji: "A;BICON;B",
     respostas: ";F;F",
     erradas: ";V;V",
-    dicionario: ";A:F;B:F",
+    dicionario: ";A:V;B:F",
   ),
   ExpressaoEmoji(
     expressaoEmoji: ";A;BICON;B",
     respostas: ";V;V",
     erradas: ";F;F",
-    dicionario: ";A:V;B:F",
+    dicionario: ";A:F;B:F",
   ),
   ExpressaoEmoji(
     expressaoEmoji: ";(;A;OR;B;)",
@@ -129,13 +129,13 @@ final _level2 = [
     expressaoEmoji: ";NOT;A;BICON;B",
     respostas: ";V;V",
     erradas: ";F;F",
-    dicionario: ";A:F;B:F",
+    dicionario: ";A:F;B:V",
   ),
   ExpressaoEmoji(
     expressaoEmoji: ";NOT;A;BICON;B",
     respostas: ";F;F",
     erradas: ";V;V",
-    dicionario: ";A:V;B:F",
+    dicionario: ";A:V;B:V",
   ),
   ExpressaoEmoji(
     expressaoEmoji: ";NOT;(;A;OR;B;)",
@@ -190,8 +190,8 @@ final _level3 = [
   ),
   ExpressaoEmoji(
     expressaoEmoji: ";(;NOT;A;);BICON;(;NOT;B;)",
-    respostas: ";V;V",
-    erradas: ";F;F",
+    respostas: ";F;F",
+    erradas: ";V;V",
     dicionario: ";A:F;B:V",
   ),
   ExpressaoEmoji(
@@ -241,8 +241,8 @@ final _level3 = [
 final _level4 = [
   ExpressaoEmoji(
     expressaoEmoji: ";(;NOT;A;CON;NOT;A;);BICON;A",
-    respostas: ";V;V",
-    erradas: ";F;F",
+    respostas: ";F;F",
+    erradas: ";V;V",
     dicionario: ";A:F",
   ),
   ExpressaoEmoji(

@@ -18,8 +18,6 @@ class QuestExpressao {
     SymbolObjectBoxColorRed(),
   ];
 
-  
-
   QuestExpressao(this._expressaoEmoji);
 
   Future<void> build() async {
@@ -109,6 +107,5 @@ class QuestExpressao {
   bool _checkResposta(SymbolObject _sym){
     return !this._respostas.every((sym) => sym.text != _sym.text);
   }
-
 
 }
