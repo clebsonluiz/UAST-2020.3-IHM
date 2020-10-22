@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
-import 'package:ihm_2020_3/src/view/components/dpad_joystick_widget.dart';
+import 'package:ihm_2020_3/src/controller/views/components/dpad_widgets_controllers.dart';
 
 mixin MixinGameActions {
 

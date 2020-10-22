@@ -6,14 +6,16 @@ class ExpressaoEmoji {
   String expressaoEmoji;
   String respostas;
   String erradas;
+  String dicionario;
 
-  ExpressaoEmoji({this.id, this.expressaoEmoji, this.respostas, this.erradas});
+  ExpressaoEmoji({this.id, this.expressaoEmoji, this.respostas, this.erradas, this.dicionario});
 
   ExpressaoEmoji.fromJson(Map<String, dynamic> json) {
     id = json[TableExpressaoEmoji.COL_ID];
     expressaoEmoji = json[TableExpressaoEmoji.COL_EXPRESSAO_EMOJI];
     respostas = json[TableExpressaoEmoji.COL_RESPOSTAS];
     erradas = json[TableExpressaoEmoji.COL_ERRADAS];
+    dicionario = json[TableExpressaoEmoji.COL_DICT];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +24,7 @@ class ExpressaoEmoji {
     data[TableExpressaoEmoji.COL_EXPRESSAO_EMOJI] = this.expressaoEmoji;
     data[TableExpressaoEmoji.COL_RESPOSTAS] = this.respostas;
     data[TableExpressaoEmoji.COL_ERRADAS] = this.erradas;
+    data[TableExpressaoEmoji.COL_DICT] = this.dicionario;
     return data;
   }
 

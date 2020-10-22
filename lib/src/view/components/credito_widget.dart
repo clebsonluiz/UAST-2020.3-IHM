@@ -16,10 +16,15 @@ class _CreditoWidgetState extends State<CreditoWidget> {
 
   @override
   Widget build(BuildContext context) => Card(
+    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    side: BorderSide(color: Colors.black87, width: 5),
+                  ),
         borderOnForeground: true,
         elevation: 1,
         color: Colors.black45,
         child: ExpansionTile(
+          
           onExpansionChanged: _loadTile,
           title: Text(widget.element['Name'] ?? '',
               style: new TextStyle(

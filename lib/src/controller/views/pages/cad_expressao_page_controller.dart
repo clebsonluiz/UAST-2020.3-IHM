@@ -1,6 +1,10 @@
+import 'package:flame/flame.dart';
+import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:ihm_2020_3/src/controller/views/components/simbolo_widget_controller.dart';
 import 'package:ihm_2020_3/src/model/database/models/expressao.dart';
+import 'package:ihm_2020_3/src/model/database/models/expressao_emoji.dart';
 import 'package:ihm_2020_3/src/model/utils/const_simbolos.dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 import 'package:ihm_2020_3/src/view/components/dialog_emoji_page.dart';
@@ -10,6 +14,30 @@ import 'package:ihm_2020_3/src/view/pages/cad_expressao_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 class CadExpressaoPageController extends ControllerMVC {
+  CadExpressaoPageController() {
+    Sprite.loadSprite(
+      AnotherConsts.BG_TIMER,
+      x: 0,
+      y: (9 * 32.0).toDouble(),
+      width: (17 * 32).toDouble(),
+      height: (8 * 32).toDouble(),
+    ).then((value) {
+      setState(() {
+        _widget1 = Flame.util.spriteAsWidget(value.size.toSize(), value);
+      });
+    });
+  }
+  Widget get imageVoltar =>
+      _buildImageSized(image: AnotherConsts.MENU_ITEM_12, color: Colors.yellow, maxHeight: 25);
+
+  Widget _widget1;
+  Widget get img => _widget1;
+
+  Widget get imageExpressoes => _buildImageSized(
+      image: AnotherConsts.MENU_ITEM_11,
+      color: Colors.deepPurpleAccent,
+      maxHeight: 30);
+
   @override
   CadExpressaoPageState get stateMVC => super.stateMVC;
 
@@ -216,221 +244,24 @@ class CadExpressaoPageController extends ControllerMVC {
       {String image,
       BoxFit fit = BoxFit.fill,
       double maxHeight = double.infinity,
-      double maxWidth = double.infinity}) {
-    return Image.asset('assets/images/' + image.toString(),
-        color: null, fit: fit, width: maxWidth, height: maxHeight);
+      double maxWidth = double.infinity,
+      Color color}) {
+    return Image.asset(
+      'assets/images/' + image.toString(),
+      color: color,
+      fit: fit,
+      width: maxWidth,
+      height: maxHeight,
+      colorBlendMode: BlendMode.modulate,
+    );
   }
 
   Widget get image =>
       _buildImageSized(image: AnotherConsts.BG_OBJETIVE_2, fit: BoxFit.fill);
-  Widget get imageCover =>
-      _buildImageSized(image: AnotherConsts.BG_OBJETIVE_2, fit: BoxFit.cover);
-
-  void confirmExpression() {
-    _thirdChildren.clear();
-
-    int _iP1 = 0;
-    int _iP2 = 0;
-    int _iOP = 0;
-
-    _firstChildren.forEach((child) {
-      final sym = child as SimboloWidget;
-
-      _iP1 += (sym.simbolo == ConstSimbolos.OP_PARENTESE_E) ? 1 : 0;
-      _iP2 += (sym.simbolo == ConstSimbolos.OP_PARENTESE_D) ? 1 : 0;
-
-      _iOP += (sym.simbolo != ConstSimbolos.OP_PARENTESE_E &&
-              sym.simbolo != ConstSimbolos.OP_PARENTESE_D &&
-              sym.simbolo != ConstSimbolos.OP_VARIAVEL_A &&
-              sym.simbolo != ConstSimbolos.OP_VARIAVEL_B &&
-              sym.simbolo != ConstSimbolos.OP_VARIAVEL_C)
-          ? 1
-          : 0;
-
-      _thirdChildren.add(SimboloWidget(
-        tipo: sym.tipo,
-        simbolo: sym.simbolo,
-      ));
-    });
-
-    if (_firstChildren.length < 2 ||
-        (_iP1 != _iP2) ||
-        (_iOP < 1) ||
-        !((_firstChildren.last as SimboloWidget).tipo ==
-                ConstSimbolos.OP_VARIAVEL_A ||
-            (_firstChildren.last as SimboloWidget).tipo ==
-                ConstSimbolos.OP_VARIAVEL_B ||
-            (_firstChildren.last as SimboloWidget).tipo ==
-                ConstSimbolos.OP_VARIAVEL_C ||
-            (_firstChildren.last as SimboloWidget).tipo ==
-                ConstSimbolos.OP_PARENTESE_D)) {
-      showMyDialog("Verifique se a sua expressão tenha os requisitos: \n\n\n"
-          "*Ao menos 1 variável\n\n"
-          "*Ao menos 1 operador válido!\n\n"
-          "*Cada parentese aberto presente, tenha um fechando\n");
-      return;
-    }
-
-    setState(() {
-      _indexDesconhecido = -1;
-      _thirdChildren = List.from(_thirdChildren);
-      _fourthChildren = List.from(_thirdChildren);
-      _fifthChildren = [];
-      _sixthChildren = [];
-    });
-  }
-
-  void uploadExpressao() {
-    int _iP1 = 0;
-    int _iP2 = 0;
-    int _iOP = 0;
-
-    String _expressao = "";
-
-    _firstChildren.forEach((child) {
-      final sym = child as SimboloWidget;
-
-      _iP1 += (sym.simbolo == ConstSimbolos.OP_PARENTESE_E) ? 1 : 0;
-      _iP2 += (sym.simbolo == ConstSimbolos.OP_PARENTESE_D) ? 1 : 0;
-
-      _iOP += (sym.simbolo != ConstSimbolos.OP_PARENTESE_E &&
-              sym.simbolo != ConstSimbolos.OP_PARENTESE_D &&
-              sym.simbolo != ConstSimbolos.OP_VARIAVEL_A &&
-              sym.simbolo != ConstSimbolos.OP_VARIAVEL_B &&
-              sym.simbolo != ConstSimbolos.OP_VARIAVEL_C)
-          ? 1
-          : 0;
-
-      _expressao += ";" + sym.tipo;
-    });
-
-    if (_firstChildren.length < 2 ||
-        (_iP1 != _iP2) ||
-        (_iOP < 1) ||
-        !((_firstChildren.last as SimboloWidget).tipo ==
-                ConstSimbolos.OP_VARIAVEL_A ||
-            (_firstChildren.last as SimboloWidget).tipo ==
-                ConstSimbolos.OP_VARIAVEL_B ||
-            (_firstChildren.last as SimboloWidget).tipo ==
-                ConstSimbolos.OP_VARIAVEL_C ||
-            (_firstChildren.last as SimboloWidget).tipo ==
-                ConstSimbolos.OP_PARENTESE_D)) {
-      showMyDialog("Verifique se a sua expressão tenha os requisitos: \n\n\n"
-          "*Ao menos 1 variável\n\n"
-          "*Ao menos 1 operador válido!\n\n"
-          "*Cada parentese aberto presente, tenha um fechando\n");
-      return;
-    }
-
-    Expressao(expressao: _expressao).save().then((value) {
-      if (value != null && value > 0) {
-        showMyDialog("Expressão salva com sucesso!", title: "Sucesso!");
-        onRefresh();
-      }
-    });
-  }
-
-  Future<void> cadCorreto() async {
-    if (this.fifthChildren.length == 2) {
-      showMyDialog(
-          "Desculpe, mas o maximo de alternativas corretas é de 2 elementos!");
-      return;
-    }
-
-    final emoji = await DialogEmojiPage.call(this.stateMVC.context);
-
-    final existsInterrogacao = _exists(fourthChildren, emoji);
-    final existsCertos = _exists(fifthChildren, emoji);
-    final existsErros = _exists(sixthChildren, emoji);
-
-    if (emoji == null) return;
-
-    if (existsInterrogacao || existsCertos || existsErros) {
-      showMyDialog(
-          'Não se pode adicionar emojis já existentes nesse contexto, evite ambiguidades e repetições!!');
-    } else {
-      setState(() {
-        this._fifthChildren = List.of(fifthChildren)
-          ..add(SimboloWidget(
-            tipo: ConstSimbolos.OP_INTERROGACAO,
-            simbolo: emoji,
-          ));
-      });
-    }
-  }
-
-  Future<void> cadIncorreto() async {
-    final emoji = await DialogEmojiPage.call(this.stateMVC.context);
-    if (emoji == null) return;
-
-    final existsCertos = _exists(fifthChildren, emoji);
-
-    if (existsCertos) {
-      showMyDialog(
-          'Não se pode adicionar emojis já existentes nos campos de Corretos, evite ambiguidades!!');
-    } else {
-      setState(() {
-        this._sixthChildren = List.of(sixthChildren)
-          ..add(SimboloWidget(
-            tipo: ConstSimbolos.OP_INTERROGACAO,
-            simbolo: emoji,
-          ));
-      });
-    }
-  }
-
-  //TODO
-  void cadExpressao() {
-    if ((this._fifthChildren.length + this._sixthChildren.length) < 4) {
-      final _c = this._fifthChildren.length;
-      final _e = (_c - 4).abs();
-
-      showMyDialog(
-          "Desculpe, mas é necessário $_c alternativa(s) correta(s) e pelo menos $_e alternativas incorretas");
-
-      return;
-    }
-
-    String expressao = "";
-    String corretas = "";
-    String incorretas = "";
-
-    for (int i = 0; i < _fourthChildren.length; i++) {
-      final e = _fourthChildren[i] as SimboloWidget;
-      if (i == _indexDesconhecido) {
-        expressao += ";" + ConstSimbolos.OP_INTERROGACAO;
-      } else {
-        if (e.tipo == ConstSimbolos.OP_VARIAVEL_A ||
-            e.tipo == ConstSimbolos.OP_VARIAVEL_B ||
-            e.tipo == ConstSimbolos.OP_VARIAVEL_C) {
-          expressao += ";" + e.simbolo;
-        } else {
-          expressao += ";" + e.tipo;
-        }
-      }
-    }
-
-    _fifthChildren.forEach((e) {
-      corretas += ";" + (e as SimboloWidget).simbolo;
-    });
-    _sixthChildren.forEach((e) {
-      incorretas += ";" + (e as SimboloWidget).simbolo;
-    });
-
-    // ExpressaoEmoji(
-    //   expressaoEmoji: expressao,
-    //   respostas: corretas,
-    //   erradas: incorretas,
-    // ).save().then((value) {
-    //   if(value != null && value > 0){
-    //     showMyDialog("Expressão salva com sucesso!", title: "Salvo!");
-    //   }
-    // });
-
-    print(expressao);
-    print(corretas);
-    print(incorretas);
-  }
+  Widget get imageCover => _buildImageSized(
+      image: AnotherConsts.BG_OBJETIVE_2,
+      fit: BoxFit.cover,
+      color: Colors.grey[700]);
 
   void addDimissible(SimboloWidget simboloWidget) {
     final _index = _firstChildren.length;
@@ -735,4 +566,206 @@ class CadExpressaoPageController extends ControllerMVC {
   }
 
   navigatorPop() => Navigator.of(this.stateMVC.context).pop();
+
+  void confirmExpression() {
+    _thirdChildren.clear();
+
+    int _iP1 = 0;
+    int _iP2 = 0;
+    int _iOP = 0;
+
+    _firstChildren.forEach((child) {
+      final sym = child as SimboloWidget;
+
+      _iP1 += (sym.simbolo == ConstSimbolos.OP_PARENTESE_E) ? 1 : 0;
+      _iP2 += (sym.simbolo == ConstSimbolos.OP_PARENTESE_D) ? 1 : 0;
+
+      _iOP += (sym.simbolo != ConstSimbolos.OP_PARENTESE_E &&
+              sym.simbolo != ConstSimbolos.OP_PARENTESE_D &&
+              sym.simbolo != ConstSimbolos.OP_VARIAVEL_A &&
+              sym.simbolo != ConstSimbolos.OP_VARIAVEL_B &&
+              sym.simbolo != ConstSimbolos.OP_VARIAVEL_C)
+          ? 1
+          : 0;
+
+      _thirdChildren.add(SimboloWidget(
+        tipo: sym.tipo,
+        simbolo: sym.simbolo,
+      ));
+    });
+
+    if (_firstChildren.length < 2 ||
+        (_iP1 != _iP2) ||
+        (_iOP < 1) ||
+        !((_firstChildren.last as SimboloWidget).tipo ==
+                ConstSimbolos.OP_VARIAVEL_A ||
+            (_firstChildren.last as SimboloWidget).tipo ==
+                ConstSimbolos.OP_VARIAVEL_B ||
+            (_firstChildren.last as SimboloWidget).tipo ==
+                ConstSimbolos.OP_VARIAVEL_C ||
+            (_firstChildren.last as SimboloWidget).tipo ==
+                ConstSimbolos.OP_PARENTESE_D)) {
+      showMyDialog("Verifique se a sua expressão tenha os requisitos: \n\n\n"
+          "*Ao menos 1 variável\n\n"
+          "*Ao menos 1 operador válido!\n\n"
+          "*Cada parentese aberto presente, tenha um fechando\n");
+      return;
+    }
+
+    setState(() {
+      _indexDesconhecido = -1;
+      _thirdChildren = List.from(_thirdChildren);
+      _fourthChildren = List.from(_thirdChildren);
+      _fifthChildren = [];
+      _sixthChildren = [];
+    });
+  }
+
+  void uploadExpressao() {
+    int _iP1 = 0;
+    int _iP2 = 0;
+    int _iOP = 0;
+
+    String _expressao = "";
+
+    _firstChildren.forEach((child) {
+      final sym = child as SimboloWidget;
+
+      _iP1 += (sym.simbolo == ConstSimbolos.OP_PARENTESE_E) ? 1 : 0;
+      _iP2 += (sym.simbolo == ConstSimbolos.OP_PARENTESE_D) ? 1 : 0;
+
+      _iOP += (sym.simbolo != ConstSimbolos.OP_PARENTESE_E &&
+              sym.simbolo != ConstSimbolos.OP_PARENTESE_D &&
+              sym.simbolo != ConstSimbolos.OP_VARIAVEL_A &&
+              sym.simbolo != ConstSimbolos.OP_VARIAVEL_B &&
+              sym.simbolo != ConstSimbolos.OP_VARIAVEL_C)
+          ? 1
+          : 0;
+
+      _expressao += ";" + sym.tipo;
+    });
+
+    if (_firstChildren.length < 2 ||
+        (_iP1 != _iP2) ||
+        (_iOP < 1) ||
+        !((_firstChildren.last as SimboloWidget).tipo ==
+                ConstSimbolos.OP_VARIAVEL_A ||
+            (_firstChildren.last as SimboloWidget).tipo ==
+                ConstSimbolos.OP_VARIAVEL_B ||
+            (_firstChildren.last as SimboloWidget).tipo ==
+                ConstSimbolos.OP_VARIAVEL_C ||
+            (_firstChildren.last as SimboloWidget).tipo ==
+                ConstSimbolos.OP_PARENTESE_D)) {
+      showMyDialog("Verifique se a sua expressão tenha os requisitos: \n\n\n"
+          "*Ao menos 1 variável\n\n"
+          "*Ao menos 1 operador válido!\n\n"
+          "*Cada parentese aberto presente, tenha um fechando\n");
+      return;
+    }
+
+    Expressao(expressao: _expressao).save().then((value) {
+      if (value != null && value > 0) {
+        showMyDialog("Expressão salva com sucesso!", title: "Sucesso!");
+        onRefresh();
+      }
+    });
+  }
+
+  Future<void> cadCorreto() async {
+    if (this.fifthChildren.length == 2) {
+      showMyDialog(
+          "Desculpe, mas o maximo de alternativas corretas é de 2 elementos!");
+      return;
+    }
+
+    final emoji = await DialogEmojiPage.call(this.stateMVC.context);
+
+    final existsInterrogacao = _exists(fourthChildren, emoji);
+    final existsCertos = _exists(fifthChildren, emoji);
+    final existsErros = _exists(sixthChildren, emoji);
+
+    if (emoji == null) return;
+
+    if (existsInterrogacao || existsCertos || existsErros) {
+      showMyDialog(
+          'Não se pode adicionar emojis já existentes nesse contexto, evite ambiguidades e repetições!!');
+    } else {
+      setState(() {
+        this._fifthChildren = List.of(fifthChildren)
+          ..add(SimboloWidget(
+            tipo: ConstSimbolos.OP_INTERROGACAO,
+            simbolo: emoji,
+          ));
+      });
+    }
+  }
+
+  Future<void> cadIncorreto() async {
+    final emoji = await DialogEmojiPage.call(this.stateMVC.context);
+    if (emoji == null) return;
+
+    final existsCertos = _exists(fifthChildren, emoji);
+
+    if (existsCertos) {
+      showMyDialog(
+          'Não se pode adicionar emojis já existentes nos campos de Corretos, evite ambiguidades!!');
+    } else {
+      setState(() {
+        this._sixthChildren = List.of(sixthChildren)
+          ..add(SimboloWidget(
+            tipo: ConstSimbolos.OP_INTERROGACAO,
+            simbolo: emoji,
+          ));
+      });
+    }
+  }
+
+  //TODO
+  void cadExpressao() {
+    if ((this._fifthChildren.length + this._sixthChildren.length) < 4) {
+      final _c = this._fifthChildren.length;
+      final _e = (_c - 4).abs();
+
+      showMyDialog(
+          "Desculpe, mas é necessário $_c alternativa(s) correta(s) e pelo menos $_e alternativas incorretas");
+
+      return;
+    }
+
+    String expressao = "";
+    String corretas = "";
+    String incorretas = "";
+
+    for (int i = 0; i < _fourthChildren.length; i++) {
+      final e = _fourthChildren[i] as SimboloWidget;
+      if (i == _indexDesconhecido) {
+        expressao += ";" + ConstSimbolos.OP_INTERROGACAO;
+      } else {
+        if (e.tipo == ConstSimbolos.OP_VARIAVEL_A ||
+            e.tipo == ConstSimbolos.OP_VARIAVEL_B ||
+            e.tipo == ConstSimbolos.OP_VARIAVEL_C) {
+          expressao += ";" + e.simbolo;
+        } else {
+          expressao += ";" + e.tipo;
+        }
+      }
+    }
+
+    _fifthChildren.forEach((e) {
+      corretas += ";" + (e as SimboloWidget).simbolo;
+    });
+    _sixthChildren.forEach((e) {
+      incorretas += ";" + (e as SimboloWidget).simbolo;
+    });
+
+    ExpressaoEmoji(
+      expressaoEmoji: expressao,
+      respostas: corretas,
+      erradas: incorretas,
+    ).save().then((value) {
+      if (value != null && value > 0) {
+        showMyDialog("Expressão salva com sucesso!", title: "Salvo!");
+      }
+    });
+  }
 }

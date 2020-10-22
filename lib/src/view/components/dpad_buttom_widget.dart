@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ihm_2020_3/src/controller/views/components/dpad_widgets_controllers.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 
 class DpadButtonWidget extends StatefulWidget {
   final Function() onAction;
@@ -27,8 +29,10 @@ class DpadButtonWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _DpadButtonWidgetState();
 }
 
-class _DpadButtonWidgetState extends State<DpadButtonWidget> {
-  bool _holding = false;
+class _DpadButtonWidgetState extends StateMVC<DpadButtonWidget> {
+  _DpadButtonWidgetState() : super(DpadButtonController());
+
+  DpadButtonController get con => this.controller;
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -38,22 +42,22 @@ class _DpadButtonWidgetState extends State<DpadButtonWidget> {
           child: Container(
             child: Center(
               child: SizedBox(
-                height: _holding ? 50 : 55,
-                width: _holding ? 50 : 55,
+                height: this.con.holding ? 50 : 55,
+                width: this.con.holding ? 50 : 55,
                 child: Container(
                   child: Icon(
-                    _holding
+                    this.con.holding
                         ? widget.iconDataOnSelected ?? widget.iconData
                         : widget.iconData,
-                    color: _holding
+                    color: this.con.holding
                         ? widget.iconSelectedColor
                         : widget.iconReleasedColor,
-                    size: _holding
+                    size: this.con.holding
                         ? widget.sizeIconOnSelected
                         : widget.sizeIconOnReleased,
                   ),
                   decoration: BoxDecoration(
-                    color: _holding
+                    color: this.con.holding
                         ? widget.onSelectedColor
                         : widget.onReleasedColor,
                     borderRadius: BorderRadius.circular(32),
@@ -66,22 +70,9 @@ class _DpadButtonWidgetState extends State<DpadButtonWidget> {
               borderRadius: BorderRadius.circular(32),
             ),
           ),
-          onTapDown: (tdd) => onTapDown(tdd),
-          onTapUp: (tud) => onTapUp(tud),
-          onTapCancel: () => onTapCancel(),
+          onTapDown: this.con.onTapDown,
+          onTapUp: this.con.onTapUp,
+          onTapCancel: this.con.onTapCancel,
         ),
       );
-
-  void onTapDown(TapDownDetails tdd) {
-    setState(() => _holding = true);
-    widget.onAction();
-  }
-
-  void onTapUp(TapUpDetails tud) {
-    setState(() => _holding = false);
-  }
-
-  void onTapCancel() {
-    setState(() => _holding = false);
-  }
 }

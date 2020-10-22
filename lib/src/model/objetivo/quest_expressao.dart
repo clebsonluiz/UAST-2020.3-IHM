@@ -7,6 +7,7 @@ class QuestExpressao {
   final ExpressaoEmoji _expressaoEmoji;
 
   final _expressao = <SymbolObject>[];
+  final _dicionario = <String>[];
   final _respostas = <SymbolObject>[];
   final _erradas = <SymbolObject>[];
   final _alternativas = <SymbolObject>[
@@ -17,8 +18,6 @@ class QuestExpressao {
     SymbolObjectBoxColorRed(),
   ];
 
-  
-
   QuestExpressao(this._expressaoEmoji);
 
   Future<void> build() async {
@@ -28,16 +27,30 @@ class QuestExpressao {
     _expressao..clear()..addAll(_splitter(emojinador.expressaoEmoji));
     _respostas..clear()..addAll(_splitter(emojinador.respostas));
     _erradas..clear()..addAll(_splitter(emojinador.erradas));
+    
+
+    final _dict = emojinador.dicionario.split(";")..removeWhere((e) => e.isEmpty);
+
+    _dicionario..clear()..addAll(
+      _dict.map((e) {
+        final _s = e.split(":");
+        return "${_s.first}=${_s.last}";
+      }).toList()
+    );
 
     final _temp = <SymbolObject>[];
     _alternativas..shuffle();
     _temp..addAll(_respostas)..addAll(_erradas);
     
     while(_temp.length > _alternativas.length)   _temp.removeLast();
+    
+    _temp..shuffle()..shuffle();
+
     for (int i = 0; i < _temp.length; i ++){
       _alternativas[i].text = _temp[i].text;
     }
-
+    _alternativas..shuffle();
+    
     return Future.value();
   }
 
@@ -77,7 +90,7 @@ class QuestExpressao {
   List<SymbolObject> get expressao => this._expressao;
   List<SymbolObject> get alternativas => this._alternativas;
   List<SymbolObject> get respostas => this._respostas;
-
+  List<String> get dicionario => this._dicionario;
 
   bool responder(SymbolObject _sym){
     final _isRight = _checkResposta(_sym);
@@ -94,6 +107,5 @@ class QuestExpressao {
   bool _checkResposta(SymbolObject _sym){
     return !this._respostas.every((sym) => sym.text != _sym.text);
   }
-
 
 }

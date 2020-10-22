@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/controller/views/pages/base_game_page_controller.dart';
 import 'package:ihm_2020_3/src/view/components/dpad_buttom_widget.dart';
 import 'package:ihm_2020_3/src/view/components/dpad_joystick_widget.dart';
 import 'package:ihm_2020_3/src/view/components/dpad_widget.dart';
+import 'package:ihm_2020_3/src/view/components/help_widget.dart';
 import 'package:ihm_2020_3/src/view/components/menu_buttom_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-
 
 class BaseGamePage extends StatefulWidget {
   static const ROUTE = "/main-game-route";
@@ -85,8 +84,10 @@ class BaseGamePageState extends StateMVC<BaseGamePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             DpadButtonWidget(
-                              onAction: con.game.actionObjective,
-                              iconData: Icons.inbox,
+                              onAction: con.actionObjective,
+                              iconData: con.visible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               onReleasedColor: Colors.deepOrange,
                               onSelectedColor: Colors.white,
                               iconReleasedColor: Colors.white,
@@ -110,9 +111,15 @@ class BaseGamePageState extends StateMVC<BaseGamePage> {
                                   ? con.onAsKeyBlue
                                   : con.onAsKeyDark,
                             )
-                          : DpadButtonWidget(
-                              iconData: Icons.looks_one,
-                              onAction: con.game.actionButtonOne,
+                          // : DpadButtonWidget(
+                          //     iconData: Icons.looks_one,
+                          //     onAction: con.game.actionButtonOne,
+                          //   ),
+                          : FloatingActionButton(
+                            heroTag: "${con.alienWidget}",
+                            backgroundColor: Colors.grey,
+                              onPressed: con.game.actionButtonOne,
+                              child: con.alienWidget,
                             ),
                       con.selectionMode
                           ? _floatingB(
@@ -123,7 +130,7 @@ class BaseGamePageState extends StateMVC<BaseGamePage> {
                                   : con.onAsKeyDark,
                             )
                           : DpadButtonWidget(
-                              iconData: Icons.looks_two,
+                              iconData: Icons.pan_tool,
                               onAction: con.game.actionButtonTwo,
                             ),
                       con.selectionMode
@@ -138,7 +145,7 @@ class BaseGamePageState extends StateMVC<BaseGamePage> {
                                   : con.onAsKeyDark,
                             )
                           : DpadButtonWidget(
-                              iconData: Icons.looks_3,
+                              iconData: Icons.vertical_align_center,
                               onAction: con.game.actionButtonTree,
                             ),
                       con.selectionMode
@@ -150,7 +157,7 @@ class BaseGamePageState extends StateMVC<BaseGamePage> {
                                   : con.onAsKeyDark,
                             )
                           : DpadButtonWidget(
-                              iconData: Icons.looks_4,
+                              iconData: Icons.vertical_align_top,
                               onAction: con.game.actionButtonFour,
                             ),
                     ],
@@ -160,7 +167,23 @@ class BaseGamePageState extends StateMVC<BaseGamePage> {
               ),
             ),
           ),
-        )
+        ),
+        Positioned(
+          child: FloatingActionButton(
+            // splashColor: splashColor,
+            child: Icon(Icons.help, color: Colors.black54, size: 30),
+            elevation: 1,
+
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              side: BorderSide(color: Colors.black54, width: 2),
+            ),
+            backgroundColor: Colors.white,
+            mini: true,
+            onPressed: this.con.onActionHelp,
+          ),
+          bottom: 0,
+        ),
       ],
     );
   }
@@ -202,6 +225,15 @@ class BaseGamePageState extends StateMVC<BaseGamePage> {
     );
   }
 
+  Widget alertHelp() {
+    return AlertDialog(
+        // backgroundColor: Colors.black87,
+        // insetPadding: EdgeInsets.all(0),
+
+        contentPadding: EdgeInsets.all(0),
+        content: HelpWidget());
+  }
+
   Widget alert() {
     return AlertDialog(
         // backgroundColor: Colors.black87,
@@ -241,4 +273,3 @@ class BaseGamePageState extends StateMVC<BaseGamePage> {
         )));
   }
 }
-

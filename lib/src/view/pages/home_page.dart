@@ -1,19 +1,10 @@
 import 'dart:math';
 
-import 'package:flame/flame.dart';
-import 'package:flame/position.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ihm_2020_3/src/controller/views/pages/home_page_controller.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
-import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 
 import 'package:ihm_2020_3/src/view/components/menu_buttom_widget.dart';
-import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
-import 'package:ihm_2020_3/src/view/pages/base_game_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-
-import 'cad_expressao_page.dart';
 
 class MyHomePage extends StatefulWidget {
   static const ROUTE = "/home";
@@ -87,6 +78,11 @@ class _MyHomePageState extends StateMVC<MyHomePage> {
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
+                        Transform.scale(
+                          scale: 1.0,
+                          child: this.con.imgTitle,
+                        ),
+
                         MenuButtomWidget(
                             // textContent: 'NOVO JOGO',
                             widget: this.con.imageNewGame,
@@ -99,15 +95,20 @@ class _MyHomePageState extends StateMVC<MyHomePage> {
                         //         color: Colors.lightBlueAccent),
                         //     onAction: () async {},
                         //     splashColor: Colors.blueGrey[800]),
+                        // MenuButtomWidget(
+                        //     // textContent: 'AJUSTES',
+                        //     widget: this.con.imageAjustes,
+                        //     onAction: this.con.actionAjustes,
+                        //     splashColor: Colors.yellow[800]),
+                        // MenuButtomWidget(
+                        //     // textContent: 'EXTRAS',
+                        //     widget: this.con.imageExtras,
+                        //     onAction: this.con.actionExtras,
+                        //     splashColor: Colors.teal[800]),
                         MenuButtomWidget(
-                            // textContent: 'AJUSTES',
-                            widget: this.con.imageAjustes,
-                            onAction: this.con.actionAjustes,
-                            splashColor: Colors.yellow[800]),
-                        MenuButtomWidget(
-                            // textContent: 'EXTRAS',
-                            widget: this.con.imageExtras,
-                            onAction: this.con.actionExtras,
+                            // textContent: 'RANKING',
+                            widget: this.con.imageRanking,
+                            onAction: this.con.actionRanking,
                             splashColor: Colors.teal[800]),
                         MenuButtomWidget(
                             // textContent: 'CRÉDITOS',

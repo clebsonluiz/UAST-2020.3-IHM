@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flame/text_config.dart';
+import 'package:ihm_2020_3/src/model/abstracts/customs/custom_text_config.dart';
 import 'package:ihm_2020_3/src/model/entity/component/key_object.dart';
 import 'package:ihm_2020_3/src/model/entity/component/key_object_colors.dart';
 import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object.dart';
@@ -10,7 +11,7 @@ abstract class SymbolObjectBoxColor extends SymbolObject {
   SymbolObjectBoxColor.fromAsset({double x = 0.0, double y = 0.0})
       : super.fromAsset(
           AnotherConsts.BG_SIMBOLO_2,
-          scale: 0.16,
+          scaleX: 0.16,
           x: x,
           y: y,
           width: (8 * 32).toDouble(),
@@ -30,6 +31,11 @@ abstract class SymbolObjectBoxColor extends SymbolObject {
 
     return _key;
   }
+
+  @override
+  TextConfig get textConfig => CustomTextConfig(
+      fontSize: 25.0, color: const Color(0xFF303030));
+
 }
 
 class SymbolObjectBoxColorGreen extends SymbolObjectBoxColor {

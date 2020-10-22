@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/controller/views/pages/cad_expressao_page_controller.dart';
+import 'package:ihm_2020_3/src/view/components/menu_buttom_widget.dart';
 import 'package:ihm_2020_3/src/view/components/simbolo_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
@@ -28,32 +29,30 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
         backgroundColor: Colors.white60,
         body: Stack(
           children: <Widget>[
-            // con.imageCover,
+            Transform.scale(
+              scale: 1.1,
+              child: con.imageCover,
+            ),
             ListView(children: <Widget>[
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Center(
-                  child: Text(
-                    "NOVA EXPRESSÃO",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 26,
-                        color: Colors.black54),
-                  ),
+                  child: this.con.imageExpressoes,
                 ),
               ),
-              _buildGridOrList(
-                <Widget>[
-                  con.image,
-                  ListView.builder(
+              _buildGridOrList(<Widget>[
+                con.img ?? con.image,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: ListView.builder(
                     padding: EdgeInsets.all(10),
                     itemCount: con.firstChildren.length,
                     itemBuilder: con.firstChildrenBuilder,
                     scrollDirection: Axis.horizontal,
                     controller: con.scrollController,
                   ),
-                ],
-              ),
+                ),
+              ], cor: null, height: 110),
               _textMin(
                   "*Tamanho maximo permitido para expressões é ${con.limiteExpressao}!"),
               LimitedBox(
@@ -72,6 +71,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                             child: _buildGridOrList(
                               <Widget>[
                                 con.image,
+                                Container(color: Colors.black26),
                                 GridView.count(
                                   crossAxisCount: 5,
                                   childAspectRatio: 1.0,
@@ -102,10 +102,12 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                         child: _buildGridOrList(
                           <Widget>[
                             con.image,
+                            Container(color: Colors.black26),
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 8),
                               child: RefreshIndicator(
+                                
                                 child: con.secondChildren2.isEmpty
                                     ? ListView(
                                         children: <Widget>[
@@ -149,10 +151,15 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
               ),
               Row(
                 children: <Widget>[
-                  _raisedButton("Confirmar", con.confirmExpression,
-                      padding: EdgeInsets.all(5)),
-                  _raisedButton("Cadastrar?", con.uploadExpressao,
-                      padding: EdgeInsets.all(5), icon: Icons.file_upload),
+                  _raisedButton("Prosseguir", con.confirmExpression,
+                      padding: EdgeInsets.all(5),
+                      icon: Icons.check_circle,
+                      height: 70),
+                  _raisedButton(
+                      "Salvar para\nusar mais\ntarde?", con.uploadExpressao,
+                      padding: EdgeInsets.all(5),
+                      icon: Icons.file_upload,
+                      height: 70),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               ),
@@ -160,30 +167,32 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                   ? Center()
                   : Column(
                       children: <Widget>[
-                        _buildGridOrList(
-                          <Widget>[
-                            con.image,
-                            ListView.builder(
+                        _buildGridOrList(<Widget>[
+                          con.img ?? con.image,
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: ListView.builder(
                               padding: EdgeInsets.all(10),
                               itemCount: con.thirdChildren.length,
                               itemBuilder: con.thirdChildrenBuilder,
                               scrollDirection: Axis.horizontal,
                             ),
-                          ],
-                        ),
+                          ),
+                        ], cor: null, height: 110),
                         _textMin(
                             "*Selecione um emoji atrelado às váriaveis (A, B, C)"),
-                        _buildGridOrList(
-                          <Widget>[
-                            con.image,
-                            ListView.builder(
+                        _buildGridOrList(<Widget>[
+                          con.img ?? con.image,
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: ListView.builder(
                               padding: EdgeInsets.all(10),
                               itemCount: con.fourthChildren.length,
                               itemBuilder: con.fourthChildrenBuilder,
                               scrollDirection: Axis.horizontal,
                             ),
-                          ],
-                        ),
+                          ),
+                        ], cor: null, height: 110),
                         _textMin("*Selecione quem será o (?) pelas váriaveis"),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -198,20 +207,17 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                       maxWidth:
                                           MediaQuery.of(context).size.width *
                                               0.5,
-                                      child: _buildGridOrList(
-                                        <Widget>[
-                                          con.image,
-                                          ListView.builder(
-                                            padding: EdgeInsets.all(10),
-                                            itemCount: con.fifthChildren.length,
-                                            itemBuilder:
-                                                con.fifthChildrenBuilder,
-                                            scrollDirection: Axis.horizontal,
-                                            controller:
-                                                con.scrollControllerCertos,
-                                          ),
-                                        ],
-                                      ),
+                                      child: _buildGridOrList(<Widget>[
+                                        con.img ?? con.image,
+                                        ListView.builder(
+                                          padding: EdgeInsets.all(10),
+                                          itemCount: con.fifthChildren.length,
+                                          itemBuilder: con.fifthChildrenBuilder,
+                                          scrollDirection: Axis.horizontal,
+                                          controller:
+                                              con.scrollControllerCertos,
+                                        ),
+                                      ], cor: null),
                                     ),
                                     _textMin("*Alternativas corretas"),
                                     _floatingActionButton(
@@ -228,20 +234,17 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                                       maxWidth:
                                           MediaQuery.of(context).size.width *
                                               0.5,
-                                      child: _buildGridOrList(
-                                        <Widget>[
-                                          con.image,
-                                          ListView.builder(
-                                            padding: EdgeInsets.all(10),
-                                            itemCount: con.sixthChildren.length,
-                                            itemBuilder:
-                                                con.sixthChildrenBuilder,
-                                            scrollDirection: Axis.horizontal,
-                                            controller:
-                                                con.scrollControllerErrados,
-                                          ),
-                                        ],
-                                      ),
+                                      child: _buildGridOrList(<Widget>[
+                                        con.img ?? con.image,
+                                        ListView.builder(
+                                          padding: EdgeInsets.all(10),
+                                          itemCount: con.sixthChildren.length,
+                                          itemBuilder: con.sixthChildrenBuilder,
+                                          scrollDirection: Axis.horizontal,
+                                          controller:
+                                              con.scrollControllerErrados,
+                                        ),
+                                      ], cor: null),
                                     ),
                                     _textMin("*Alternativas incorretas"),
                                     _floatingActionButton(
@@ -265,6 +268,17 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
                         )
                       ],
                     ),
+              Container(
+                height: 100,
+                alignment: Alignment.center,
+                child: MenuButtomWidget(
+                    widget: SizedBox(
+                      child: this.con.imageVoltar,
+                      width: 180,
+                    ),
+                    onAction: this.con.navigatorPop,
+                    splashColor: Colors.yellow[800]),
+              ),
             ]),
           ],
         ));
@@ -278,7 +292,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
           msg,
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black54),
+              fontWeight: FontWeight.bold, fontSize: 12, color: Colors.white70),
         ),
       ),
     );
@@ -295,7 +309,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
         heroTag: heroTag,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: BorderSide(color: cor),
+          side: BorderSide(color: cor, width: 3),
         ),
         splashColor: cor,
         tooltip: msg,
@@ -303,7 +317,7 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
         mini: true,
         child: Icon(
           icon,
-          color: Colors.black,
+          color: cor,
         ),
         backgroundColor: Colors.white70,
         elevation: 1,
@@ -313,51 +327,52 @@ class CadExpressaoPageState extends StateMVC<CadExpressaoPage> {
 
   Widget _raisedButton(String msg, Function onPressed,
       {EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 30),
-      IconData icon = Icons.touch_app}) {
+      IconData icon = Icons.touch_app,
+      Color borderColor = Colors.black87,
+      double height,
+      double width}) {
+    Color _secondary = borderColor.opacity == 1.0
+        ? (borderColor as MaterialColor)[900]
+        : Colors.black;
+
     return Padding(
       padding: padding,
-      child: RaisedButton.icon(
-        splashColor: Colors.black54,
-        // splashColor: Colors.orange,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-          side: BorderSide(color: Colors.black54, width: 2),
-        ),
-        elevation: 1,
-        onPressed: onPressed,
-        icon: Icon(icon, size: 30),
-        label: Text(
-          msg,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          maxLines: 2,
+      child: SizedBox(
+        height: height,
+        width: width,
+        child: RaisedButton.icon(
+          splashColor: borderColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            side: BorderSide(color: borderColor, width: 3),
+          ),
+          elevation: 1,
+          onPressed: onPressed,
+          icon: Icon(icon, size: 30, color: _secondary),
+          label: Text(
+            msg,
+            softWrap: true,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 18, color: _secondary),
+            maxLines: 3,
+          ),
         ),
       ),
     );
   }
 
-  //   Widget _buildHorizontalList({int itemCount, Widget Function(BuildContext, int) itemBuilder,
-  //     ScrollController scrollController}) {
-  //   return _buildGridOrList(
-  //     <Widget>[
-  //       // _buildImageSized(image: "objetivo_fundo_2.png", fit: BoxFit.fill),
-  //       ListView.builder(
-  //         padding: EdgeInsets.all(10),
-  //         itemCount: _thirdChildren.length,
-  //         itemBuilder: itemBuilder,
-  //         scrollDirection: Axis.horizontal,
-  //         controller: scrollController,
-  //       ),
-  //     ],
-  //   );
-  // }
 
-  Widget _buildGridOrList(List<Widget> _children, {double height = 80}) {
+ 
+
+  Widget _buildGridOrList(List<Widget> _children,
+      {double height = 80, Color cor = Colors.black26}) {
     return Padding(
       padding: EdgeInsets.all(10),
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(10)),
         child: Container(
-          color: Colors.black26,
+          color: cor,
           height: height,
           // width: Navigator.of(context).context.size.width,
           // padding: EdgeInsets.all(5),
