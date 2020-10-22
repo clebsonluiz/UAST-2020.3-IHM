@@ -6,7 +6,7 @@ class Objetivo {
 
   factory Objetivo() => _this;
 
-  Objetivo._() {}
+  Objetivo._();
 
   final List<QuestExpressao> _questoes = <QuestExpressao>[];
 
@@ -20,7 +20,7 @@ class Objetivo {
 
   Future<void> build() async {
     _questoes..clear();
-    var _expressoes = await ExpressaoEmoji.getAll();
+    // var _expressoes = await ExpressaoEmoji.getAll();
     // if (_expressoes == null) {
     //   _expressoes ??= elements;
     // } else {
@@ -300,46 +300,3 @@ final _level4 = [
     dicionario: ";A:F",
   ),
 ];
-
-// final elements = [
-//   ExpressaoEmoji(
-//     expressaoEmoji: ";?;CON;(;✔;AND;✔;)",
-//     respostas: ";✔",
-//     erradas: ";✅;❌;✅",
-//   ),
-//   ExpressaoEmoji(
-//     expressaoEmoji: ";?;CON;(;👨;AND;🍽;)",
-//     respostas: ";🍝;🍛",
-//     erradas: ";⚾;🎼;🔥",
-//   ),
-//   ExpressaoEmoji(
-//     expressaoEmoji: ";(;🐒;AND;🍽;);CON;?",
-//     respostas: ";🍌",
-//     erradas: ";🔥;🍾;🍺",
-//   ),
-//   ExpressaoEmoji(
-//     expressaoEmoji: ";?;CON;(;🚹;OR;🚺;)",
-//     respostas: ";🚹;🚺",
-//     erradas: ";⛔;🍾;⚾",
-//   ),
-//   ExpressaoEmoji(
-//     expressaoEmoji: ";?;CON;NOT;🐵",
-//     respostas: ";🐢;🐨",
-//     erradas: ";🙈;🙉;🙊",
-//   ),
-//   ExpressaoEmoji(
-//     expressaoEmoji: ";(;NOT;NOT;🐵;);CON;?",
-//     respostas: ";🐵",
-//     erradas: ";🍞;🗿;🐶",
-//   ),
-//   ExpressaoEmoji(
-//     expressaoEmoji: ";?;BICON;(;🚹;AND;🚺;)",
-//     respostas: ";🚻",
-//     erradas: ";⛔;🗿;🆒",
-//   ),
-//   ExpressaoEmoji(
-//     expressaoEmoji: ";(;👨;AND;🍽;);CON;?",
-//     respostas: ";🍝;🍛",
-//     erradas: ";⚾;🎼;🔥",
-//   ),
-// ];

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flame/position.dart';
 import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/controller/game/game_controller.dart';
+import 'package:ihm_2020_3/src/controller/views/components/dpad_widgets_controllers.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
 import 'package:ihm_2020_3/src/model/entity/component/door_object.dart';
 import 'package:ihm_2020_3/src/model/entity/component/door_object_colors.dart';
@@ -13,7 +14,6 @@ import 'package:ihm_2020_3/src/model/entity/symbol/symbol_object_box_timer.dart'
 
 import 'mixin_game_actions.dart';
 import 'mixin_game_methods.dart';
-import 'package:ihm_2020_3/src/view/components/dpad_joystick_widget.dart';
 
 abstract class LevelController implements MixinGameActions, MixinGameMethods {
   final CustomTiledComponent _tileMap;
@@ -145,7 +145,6 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
     return collisionWithKey;
   }
 
-  //TODO
   bool _onIntersectDoor() {
     final collisionWithDoor = !this._doors.every((e) {
       final same = e.colorCode == this.game.player.currentKeyCode;

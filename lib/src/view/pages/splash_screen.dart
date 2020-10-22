@@ -1,7 +1,7 @@
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:ihm_2020_3/src/view/pages/home_page.dart';
-
+import 'package:ihm_2020_3/src/controller/views/pages/splash_screen_page_controller.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 
 class SplashScreenGame extends StatefulWidget {
   static const ROUTE = "/";
@@ -10,61 +10,38 @@ class SplashScreenGame extends StatefulWidget {
   State createState() => _SplashScreenGameState();
 }
 
-class _SplashScreenGameState extends State<SplashScreenGame> {
-  FlameSplashController _controller;
+class _SplashScreenGameState extends StateMVC<SplashScreenGame> {
+  _SplashScreenGameState() : super(SplashScreenPageController());
+
+  SplashScreenPageController get con => this.controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = FlameSplashController(
-        fadeInDuration: Duration(seconds: 1),
-        fadeOutDuration: Duration(seconds: 2),
-        waitDuration: Duration(seconds: 1),
-        autoStart: true);
   }
 
   @override
   void dispose() {
-    _controller.dispose(); // dispose it when necessary
+    this.con.flameSplashController.dispose(); // dispose it when necessary
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final imagebsi = 'logo_bsi.png';
-    final imageuast = 'logo_uast.png';
-    final logobsi = _buildImageSized(image: imagebsi, maxHeight: 150);
-    final logouast = _buildImageSized(image: imageuast, maxHeight: 250);
-
     return FlameSplashScreen(
-      // showBefore: (context) => logobsi,
       showBefore: (context) => Container(
-        color: Colors.white,
-        child: Padding(
-        
-        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            logouast, logobsi
-          ],
-        ),
-      )
-      ),
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[this.con.imageUAST, this.con.imageBSI],
+            ),
+          )),
       theme: FlameSplashTheme.dark,
-      onFinish: (context) async =>
-          Navigator.pushReplacementNamed(context, MyHomePage.ROUTE),
-      controller: _controller,
+      onFinish: this.con.onFinish,
+      controller: this.con.flameSplashController,
     );
   }
-}
-
-Widget _buildImageSized({String image, double maxHeight = 70}) {
-  return LimitedBox(
-      maxHeight: maxHeight,
-      child: Image.asset(
-        'assets/images/' + image.toString(),
-        color: null,
-      ));
 }

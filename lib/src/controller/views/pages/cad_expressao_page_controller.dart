@@ -2,6 +2,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:ihm_2020_3/src/controller/views/components/simbolo_widget_controller.dart';
 import 'package:ihm_2020_3/src/model/database/models/expressao.dart';
 import 'package:ihm_2020_3/src/model/database/models/expressao_emoji.dart';
 import 'package:ihm_2020_3/src/model/utils/const_simbolos.dart';

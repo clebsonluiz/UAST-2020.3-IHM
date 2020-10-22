@@ -1,6 +1,10 @@
 part of 'game_model_constants.dart';
 
 mixin AnotherConsts {
+  static const String LOGO_BSI = "logo_bsi.png";
+
+  static const String LOGO_UAST = "logo_uast.png";
+
   static const String HEARTH_STATUS = "Vida.png";
   static const String KEYS = "Keys.png";
 
@@ -33,15 +37,11 @@ mixin AnotherConsts {
   static const String MENU_ITEM_11 = 'menu_item_11.png';
   static const String MENU_ITEM_12 = 'menu_item_12.png';
 
-
-
   static const String AJUDA_NEGACAO = 'NEGACAO.png';
   static const String AJUDA_CONJUNCAO = 'CONJUNCAO.png';
   static const String AJUDA_DISJUNCAO = 'DISJUNCAO.png';
   static const String AJUDA_CONDICIONAL = 'CONDICIONAL.png';
   static const String AJUDA_BICONDICIONAL = 'BICONDICIONAL.png';
-
-
 
   static const List<String> ALL = <String>[
     HEARTH_STATUS,
@@ -71,6 +71,5 @@ mixin AnotherConsts {
     AJUDA_DISJUNCAO,
     AJUDA_CONDICIONAL,
     AJUDA_BICONDICIONAL,
-    
   ];
 }

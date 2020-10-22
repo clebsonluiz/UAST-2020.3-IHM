@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 
 class ExpressaoWidget extends StatelessWidget {
   final int id;
@@ -40,19 +39,19 @@ class ExpressaoWidget extends StatelessWidget {
         ));
   }
 
-  Widget _buildImageSized(
-      {String image,
-      BoxFit fit = BoxFit.fill,
-      // double maxHeight = double.infinity,
-      // double maxWidth = double.infinity,
-      Color color}) {
-    return Image.asset(
-      'assets/images/' + image.toString(),
-      color: color,
-      fit: fit,
-      // width: maxWidth,
-      // height: maxHeight,
-      colorBlendMode: BlendMode.modulate,
-    );
-  }
+  // Widget _buildImageSized(
+  //     {String image,
+  //     BoxFit fit = BoxFit.fill,
+  //     // double maxHeight = double.infinity,
+  //     // double maxWidth = double.infinity,
+  //     Color color}) {
+  //   return Image.asset(
+  //     'assets/images/' + image.toString(),
+  //     color: color,
+  //     fit: fit,
+  //     // width: maxWidth,
+  //     // height: maxHeight,
+  //     colorBlendMode: BlendMode.modulate,
+  //   );
+  // }
 }

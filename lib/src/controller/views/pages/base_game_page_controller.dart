@@ -68,6 +68,10 @@ class BaseGamePageController extends ControllerMVC {
     });
   }
 
+  void onResetKey(){
+    setState(() => this._alienWidget = this._alienWidgetDark);
+  }
+
   void onAsKeyRed() {
     this.game.player.changeToRed();
     setState(() => this._alienWidget = this._alienWidgetRed);

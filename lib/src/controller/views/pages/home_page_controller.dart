@@ -8,11 +8,7 @@ import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_sheet.dart'
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 import 'package:ihm_2020_3/src/view/pages/base_game_page.dart';
-// import 'package:ihm_2020_3/src/view/pages/cad_expressao_page.dart';
 import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
-// import 'package:ihm_2020_3/src/view/pages/extras_page.dart';
-// import 'package:ihm_2020_3/src/view/pages/game_over_page.dart';
-// import 'package:ihm_2020_3/src/view/pages/rank_page.dart';
 import 'package:ihm_2020_3/src/view/pages/ranking_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 

@@ -1,19 +1,10 @@
 import 'dart:math';
 
-import 'package:flame/flame.dart';
-import 'package:flame/position.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ihm_2020_3/src/controller/views/pages/home_page_controller.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
-import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 
 import 'package:ihm_2020_3/src/view/components/menu_buttom_widget.dart';
-import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
-import 'package:ihm_2020_3/src/view/pages/base_game_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-
-import 'cad_expressao_page.dart';
 
 class MyHomePage extends StatefulWidget {
   static const ROUTE = "/home";

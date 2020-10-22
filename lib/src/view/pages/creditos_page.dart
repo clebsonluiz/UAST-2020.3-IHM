@@ -1,10 +1,7 @@
-import 'dart:math';
 
-import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ihm_2020_3/src/controller/views/pages/creditos_page_controller.dart';
-import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 
 import 'package:ihm_2020_3/src/view/components/credito_widget.dart';
 import 'package:ihm_2020_3/src/view/components/menu_buttom_widget.dart';
@@ -27,13 +24,6 @@ class CreditosPageState extends StateMVC<CreditosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor: Colors.white,
-        //   iconTheme: IconThemeData(
-        //     color: Colors.grey,
-        //   ),
-        //   elevation: 0,
-        // ),
         backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[

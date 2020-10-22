@@ -1,13 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_flying_commander.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_walker.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_mini_ufo.dart';
-import 'package:ihm_2020_3/src/model/animations/alien_smasher.dart';
-import 'package:ihm_2020_3/src/model/animations/flesh_eating_slugger.dart';
-import 'package:ihm_2020_3/src/model/animations/jellyfish.dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
 import 'package:ihm_2020_3/src/view/pages/creditos_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -67,23 +62,7 @@ class CreditosPageController extends ControllerMVC {
         .then((value) => setState(() => this.list.add(value)));
     AlienHunterWalker.detalhes
         .then((value) => setState(() => this.list.add(value)));
-    // AlienSmasher.detalhes.then((value) => setState(() => this.list.add(value)));
-    // FleshEatingSlug.detalhes
-    //     .then((value) => setState(() => this.list.add(value)));
-    // AlienFlyingCommander.detalhes
-    //     .then((value) => setState(() => this.list.add(value)));
-    // AlienMiniUFO.detalhes.then((value) => setState(() => this.list.add(value)));
-    // Jellyfish.detalhes.then((value) => setState(() => this.list.add(value)));
   }
-
-  // Widget _buildImageSized({String image, double maxHeight = 70}) {
-  //   return LimitedBox(
-  //       maxHeight: maxHeight,
-  //       child: Image.asset(
-  //         'assets/images/' + image.toString(),
-  //         color: null,
-  //       ));
-  // }
 
   Widget _buildImg({String image, double maxHeight = 25, Color color}) {
     return LimitedBox(
