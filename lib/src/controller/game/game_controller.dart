@@ -8,7 +8,6 @@ import 'package:ihm_2020_3/src/controller/level/level_4_controller.dart';
 import 'package:ihm_2020_3/src/controller/level/level_controller.dart';
 import 'package:ihm_2020_3/src/controller/views/components/dpad_widgets_controllers.dart';
 import 'package:ihm_2020_3/src/model/database/utils/rank_utils..dart';
-import 'package:ihm_2020_3/src/model/entity/component/key_object_colors.dart';
 import 'package:ihm_2020_3/src/model/entity/player/player_game.dart';
 import 'package:ihm_2020_3/src/model/map/map_objectives.dart';
 import 'package:ihm_2020_3/src/model/objetivo/objetivo.dart';
@@ -138,9 +137,5 @@ class GameController extends Game implements MixinGameController {
   @override
   void actionMovement(Offset offset, JoystickDirection direction) {
     this._currentLevel?.actionMovement(offset, direction);
-  }
-
-  bool asGottenRedKey() {
-    return this.player.currentKeys.contains(KeyRed());
   }
 }

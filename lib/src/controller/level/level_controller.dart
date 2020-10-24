@@ -221,27 +221,11 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
       // this.timer?.update(dt);
     }
 
-    // var _text = "";
-
-    //   this.game.currentQuest.expressao.forEach((el) {
-    //     _text += el.text;
-    //   });
-
-    //   this.expressao?.text = _text;
-    //   this.expressao?.setPosition(x: 5, y: 5);
-    //   // this.expressao?.update(dt);
-    // }
-
-    // this
-    //     .game
-    //     .objective
-    //     .setPosition(x: this.game.size.width, y: this.game.size.height);
-   
     var _text = "";
 
-      this.game.currentQuest.expressao.forEach((el) {
-        _text += el.text;
-      });
+    this.game.currentQuest.expressao.forEach((el) {
+      _text += el.text;
+    });
 
     this.game.objective.text = _text;
  

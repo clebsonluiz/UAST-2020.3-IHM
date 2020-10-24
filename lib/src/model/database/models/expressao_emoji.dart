@@ -28,6 +28,9 @@ class ExpressaoEmoji {
     return data;
   }
 
+  @override
+  String toString() => "${this.toJson()}";
+
   Future save() async {
     this.id = await SqlHelper()
         .insert(TableExpressaoEmoji.NOME_TABELA, this.toJson());
