@@ -15,10 +15,8 @@ final rotas = <String, WidgetBuilder>{
   MyHomePage.ROUTE: (_) => MyHomePage(),
   BaseGamePage.ROUTE: (_) => BaseGamePage(),
   CreditosPage.ROUTE: (_) => CreditosPage(),
-  // CadExpressaoPage.ROUTE: (_) => CadExpressaoPage(),
   RankPage.ROUTE: (_) => RankPage(),
   RankingPage.ROUTE: (_) => RankingPage(),
-  // ExtrasPage.ROUTE: (_) => ExtrasPage(),
   GameOverPage.ROUTE: (_) => GameOverPage(),
 };
 
