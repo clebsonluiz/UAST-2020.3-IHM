@@ -50,6 +50,8 @@ flutter:
   uses-material-design: true
   assets:
 
+    - assets/json/default_quests.json
+
     - assets/images/NEGACAO.png
     - assets/images/CONJUNCAO.png
     - assets/images/DISJUNCAO.png
