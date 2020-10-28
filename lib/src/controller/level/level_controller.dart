@@ -115,7 +115,7 @@ abstract class LevelController implements MixinGameActions, MixinGameMethods {
     if (collisionWithQuest) {
       final resposta = this.game.currentQuest.responder(_current);
       if (!resposta) this.game.player.doDamage();
-
+      else this.game.player.doRightAnswer();
       final _key = _current.dropKey
         ..setPosition(
           x: _current.posX,

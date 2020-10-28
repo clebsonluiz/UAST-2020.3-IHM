@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_entity.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_text_config.dart';
 
-class DamageTextObject {
+class InfoObject {
 
   final double _timeInMilliseconds = 1000;
   
@@ -17,8 +17,8 @@ class DamageTextObject {
 
   TextComponent _textComponent;
 
-  DamageTextObject(this._entity) : assert(_entity != null) {
-    _textComponent = TextComponent("-1 VIDA", config: this.textConfig)
+  InfoObject(this._entity, String msg) : assert(_entity != null) {
+    _textComponent = TextComponent(msg, config: this.textConfig)
       ..anchor = Anchor.topLeft;
   }
 
