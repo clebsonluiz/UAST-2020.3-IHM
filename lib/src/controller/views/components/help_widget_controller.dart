@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
-import 'package:ihm_2020_3/src/view/pages/cad_expressao_page.dart';
 import 'package:ihm_2020_3/src/view/pages/ranking_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
@@ -92,9 +91,6 @@ class HelpWidgetController extends ControllerMVC {
 
   onActionRanking() async =>
       await Navigator.pushNamed(this.state.context, RankingPage.ROUTE);
-
-  onActionExpressao() async =>
-      await Navigator.pushNamed(this.state.context, CadExpressaoPage.ROUTE);
 
   navigatorPop() => Navigator.of(this.state.context).pop();
 }

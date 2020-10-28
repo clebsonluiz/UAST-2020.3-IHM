@@ -8,7 +8,7 @@ import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_moviment.da
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_sprite_position.dart';
 import 'package:ihm_2020_3/src/model/abstracts/customs/custom_tiled_component.dart';
 import 'package:ihm_2020_3/src/model/animations/alien_hunter_golden_colors.dart';
-import 'package:ihm_2020_3/src/model/entity/component/damage_alert_object.dart';
+import 'package:ihm_2020_3/src/model/entity/component/alert_info_object.dart';
 import 'package:ihm_2020_3/src/model/entity/component/key_object.dart';
 import 'package:ihm_2020_3/src/model/entity/component/life_object.dart';
 import 'package:ihm_2020_3/src/model/utils/game_model_constants.dart';
@@ -64,6 +64,7 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
   bool startInvertion = false;
 
   DamageTextObject _damageTextObject;
+  RightAnswerTextObject _rightAnswerTextObject;
 
   LifeObject _lifeObject;
 
@@ -86,6 +87,10 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
     this._damageTextObject.show();
   }
 
+  void doRightAnswer() {
+    this._rightAnswerTextObject.show();
+  }
+
   @override
   int get life => this._life;
 
@@ -94,6 +99,7 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
   PlayerGame(){
     _lifeObject = LifeObject(this);
     _damageTextObject = DamageTextObject(this);
+    _rightAnswerTextObject = RightAnswerTextObject(this);
 
     this.isLookingAtLeft = true;
 
@@ -169,6 +175,7 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
     this._lifeObject.render(canvas);
     this._keys.forEach((key) => key.renderOn(canvas, this));
     this._damageTextObject.render(canvas);
+    this._rightAnswerTextObject.render(canvas);
   }
 
   @override
@@ -186,6 +193,7 @@ class PlayerGame with CustomSpritePosition, CustomSpriteMoviment, CustomSpriteCo
     this._lifeObject.update(dt);
     this._keys.forEach((key) => key.update(dt));
     this._damageTextObject.update(dt);
+    this._rightAnswerTextObject.update(dt);
   }
 
 
