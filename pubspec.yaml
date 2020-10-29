@@ -72,10 +72,8 @@ flutter:
     - assets/images/menu_item_11.png
     - assets/images/menu_item_12.png
 
-    - assets/images/objetivo_fundo_1.png
     - assets/images/objetivo_fundo_2.png
 
-    - assets/images/fundo_simbolo_1.png
     - assets/images/fundo_simbolo_2.png
 
     - assets/images/fundo_timer.png
@@ -87,7 +85,6 @@ flutter:
     - assets/images/logo_uast.png
 
     - assets/images/parede5cores.png
-    - assets/images/platformtiles_from_OpenGameArt_by_Lanea Zimmerman (editada).png
     - assets/images/Keys.png
     - assets/images/Vida.png
     - assets/images/Mobile - Metal Slug Attack - Golden Hunter Walker (Alpha Cannel).png
@@ -96,21 +93,8 @@ flutter:
     - assets/images/Mobile - Metal Slug Attack - Golden Hunter Walker (Green - Alpha Cannel).png
     - assets/images/Mobile - Metal Slug Attack - Golden Hunter Walker (Red - Alpha Cannel).png
     - assets/images/Mobile - Metal Slug Attack - Golden Hunter Walker (Yellow - Alpha Cannel).png
-    - assets/images/Arcade - Metal Slug 6 - Flying Commander (Edited).png
     - assets/images/Arcade - Metal Slug 6 - Hunter Walker (Edited).png
-    - assets/images/Arcade - Metal Slug 6 - Smasher (Edited).png
     
-    - assets/images/Neo Geo NGCD - Metal Slug 2 Metal Slug X - Mini-UFO.png
-    - assets/images/Neo Geo NGCD - Metal Slug 3 - Big Eyes.png
-    - assets/images/Neo Geo NGCD - Metal Slug 3 - UFO.png
-    - assets/images/Neo Geo NGCD - Metal Slug 2 Metal Slug X - Rat.png
-    
-    - assets/images/Metal Slug 5 - Jellyfish by Magma Dragoon.png
-    
-    - assets/images/Game Boy GBC - Harry Potter & the Chamber of Secrets - Flesh Eating Slug (Edited).png
-    
-    - assets/images/bg_menu.png
-
     - assets/tiles/level_1.tmx
     - assets/tiles/level_2.tmx
     - assets/tiles/level_3.tmx
